@@ -1,6 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+function __autoload($classname){
+    if (strpos($classname, 'CI_') !== 0){
+        $file = APPPATH . 'libraries/' . $classname . '.php';
+        if (file_exists($file) && is_file($file)){
+                @include_once ($file);
+        }
+    }
+}
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,8 +32,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://cisamples.com/CodeIgniter-3.1.5/';
-$config['base_url'] = 'http://localhost/ci_samples/CodeIgniter-3.1.5/';
+$config['base_url'] = '';
+//$config['base_url'] = 'http://localhost/ci_samples/CodeIgniter-3.1.5/';
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +45,7 @@ $config['base_url'] = 'http://localhost/ci_samples/CodeIgniter-3.1.5/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
