@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>CI_Membership documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <a href="manual.html">back</a>
+    
+	<h2>ACCESS CONTROL LIST: ROLES AND PERMISSIONS</h2>
+
+    <h3>What are roles?</h3>
+    <p>
+        Roles are member access profiles which are used to hook permissions on to. So a role is a collection of permissions. Roles are
+        applied to members - permissions are not.<br>
+    </p>
+
+    <h3>What are permissions?</h3>
+    <p>
+        Permissions are individual control types for sections of the website. For example we can allow or disallow access to
+        the List members page or the settings page. Once a permission is hooked to a role this permission becomes available for all
+        members who have received that role.
+    </p>
+	
+	<p>
+		Permissions have an order: this is only used on the roles controller page to show the permissions in the order that you want.
+	</p>
+
+    <h3>How do we use them?</h3>
+    <p>
+        There are 2 static methods defined in core/Site_Controller.php:<br>
+        - check_roles<br>
+        - check_permissions<br>
+    </p>
+	
+	<h4><b>Checking permissions</b></h4>
+
+    example: adminpanel/list_members LINE 224:
+    <code>
+        <pre>if (! self::check_permissions(6)) {
+    redirect("/private/no_access");
+}        </pre>
+    </code>
+    We feed the permission ID to the check_permissions method; we could also pass an array through. The permission ID can be found on adminpanel/permissions.
+    Note that you can't delete system permissions because they are required for the iner workings of this script. You can custom permissions for example when
+    you create extra pages where special ACL rules are needed.
+    <br><br>
+
+    <b>Each method inside our adminpanel controllers is protected by this. We also use them in the constructor to protect a
+        whole class in one go (see adminpanel/permissions).</b><br><br>
+
+	<h4><b>Checking roles</b></h4>
+
+    Check_roles is more powerful because we're going to limit access based on a whole access profile:<br>
+    consider core/Admin_Controller.php LINE 10 as an example:
+    <code>
+        <pre>if ( ! self::check_roles(array(1,2,3))) { // catch-all for extra protection on role level
+    redirect("/private/no_access");
+}</pre>
+    </code>
+</div>
+
+</body>
+</html>

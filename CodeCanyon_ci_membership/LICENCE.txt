@@ -1,0 +1,4 @@
+CI MEMBERSHIP VERSION 3
+As this file is exclusively sold through CodeCanyon.net all their licence rules apply.
+The creator of this code cannot be held responsable for any damage in any way done to you or your infrastructure.
+https://codecanyon.net/item/codeigniter-membership-script/526888

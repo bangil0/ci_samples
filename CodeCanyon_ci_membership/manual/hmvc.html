@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>CI_Membership documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <a href="manual.html">back</a>
+    
+	<h2>HMVC modular extensions</h2>
+
+    <h3>What happened?</h3>
+    <p>
+        We now use <a href="https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc">Wiredesignz - codeigniter-modular-extensions-hmvc</a> as a base to make the code modular.
+		Each module now has its own controllers, modules and views where before these were all mixed general folders. You are not obligated to use HMVC, the normal Codeigniter way still works!
+    </p>
+
+    <h3>Which modules are included in this package?</h3>
+	
+	<h4>Adminpanel module</h4>
+    <p>
+        For all the backend work we have just this one folder. Only put SETTINGS related code here. If you want to add new functionalities make a new module but you can centralize
+		settings here in case it is more useful.
+    </p>
+	
+	<h4>Auth module</h4>
+    <p>
+        Login, register functionality with options. Social login (OAuth) is also addressed here.
+    </p>
+	
+	<h4>Home module</h4>
+    <p>
+        Static module to display the default page - the default module loaded = home as defined in routes.php: $route['default_controller'] = 'home';.
+    </p>
+	
+	<h4>Membership module</h4>
+    <p>
+        Member accessible settings pages go here. Profile page and personal dashboard should go here.
+    </p>
+	
+	<h4>Page layouts module</h4>
+    <p>
+        Is just a basic module for showing off the different page layouts that are possible with this product.
+    </p>
+	
+	<h4>Utils module</h4>
+    <p>
+        Holds stuff that could be considered helpers but doesn't really belong anywhere. Could be split up and sanitized further in the future as things keep growing.
+    </p>
+	
+	Controllers:<br>
+	<ul>
+		<li>Install: entry point for the external installer to finish up.</li>
+		<li>Page_not_found: takes care of showing a custom page when something isn't there. 404 handler. Routes.php contains the configuration: $route['404_override'] = 'utils/page_not_found';.</li>
+		<li>Site_offline: shows an offline message</li>
+	</ul>
+	Modules:<br>
+	<ul>
+		<li>Rbac_model: takes care of database interaction for roles and permissions. Since it's only one file making a separate module for it would be overkill.</li>
+		<li>Set_cookies_model: load session vars from cookie. Could be handy for cross-domain cookie sharing?</li>
+		<li>Settings_model: is autoloaded and settings are saved to cache file.</li>
+	</ul>
+	
+	
+</div>
+
+</body>
+</html>

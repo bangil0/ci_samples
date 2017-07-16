@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>CI_Membership documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <a href="manual.html">back</a>
+    
+	<h2>SETTING UP OAUTH2 AUTHENTICATION (SOCIAL LOGON)</h2>
+
+    <h3>Facebook</h3>
+    <p>
+        <a href="https://developers.facebook.com">go to https://developers.facebook.com</a>
+    </p>
+
+    <p>
+        - Click on "Add a New App"<br>
+        - Select WWW - website<br>
+        - choose a name for your app<br>
+        - now you will arrive at the setup screen:<br><br>
+        <img src="assets/images/facebook_1.png"><br><br>
+        - click on "show" and enter your FB password<br>
+        - Click on Settings and enter the Site URL under Website:<br><br>
+        <img src="assets/images/facebook_2.png"><br><br>
+        - click on Advanced on the top middle. Scroll down to "Client OAuth Settings": we will enter a "Valid OAuth redirect URIs":<br><br>
+        <img src="assets/images/facebook_3.png"><br><br>
+        - add the client id and token via adminpanel - oauth providers.
+    </p>
+
+    <h3>Google</h3>
+    <p>
+        <a href="https://console.developers.google.com">go to https://console.developers.google.com</a>
+    </p>
+
+    <p>
+        As usual Google is going to make it more complicated. I hope you will arrive on your dashboard:<br><br>
+        <img src="assets/images/google_1.png"><br><br>
+        - click on where the arrow points in the above screencapture and Create a project ...<br>
+        - choose a name for your project<br>
+        - confirm and wait for the project creation to finish;<br>
+        - click on the blue box "Use Google APIs":<br><br>
+        <img src="assets/images/google_2.png"><br><br>
+        - click on Credentials on the left, then go to the OAuth Conscent Screen<br><br>
+        <img src="assets/images/google_3.png"><br><br>
+        - fill out the Homepage URL and go to Credentials;<br><br>
+        <img src="assets/images/google_4.png"><br><br>
+        - select Web application;<br>
+        - set the "Authorized redirect URIs"<br><br>
+        <img src="assets/images/google_5.png"><br><br>
+        - set the correct URL as shown above (use the part without the domain)<br>
+        - REMARK: this can take a few minutes before it works: let Google cool down for a moment<br>
+        - add the client id and token via adminpanel - oauth providers.
+    </p>
+</div>
+
+</body>
+</html>
