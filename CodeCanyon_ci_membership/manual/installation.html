@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>CI_Membership documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <a href="manual.html">back</a>
+	
+    <h2>INSTALLATION INSTRUCTIONS</h2>
+
+    <h3>STEP 1: upload to web host</h3>
+    <p>
+        Upload all files in the ci_membership folder to your web host so just the content inside <em>without the folder</em>.
+    </p>
+
+    <h3>STEP 2: configuring .htaccess file</h3>
+    <p>
+        Most hosts will allow the usage of a <b>root htaccess file</b> to allow for certain default server routing. We will remove the index.php from the url
+        and set a redirect from www to non-www.
+    </p>
+    <p>
+        CASE: installation in a subfolder needs the RewriteBase rule. LINE 3 contains "RewriteBase /";<br>
+        When for example we install in dev/cim3/ then we need to change this to RewriteBase /dev/cim3/.
+    </p>
+    <p>
+        Rerouting www to non-www (optional):<br>
+        LINE 5-7.
+    </p>
+    <p>
+        Removing index.php from URI's<br>
+        LINE 9-13. Leave as is.
+    </p>
+    <p>
+        Google web fonts: LINE 15-19 allows certain file types to run smoothly by predeclaring them with AddType.
+    </p>
+
+    <h3>STEP 3: application/config/config.php</h3>
+    <p>
+        LINE 20: set your base url:<br>
+        $config['base_url'] = 'http://www.cimembership.com/subfolder';
+		$config['base_url'] = 'http://localhost/subfolder';
+    </p>
+    <p>
+        LINE 308: set an encryption key:<br>
+        $config['encryption_key'] = 'PUT YOUR CUSTOM KEY HERE for example 5Hy6esV(54d1#8UpM5è&zZx621hG§Yè!i8Tzvq2';
+    </p>
+    <p>
+        LINE 359: set your unique cookie name:<br>
+        $config['sess_cookie_name'] = 'youruniquecookienameinonewordlikethis';
+    </p>
+    <p>
+        LINE 382: set your cookie domain:<br>
+        $config['cookie_domain']	= '.example.com'; // leave blank for localhost<br>
+		YES WITH DOT BEFORE HOSTNAME
+    </p>
+
+    <h3>STEP 4: application/config/constants.php</h3>
+    <p>
+        LINE 101: set a deep encryption key:<br>
+        define('SITE_KEY', 'VERY IMPORTANT!! 64 characters is fine');
+    </p>
+
+    <h3>STEP 5: running the installer on http://yoursite.com/[subfolders]/installer/install.php</h3>
+    <p>
+        This is not (yet) a full installer but merely creates database and admin account based on the config data entered. All the above steps will disappear in with time.
+    </p>
+
+    <h3>STEP 6: log in and change some vital settings</h3>
+    <h4 class="f700">
+        DEFAULT LOGIN: administrator / 1234
+    </h4>
+    <p>
+        <b>Change the administrator password:</b> go to profile and set a new password for your administrator account.
+    </p>
+    <p>
+        <b>Change the administrator email account:</b> go to site settings and scroll down to "Administrator e-mail account".
+    </p>
+    <p>
+        (optional) <b>Enable RecaptchaV2 and set the required keys:</b> go to site settings and scroll to the bottom to enable it and enter this data.
+    </p>
+</div>
+
+</body>
+</html>

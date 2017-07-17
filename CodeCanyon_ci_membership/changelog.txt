@@ -1,0 +1,9 @@
+*****************************************************************************************************
+changelog ci_memberhip v3.1.3
+*****************************************************************************************************
+
+Someone found a bug - thanks for that!
+
+upgading to 3.1.3 from 3.1.2:
+replace application\modules\auth\models\Login_model.php with the latest version: improving login process
+replace application\modules\auth\models\Data_by_email_model.php with the latest version: bug = wrong class name that was applied incorrectly after moving file to auth module

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>CI_Membership documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <a href="manual.html">back</a>
+    
+	<h2>THEMING GUIDE</h2>
+
+    <p>
+        The template library has been updated to work with Codeigniter 3 and a new method is available for use in controllers to quickly set up a page.
+    </p>
+
+    <p>
+        The default controller is Home. It's a controller to catch all requests where no other uri segments are added. In config/routes.php I defined
+        "$route['default_controller'] = 'home';"<br>
+        This route always checks for a controller called Home: if it is present it will be loaded.
+    </p>
+
+    <p>
+        So in this Home.php controller we shall add a few basic things:<br>
+    </p>
+
+    <pre><code>
+    class Home extends Site_Controller {
+
+		public function __construct()
+		{
+			parent::__construct();
+		}
+
+		public function index() {
+			$this->quick_page_setup(Settings_model::$db_config['active_theme'], 'main', 'Home', 'home', 'header', 'footer');
+		}
+
+	}
+    </code></pre>
+
+    <p>
+        <b>Keeping it DRY: extending from which core controller?<br></b>
+        This is the first question to ask ourselves: do we want this page to be public or private? Additionally, do we need roles, is this an adminpanel page?
+    </p>
+
+    <p>
+        Application/core overview:<br>
+        - <b>MY_Controller:</b> this only offers theming functionality;<br>
+        - <b>Site_Controller:</b> extends MY_Controller and adds roles and permission methods;<br>
+        - <b>Private_Controller:</b> extends Site_Controller and adds login verification so that only logged in users can view these pages;<br>
+        - <b>Auth_Controller:</b> extends Site_Controller and is only used for public controllers where we need to redirect logged-in users to avoid them seeing the login and register pages -
+        in general these are not used in custom code;<br>
+        - <b>Admin_Controller:</b> contains an extra check to allow only the correct roles;<br>
+        - <b>Ajax_Controller:</b> used when the whole controller is AJAX-only.<br>
+    </p>
+    <img src="assets/images/core.png"><br><br>
+
+    <h4>We relate to the /views/themes for each module where we will put all our layouts and view files. Currently we have 2 themes: adminpanel and bootstrap3 but
+    you can certainly create your own or combine from different themes thanks to the method explained below.</h4>
+
+    <h4 class="f900">If any of this is unclear you should contact me then I will guide you. This takes some time to get used to.</h4>
+
+    <p>
+        <b>YOU CAN NOW USE THE METHOD <em>quick_page_setup</em> found in core/MY_Controller: this method allows for way more flexibility then before.</b>
+        <br>
+        - <b>$theme:</b> set the active theme, usually this will be Settings_model::$db_config['active_theme'] for non-adminpanel pages and
+        Settings_model::$db_config['adminpanel_theme'] for adminpanel pages. These can be found in Site settings in the admin panel.<br>
+        The default theme for Settings_model::$db_config['active_theme'] = bootstrap3;<br>
+        The default theme for Settings_model::$db_config['adminpanel_theme'] = adminpanel.<br>
+        These must reflect a folder inside application/views/themes; you can add your own theme by creating a new folder here.
+        <br>
+        - <b>$layout:</b> choose your layout, for example 'main' or 'adminpanel' - this must reside in views/themes/[themename]/layouts/<br>
+        - <b>$title:</b> will appear in browser window as page name<br>
+        - <b>$path:</b> path to the actual view file<br>
+        - <b>$header, $footer:</b> names of the files used for these purposes<br>
+        - <b>$viewTheme</b>: in case you need a custom theme; it's an alternate folder location for views if you need some from other themes - leave on '' if not needed<br>
+        - <b>$data:</b> array of data passed to view (optional, omit if not needed)<br><br>
+    </p>
+	
+	<p>
+		<strong>Layouts and partials</strong><br>
+		Some of the views are still stored in application/views/themes/ because these are used at more then one location and do not belong to a single module.
+	</p>
+	
+	<p>
+		Since version 3.1.0 we work with HMVC which means each module controls the view files. You can still use the regular CI way of working though.
+		Under application/modules/[module_name]/views we will find and place all our views. You will also be able to keep controllers and modules separate for each module.
+	</p>
+	
+	<p>
+		For example let's say we want to create a calendar: best thing to do is to a new module and add files for the calendar in this module. Each place where you want to display the 
+		calendar you wil be able to load it from that controller.
+	</p>
+</div>
+
+</body>
+</html>

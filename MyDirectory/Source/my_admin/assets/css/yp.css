@@ -1,0 +1,59 @@
+.loader1 {
+    display: none;
+    text-align: center;
+}
+
+/*installer*/
+.panel-heading.color {
+    background: #FFD400 none repeat scroll 0 0 !important;
+    color: white !important;
+}
+.panel-title.weight{font-weight: 700;}
+.yp-install-input {
+    background: white none repeat scroll 0 0;
+    width: 400px;border: 1px solid #e9e9e9;padding: 8px;color: black!important;;
+}
+.md_site{width: 12%;float: left;font-size: 15px;}
+.dropdown.left {
+    margin-left: 35px;
+}
+.md_drop{background-color: white;border: 1px solid #e9e9e9;padding: 5px;font-size: 13px;}
+.panel-body.fix {
+    width: 100%;background: #f5f5f5;padding:30px !important;}
+.ms_save_ch {
+    background: #FFD400 none repeat scroll 50% center;
+    border: none;
+    padding: 5px;
+    text-align: center;color:#746000;width: 26%;float: right;
+}
+.save_ourt{margin-top: 23px;width: 49%;}
+
+.select-style-left {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+
+    background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+}
+
+.select-style-left select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    color: #767676;
+}
+
+.select-style-left select:focus {
+    outline: none;
+}
+.smtp_dtl{width: 100%;background-color: #FFD400;color: white;padding: 7px;font-weight: 600;font-size: 17px;}

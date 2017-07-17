@@ -1,0 +1,1082 @@
+// core.less
+// file description: CI Membership LESS core file: this file is loaded in bootstrap.less and loads/sets everything else.
+
+// Add vendor code
+@import "vendor";
+
+// import tools
+@import "alignment";
+@import "backgrounds";
+@import "borders";
+@import "card";
+@import "custom-checkbox";
+@import "foreground";
+@import "hr";
+@import "icons";
+@import "margins";
+@import "misc";
+@import "opacity";
+@import "padding";
+
+// ---------------------------------------------------------------------------------------------------------------------
+// --> App :: new LESS variables
+// ---------------------------------------------------------------------------------------------------------------------
+// global
+@app-background-color:                          #f7f7f7;                                              // background color for the whole application
+@app-min-width:                                 250px;                                                // minimum width for whole application
+
+// header
+@app-header-height:                             50px;                                                 // header height - will be used on other classes to comply with this height
+@app-header-background-color:                   #2A2F36;                                              // header background color
+
+// navbar
+@app-navbar-brand-color:                        #fff;                                                 // text color for navbar brand
+@app-navbar-brand-color-hover:                  #fff;                                                 // text color for navbar brand when hovering over the link
+@app-navbar-form-control-bg:                    lighten(@app-header-background-color, 4%);            // background color for form control elements inside navbar
+
+// aside
+@app-aside-width:                               240px;                                                // width of the aside section
+@app-aside-width-narrow:                        46px;                                                 // width of the aside section when in narrow state
+@app-aside-background-color:                    #343B44;                                              // background color of the aside section
+@app-aside-border-style:                        0;                                                    // border style for aside section
+@app-aside-menu-title-min-width:                @app-aside-width;                                     // make sure aside narrow sub-items are also showing the proper width
+@app-aside-toggle-info-bg-color:                #647183;                                              // what color should the info dropdown toggle button have? (inside sidebar on the very top)
+@app-aside-toggle-info-border-bottom:           1px dotted @app-aside-toggle-info-bg-color;           // bottom border styling for said dropdown toggle
+
+// extramenu
+@app-extramenu-width:                           280px;                                                // width of the extramenu panel
+@app-extramenu-color:                           #f7f7f7;                                              // text color for extramenu, might be used for other elements too
+
+// footer
+@app-footer-border-top:                         1px solid #ccc;                                       // top border style for footer
+@app-footer-bg-color:                           #fff;                                                 // footer background color
+@app-footer-max-height:                         50px;                                                 // footer needs max height for content min padding on bottom side
+
+// transitions
+@app-transition-duration:                       .2s;                                                  // default transition speed
+@app-transition-type:                           ease-in-out;                                          // default transition method
+@app-transition:                                all @app-transition-duration @app-transition-type;    // combined transition effect
+
+// page title
+@app-page-title-font-size:                      34px;                                                 // font size for the h1 page title (only one per page can be used)
+@app-page-title-font-weight:                    700;                                                  // font weight for unique page titles
+@app-page-title-color:                          #333;                                                 // text color for page title
+
+// button
+@app-btn-darken-transition-pct:                 12%;                                                  // how dark should transitions go? used on buttons for example
+@app-btn-lighten-transition-pct:                10%;                                                  // how light should transitions go? used on buttons for example
+@app-btn-transition:                            all 200ms ease-in-out;                                // default transition setting for button hovering
+
+// new colors
+@app-color-purple:                              #B55FDE;
+@app-color-aqua:                                #73D4B9;
+@app-color-blue:                                #507CFF;
+@app-color-red:                                 #F35644;
+
+// BootKit ported
+@link-darken-percentage:            10%;
+@link-lighten-percentage:           10%;
+@link-white-percentage:             4%;
+@brand-white:                       #fff;
+@brand-inverse:                     #222;
+@brand-light-gray:                  #dfdfdf;
+@brand-gray:                        #999;
+@brand-very-light-gray:             #f6f6f6;
+@opacity:                           .8;
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Menu
+// ---------------------------------------------------------------------------------------------------------------------
+// General
+@app-menu-background-color:                 transparent;                                // background color for our menu
+@app-menu-section-title-color:              #fff;                                       // coloring menu section titles
+@app-menu-section-title-bg-color:           #2D333B;                                    // background color for menu section titles
+@app-menu-list-bg-color:                    #3D444F;                                    // ul background color
+
+// LINK: generic link styles
+@app-menu-link-color:                       #979797;                                    // menu link text color
+@app-menu-link-hover-color:                 #fff;                                       // menu link hover text color
+@app-menu-link-open-color:                  @app-menu-link-hover-color;                 // when a menu link is open give it this color
+@app-menu-link-open-bg-color:               lighten(@app-aside-background-color, 10%);  // open menu items receive this background color - is also used by aside carousel
+@app-menu-link-hover-background:            #E16E41;                                    // hovering over links produces this background color
+@app-menu-link-font-size:                   15px;                                       // font size for menu links
+@app-menu-link-caret-font-size:             12px;                                       // caret (the collapse/expand icons) font sizing
+@app-menu-link-title-color:                 #fff;                                       // menu titles (top level li a) text color
+@app-menu-link-item-height:                 40px;                                       // height of individual list li items
+
+// SUB: submenu styling for child links
+@app-menu-sub-height:                       36px;                                       // height of sub menu items
+@app-menu-sub-font-size:                    14px;                                       // and sub menu item font size
+@app-menu-sub-caret-font-size:              10px;                                       // caret font size for sub menu items
+
+// UL: child list wrapper styles
+@app-menu-ul-margins:                       0;                                          // margins on menu uls
+@app-menu-ul-padding:                       0 0 0 10px;                                 // padding on menu uls
+
+// CARET
+@app-menu-caret-offset:                     15px;                                       // offset to the left or right for caret icons
+@app-menu-caret-font-family:                "FontAwesome";                              // font family for caret icons
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//-->Layouts
+// ---------------------------------------------------------------------------------------------------------------------
+// boxed
+@app-boxed-layout-width:                    1170px;                                     // width for boxed layout
+@app-boxed-border:                          1px solid #ccc;                             // border color (left or right) for the boxed content class
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// --> First blood
+html, body {
+  width: 100%;
+  height: 100%;
+  min-width: @app-min-width;
+}
+
+body {
+  background-color: @app-background-color;
+  overflow-x: hidden;
+  visibility: hidden;
+}
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+}
+
+header {
+  background-color: @app-header-background-color;
+}
+
+a {
+  color: @app-menu-link-color;
+  transition: @app-transition;
+
+  &:focus {
+    color: @app-menu-link-color;
+    text-decoration: none;
+  }
+
+  &:hover { // must be below focus or it doesn't work
+    color: @brand-primary;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    color: @brand-primary;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// --> Project wrapper (if you change this class name it will have to be changed in JavaScript files, too! (use replace all))
+.wrap {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// --> Header
+.header {
+  z-index: 1100;
+  height: @app-header-height;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Fixed header
+.header-fixed {
+  padding-top: @app-header-height;
+
+  // header settings for fixed header
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .aside {
+    position: fixed;
+    overflow-y: auto;
+  }
+
+  &.aside-narrow {
+    .aside {
+      position: absolute;
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Navbar
+// navbar generic
+.navbar {
+  margin: 0;
+  border-width: 0;
+  border-radius: 0;
+  //max-height: @app-header-height;
+
+  .nav > li > a {
+    color: @app-menu-link-color;
+    background-color: @app-header-background-color;
+    border-left: 1px solid lighten(@app-header-background-color, 4%);
+    border-right: 1px solid lighten(@app-header-background-color, 4%);
+    z-index: 1;
+  }
+
+  .nav > li + li {
+    margin-left: -1px;
+  }
+
+  .nav > li > a:hover,
+  .nav > li > a:focus {
+    color: @app-menu-link-hover-background;
+    background-color: darken(@app-header-background-color, 10%);
+    border-color: lighten(@app-header-background-color, 10%);
+    z-index: 2;
+  }
+}
+
+// title top left in header
+.navbar-header {
+  float: left;
+  width: @app-aside-width;
+}
+
+@media (max-width: @screen-xs) {
+  .navbar-header {
+    width: auto;
+  }
+}
+
+// brand
+.navbar-brand {
+  display: block;
+  font-size: 22px;
+  float: none;
+  height: auto;
+  padding: 0 20px;
+  line-height: @app-header-height + 2; // fnie-tune the navbar brand here
+  color: @app-navbar-brand-color;
+
+  &:hover { // override default link hover color to #fff
+    color: @app-navbar-brand-color-hover;
+  }
+
+  > i { // icon which is found in the navbar-brand section inside navbars
+    position: relative;
+    top: 14px;
+  }
+}
+
+.navbar-brand-title {
+  height: 44px;
+  float: left;
+  font-weight: 700;
+
+  @media (max-width: @screen-xs-min) {
+    display: none;
+
+  }
+}
+
+.navbar-brand-title-small {
+  font-size: 14px;
+  font-weight: 300;
+  position: relative;
+  top: -3px;
+}
+
+// navbar buttons
+
+.navbar-btn {
+  position: relative;
+  float: left;
+  margin: 0;
+  height: @app-header-height;
+  min-width: 44px;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  line-height: 2.7;
+  z-index: 1;
+
+  + .navbar-btn {
+    margin-left: -1px;
+  }
+
+  .button-navbar(@app-menu-link-color; @app-header-background-color);
+}
+
+.navbar-nav {
+  &.navbar-search {
+    width: 200px;
+  }
+
+  &.navbar-form {
+    margin-top: 8px;
+  }
+
+  .form-control {
+    float: left;
+    border-radius: 0;
+    border: 1px solid @app-navbar-form-control-bg;
+    background-color: @app-navbar-form-control-bg;
+    box-shadow: none; // still set explicitly suppose we turn on box shadow in form-control-focus
+    color: #fff;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Aside
+.aside {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  transition: @app-transition;
+  z-index: 1090;
+  overflow: hidden;
+  background-color: @app-aside-background-color;
+  border-right: @app-aside-border-style;
+  width: @app-aside-width;
+}
+
+// style the trigger for showing/hiding the aside top menu
+.js-aside-toggle {
+  display: block;
+  height: 12px;
+  line-height: 2px;
+  border-bottom: @app-aside-toggle-info-border-bottom;
+
+  &:hover {
+    color: #fff;
+    background-color: @app-aside-toggle-info-bg-color;
+  }
+
+  > i {
+    position: relative;
+    top: -2px;
+  }
+}
+
+// navbar collapse aside offset
+.navbar-collapse,
+.content,
+.footer {
+  margin-left: @app-aside-width;
+  min-width: 300px; // prevents the mobile view from getting squeezed when opening the aside menu - now it seems to slide behind the right edge of the browser
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Content
+.content {
+  transition: @app-transition;
+  z-index: 1080;
+  position: relative;
+  padding: 20px;
+  padding-bottom: @app-footer-max-height + 15; // needed to make sure the content does not overlay the footer
+
+  &.content-main {
+    margin-left: 0;
+  }
+
+  .row > [class^="col-"],
+  .row > [class*="col-"] {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .row {
+    margin-left: -7px;
+    margin-right: -7px;
+  }
+}
+
+.content:before,
+.content:after {
+  display: table;
+  content: " ";
+}
+
+.content:after {
+  clear: both;
+}
+
+// page title srtyling
+.page-title {
+  > h1 {
+    font-size: @app-page-title-font-size;
+    font-weight: @app-page-title-font-weight;
+    color: @app-header-background-color;
+    padding-top: 20px;
+    margin: 0;
+  }
+  z-index: 1040;
+  left: @app-aside-width;
+  right: 0;
+  margin-top: -20px;
+  margin-bottom: 0;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding: 0 20px;
+  color: #ccc;
+  background-color: #fff;
+  border-bottom: 3px solid darken(@app-background-color, 10%);
+  transition: @app-transition;
+}
+
+// pushes down the c
+.page-title-after {
+  margin-top: 20px;
+}
+
+.page-title-fixed {
+  .page-title {
+    position: fixed;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .page-title-after {
+    margin-top: 80px;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Footer
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1090;
+  transition: @app-transition;
+  border-top: @app-footer-border-top;
+  background-color: @app-footer-bg-color;
+  padding: 10px;
+  max-height: @app-footer-max-height;
+  overflow: hidden;
+
+  &.footer-main {
+    margin-left: 0;
+    position: fixed;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// aside narrow state (if you change this class name it will have to be changed in JavaScript files, too! (use replace all))
+// when the sidemenu is in the narrow state
+.aside-narrow {
+  .aside {
+    width: @app-aside-width-narrow;
+    overflow: visible;
+  }
+
+  // reduce header width
+  .navbar-header {
+    //width: @app-aside-width-narrow + 20;
+  }
+
+  // reduce margins
+  .navbar-collapse {
+    margin-left: @app-aside-width-narrow;
+  }
+
+  // menu
+  .menu {
+    padding: 0;
+
+    li a .menu-link-icon {
+      left: 5px;
+      width: 26px;
+    }
+
+    li a {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    > li { // prepare submenu containers for positioning
+      position: relative;
+      display: block;
+
+      > a {
+        position: static;
+        height: @app-menu-link-item-height + 10;
+        line-height: @app-menu-link-item-height + 10;
+
+        > .menu-link-icon {
+          width: @app-aside-width-narrow;
+          font-size: 18px;
+          line-height: @app-menu-link-item-height + 10;
+          left: 0;
+        }
+
+        .menu-caret { // (if you change this class name it will have to be changed in JavaScript files, too! (use replace all))
+          display: none;
+        }
+      }
+
+      > ul { // change position of submenus and override styles
+        position: absolute;
+        left: 100%;
+        top: @app-menu-link-item-height + 10;
+        min-width: @app-aside-menu-title-min-width;
+        background-color: @app-aside-background-color;
+        z-index: 1090;
+        border-top: 0;
+        padding-left: 0;
+
+        // make sure positional wrappers are set correctly for being parent of absolute elements
+        li, > li > a {
+          position: relative;
+          z-index: 1090;
+        }
+      }
+    }
+
+    // overriding title link styling
+    .menu-link-title {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      z-index: 1090;
+      display: none;
+      font-weight: 700;
+      transition: @app-transition;
+      background-color: @app-menu-link-hover-background;
+      color: @app-menu-link-hover-color;
+      padding-left: 16px;
+    }
+
+    // show menu link title on hover, and style active menu title links
+    > li:hover > a > .menu-link-title {
+      display: block !important;
+      min-width: @app-aside-menu-title-min-width;
+    }
+
+    // hover adjustments
+    > li:hover > a {
+      // show ul when hovering over anchor
+      & + ul {
+        display: block !important;
+      }
+    }
+  }
+
+  // reduce content and footer margins
+  .content,
+  .footer {
+    margin-left: @app-aside-width-narrow;
+  }
+
+  // sometimes we just need to hide stuff here and there
+  .hidden-folded {
+    display: none !important;
+  }
+
+  .page-title {
+    left: @app-aside-width-narrow;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// hidden state (if you change this class name it will have to be changed in JavaScript files, too! (use replace all))
+.aside-hidden {
+  .aside {
+    width: 0;
+    border-right: 0;
+
+    .menu {
+      transition: @app-transition;
+      .opacity(0);
+    }
+  }
+
+  // reset margins when hidden
+  .content {
+    margin-left: 0;
+  }
+
+  .footer {
+    margin-left: 0;
+  }
+
+  .page-title {
+    left: 0;
+  }
+}
+
+.extramenu {
+  position: fixed;
+  width: @app-extramenu-width;
+  top: @app-header-height;
+  bottom: 50px;
+  margin-bottom: -50px;
+  padding-bottom: 50px;
+  height: 100%;
+  z-index: 1085;
+  transition: @app-transition;
+  background-color: @app-menu-link-hover-background;
+  color: @app-extramenu-color;
+
+  a {
+    color: darken(@app-extramenu-color, 5%);
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &.right {
+    right: -@app-extramenu-width;
+    &.shown {
+      right: 0;
+    }
+  }
+
+  &.left {
+    left: -@app-extramenu-width;
+    &.shown {
+      left: 0;
+    }
+  }
+
+
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Boxed layout using .page-boxed on .wrap
+.page-boxed {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+
+  &.wrap {
+    background-color: #FAFAFB;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  .aside {
+    position: absolute;
+  }
+
+  &.aside-right .page-title {
+    right: @app-aside-width;
+    left: 0;
+    text-align: right;
+  }
+
+  &.aside-right.aside-narrow .page-title {
+    right: @app-aside-width-narrow;
+  }
+
+  &.aside-right.aside-hidden .page-title {
+    right: 0;
+  }
+
+  .extramenu {
+    position: absolute;
+    height: auto;
+    width: 0;
+    right: 0;
+
+    &.right {
+      right: 0;
+      &.shown {
+        width: @app-extramenu-width !important;
+        //right: 0 !important;
+      }
+    }
+
+    &.left {
+      left: 0;
+      &.shown {
+        width: @app-extramenu-width !important;
+      }
+    }
+
+  }
+}
+
+@media (min-width: 768px) {
+  .page-boxed,
+  .page-boxed .header {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .page-boxed,
+  .page-boxed .header {
+    width: 970px;
+  }
+}
+
+@media (min-width: @screen-lg) { // >= 1200px
+  .page-boxed,
+  .page-boxed .header {
+    width: @app-boxed-layout-width;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Aside on the right
+.aside-right {
+
+  .aside {
+    right: 0;
+  }
+
+  .page-title {
+    text-align: right;
+    left: 0;
+    right: @app-aside-width;
+  }
+
+  // narrow aside on the right
+  &.aside-narrow {
+
+    // reduce margins
+    .navbar-collapse {
+      margin-right: @app-aside-width-narrow;
+    }
+
+    .menu {
+      >li {
+        > ul {
+          position: absolute;
+          left: -@app-aside-menu-title-min-width;
+          right: 100%;
+
+          // make sure positional wrappers are set correctly for being parent of absolute elements
+          li, > li > a {
+            position: relative;
+            z-index: 1090;
+          }
+        }
+      }
+
+      // overriding title link styling
+      .menu-link-title {
+        position: absolute;
+        left: -@app-aside-menu-title-min-width;
+        right: 100%;
+      }
+    }
+
+    .content,
+    .footer {
+      margin-right: @app-aside-width-narrow;
+    }
+
+    .page-title {
+      right: @app-aside-width-narrow;
+    }
+  }
+
+  // hidden menu for right aside
+  &.aside-hidden {
+
+    .content,
+    .footer {
+      margin-right: 0;
+    }
+
+    .page-title {
+      right: 0;
+    }
+  }
+
+  .content,
+  .footer {
+    margin-left: 0;
+    margin-right: @app-aside-width;
+  }
+
+  // fixing RTL buttons border overlay with reverse margins
+  .navbar-btn {
+    + .navbar-btn {
+
+      &.pull-right {
+        margin-right: -1px;
+      }
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+//--> Generic classes
+// disable transitions with this class and jQuery
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}
+
+
+
+
+
+.dropdown-menu-300 {
+  min-width: 300px;
+}
+
+
+.bootbox.modal {
+  z-index: 2050 !important;
+  > .modal-dialog {
+    z-index: 2050 !important;
+  }
+}
+
+.modal-backdrop {
+  z-index: 2049 !important;
+}
+
+
+.loader {
+  display: none;
+}
+
+
+
+#extramenu-content {
+  width: 280px;
+  overflow: hidden;
+}
+
+
+.slimScrollBar{
+  border-radius: 0 !important;
+}
+
+
+
+
+
+/*=== MB share buttons ===*/
+// http://codepen.io/mariusbalaj/full/Jtqbm
+.mb_share .button {
+  background:#DCE0E0;
+  position:relative;
+  float:left;
+  margin:0 7px 14px 0;
+  width:150px;
+  height:40px;
+  overflow:hidden;
+}
+.mb_share .button .icon {
+  float:left;
+  z-index:200;
+  position:relative;
+  width:40px;
+  height:40px;
+  background-repeat:no-repeat;
+  //background-image: url(path_to/svg);
+  border-right:1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  font-size: 18px;
+  padding: 8px 14px;
+}
+.mb_share .button .native_button {
+  width:110px;
+  height:40px;
+  float:left;
+  //background:#DCE0E0 !important;
+  display:table;
+}
+.mb_share .button .native_button > div {
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  color: #fff !important;
+}
+.mb_share .button .slide {
+  position:absolute;
+  right:0;
+  top:0;
+  z-index:100;
+  float:left;
+  width:110px;
+  height:40px;
+  transition:.2s transform linear;
+  -webkit-transition:.2s -webkit-transform linear;
+  -moz-transition:.2s -moz-transform linear;
+}
+.mb_share .button .slide span {
+  color:#fff;
+  display:block;
+  cursor:default;
+  width:100%;
+  text-align:center;
+  margin:7px 0;
+  padding:2px 0;
+  font-size:16px;
+  font-weight: 700;
+}
+.mb_share > a {
+  color: #fff !important;
+}
+/* Transitions */
+.mb_share .button.slide_x:hover .slide {
+  -webkit-transform:translateX(110px);
+  -moz-transform:translateX(110px);
+  transform:translateX(110px);
+}
+.mb_share .button.slide_nx:hover .slide {
+  -webkit-transform:translateX(-110px);
+  -moz-transform:translateX(-110px);
+  transform:translateX(-110px);
+}
+.mb_share .button.slide_y:hover .slide {
+  -webkit-transform:translateY(40px);
+  -moz-transform:translateY(40px);
+  transform:translateY(40px);
+}
+.mb_share .button.slide_ny:hover .slide {
+  -webkit-transform:translateY(-40px);
+  -moz-transform:translateY(-40px);
+  transform:translateY(-40px);
+}
+/*========================*/
+/*=== Colors ===*/
+/* FACEBOOK */
+.mb_share .button.facebook .icon {
+  background-position:-40px 0;
+}
+.mb_share .button.facebook .native_button {
+  background-color: darken(#305c99, 10%);
+}
+.mb_share .button.facebook > div {
+  background-color:#305c99;
+}
+
+/* YOUTUBE */
+.mb_share .button.youtube .icon {
+  background-position:-80px 0;
+}
+.mb_share .button.youtube > div {
+  background-color:#e22b26;
+}
+
+/* GOOGLE PLUS */
+.mb_share .button.google .icon {
+  background-position:0 -40px;
+}
+.mb_share .button.google .native_button {
+  background-color: darken(#3f3d3e, 10%);
+}
+.mb_share .button.google > div {
+  background-color:#3f3d3e;
+}
+/* LINKEDIN */
+.mb_share .button.linkedin .icon {
+  background-position:-40px -40px;
+}
+.mb_share .button.linkedin > div {
+  background-color:#007bb6;
+}
+/* TUMBLR */
+.mb_share .button.tumblr .icon {
+  background-position:-80px -40px;
+}
+.mb_share .button.tumblr > div {
+  background-color:#2c4762;
+}
+/* GITHUB */
+.mb_share .button.github .icon {
+  background-position:0 -80px;
+}
+.mb_share .button.github > div {
+  background-color:#42c0fb;
+}
+/* PINTEREST */
+.mb_share .button.pinterest .icon {
+  background-position:-40px -80px;
+}
+.mb_share .button.pinterest > div {
+  background-color:#dc0d0a;
+}
+/*==============*/
+
+
+
+
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+  background-color: lighten(@brand-primary, 40%);
+  border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  font-size: 0.9em;
+  line-height: 0.9em;
+  opacity: 0;
+  color: #fff !important;
+
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+  padding: 10px;
+  background-color: @brand-primary;
+}
+
+.profile-img {
+  max-width: 200px;
+}
+
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
