@@ -53,21 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-
-    $root = dirname(__FILE__);
-//    var_dump($root);
-
-    switch ($root){
-
-        case '/var/www/ci_samples/CodeIgniter-3.1.5/public_html';
-            define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-        break;
-
-        default:
-            define('ENVIRONMENT' , 'production');
-        break;
-    };
-
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -111,7 +97,7 @@ switch (ENVIRONMENT)
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-	$system_path = '../system';
+	$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
@@ -128,7 +114,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = '../application';
+	$application_folder = 'application';
 
 /*
  *---------------------------------------------------------------
