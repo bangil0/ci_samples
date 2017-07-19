@@ -98,7 +98,7 @@ margin: 1px;
 							<div class="modal fade" id="review-pop" role="dialog" >
 											<div class="modal-dialog yp-review-pop">
 														<div class="modal-content">
-												
+
 														<button class="yp-pop-close " data-dismiss="modal"></button>
 													
 													<div class="yp-review-pop-content">

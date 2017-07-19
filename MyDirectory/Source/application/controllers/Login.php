@@ -34,7 +34,7 @@ class Login extends CI_Controller {
 
 	    $template['collection'] = $this->login->featuredcollection();
 	  
-	     $request = file_get_contents("php://input");
+             $request = file_get_contents("php://input");
          $data = json_decode($request);	
 	  	
 	  	 if($data)
