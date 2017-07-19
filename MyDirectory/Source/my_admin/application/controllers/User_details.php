@@ -93,37 +93,37 @@ class User_details extends CI_Controller {
 
 		      $id = $this->uri->segment(3); 
 		      $template['data'] = $this->User_model->get_single_user($id);
-			  if(!empty($template['data'])) {
-			 
-		      if($_POST){
-			  $data = $_POST;
+                  if(!empty($template['data'])) {
 
-			  if(isset($_FILES['image'])) {
-  
-			  $config = set_upload_options('assets/uploads/img');
-			  $this->load->library('upload');
-			
-			  $new_name = time()."_".$_FILES["image"]['name'];
-              $config['file_name'] = $new_name;
+                  if($_POST){
+                  $data = $_POST;
 
-			  $this->upload->initialize($config);
-              
-			  if ( ! $this->upload->do_upload('image')) {
-					unset($data['image']);
-				}
-				else {
-					$upload_data = $this->upload->data();
-					$data['image'] = base_url().$config['upload_path']."/".$upload_data['file_name'];
-				}
-                }
-				
-				                
-			  $result = $this->User_model->userdetails_edit($data, $id);
-			  $this->session->set_flashdata('message',array('message' => 'Edit User Details Updated successfully','class' => 'success'));
-			  redirect(base_url().'User_details/view_userdetails');		 
-		      }
-		
-		      }
+                  if(isset($_FILES['image'])) {
+
+                  $config = set_upload_options('assets/uploads/img');
+                  $this->load->library('upload');
+
+                  $new_name = time()."_".$_FILES["image"]['name'];
+                  $config['file_name'] = $new_name;
+
+                  $this->upload->initialize($config);
+
+                  if ( ! $this->upload->do_upload('image')) {
+                        unset($data['image']);
+                    }
+                    else {
+                        $upload_data = $this->upload->data();
+                        $data['image'] = base_url().$config['upload_path']."/".$upload_data['file_name'];
+                    }
+                    }
+
+
+                  $result = $this->User_model->userdetails_edit($data, $id);
+                  $this->session->set_flashdata('message',array('message' => 'Edit User Details Updated successfully','class' => 'success'));
+                  redirect(base_url().'User_details/view_userdetails');
+                  }
+
+                  }
 			  
 			   else{
 													 
