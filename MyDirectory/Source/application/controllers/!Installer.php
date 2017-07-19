@@ -7,7 +7,7 @@ class Installer extends CI_Controller {
 		parent::__construct();
 	      
 	  $this->load->model('Installer_model','installer');
-		 
+
 	}
 	
 public  function index(){

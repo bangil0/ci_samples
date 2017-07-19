@@ -254,7 +254,7 @@ $logo=$query->logo;
 								<div class="col-md-4"></div>
 										<div class="col-md-4">
 												<div class="business">
-													 <a <?php if(!$user_id){?> class="lgnbadge" <?php }else {?> class="addBusi" <?php }?>>  <h4><span style="font-size:16px;">+</span>   ADD BUSINESS</h4> </a>    
+													 <a <?php if(!$user_id){?> class="lgnbadge" <?php }else {?> class="addBusi" <?php }?>>  <h4><span style="font-size:16px;">+</span>   ADD BUSINESS</h4> </a>
 													 
 														
 																 <div class="dropdown">

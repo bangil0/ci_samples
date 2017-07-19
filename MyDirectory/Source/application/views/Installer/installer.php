@@ -14,7 +14,7 @@
 
    <body>
       <div class="container mar_top">
-                        
+
             <div class="smtp_dtl db">MYSQL DATABASE</div>
             <BR>
               <form method='post' id='dbValues' data-parsley-validate>
@@ -24,10 +24,10 @@
 
                <br>
                 <div class="md_site">Admin Email</div>
-               <input class="yp-install-input" type="text" placeholder="Admin Email" name="admin_email" value="no-reply@techware.co.in" required> <br>  
+               <input class="yp-install-input" type="text" placeholder="Admin Email" name="admin_email" value="no-reply@techware.co.in" required> <br>
                <br>
                <div class="md_site">Database Host</div>
-               <input class="yp-install-input" type="text" placeholder="Localhost" name="db_host" value="localhost" required> <br>  
+               <input class="yp-install-input" type="text" placeholder="Localhost" name="db_host" value="localhost" required> <br>
                <br>
                <div class="md_site">Database Name</div>
                <input class="yp-install-input" type="text" placeholder="New or Existing Database name" name="db_name"  value="my_directory" required> <br>  <br>
@@ -35,8 +35,8 @@
                <input class="yp-install-input" type="text" placeholder="Valid database username" name="db_user" value="root" data-parsley-trigger="change" required> <br><br>
                <div class="md_site">Password</div>
                <input class="yp-install-input" type="text" placeholder="Valid database user password" name="db_password" > <br>
-               <div class="save_ourt">             
-                  <button type="button" class="ms_save_ch" id="save_ch" onClick='installer()'>SAVE CHANGES</button>                 
+               <div class="save_ourt">
+                  <button type="button" class="ms_save_ch" id="save_ch" onClick='installer()'>SAVE CHANGES</button>
                </div>
            </form>
             </div>
@@ -47,10 +47,10 @@
           <form method='post' id='smtpDtls' >
 
             <br>
-            
+
                <br>
                <div class="md_site">Smtp Username</div>
-               <input class="yp-install-input" type="text" placeholder="Smtp Username" name="smtp_username" value="no-reply@tecware.in" required> <br>  
+               <input class="yp-install-input" type="text" placeholder="Smtp Username" name="smtp_username" value="no-reply@tecware.in" required> <br>
                <br>
                <div class="md_site">Smtp Host</div>
                <input class="yp-install-input" type="text" placeholder="Smtp Host" name="smtp_host" value="mail@tecware.co.in" required> <br>  <br>
@@ -58,8 +58,8 @@
                <input class="yp-install-input" type="text" placeholder="587" name="smtp_port" value="587" required> <br><br>
                <div class="md_site">Smtp Password</div>
                <input class="yp-install-input" type="password" placeholder="*********" name="smtp_password" value="Golden@reply" required> <br>
-               <div class="save_ourt">             
-                  <button type="button" class="ms_save_ch" onClick='installerSmtp()'>SAVE CHANGES</button>                 
+               <div class="save_ourt">
+                  <button type="button" class="ms_save_ch" onClick='installerSmtp()'>SAVE CHANGES</button>
                </div>
            </form>
                <div class='msg'></div>
@@ -97,10 +97,10 @@ $.ajax({
    // $('.smtp').show();
     $('.loader1').hide();
    // $('.db').hide();
-    
-   
+
+
     $(".db-result").html(res);
-    
+
     window.location.href ='Installer/addData';
 
 
@@ -112,14 +112,14 @@ $.ajax({
 
 </script>
 <script type="text/javascript">
- 
+
  /*function  installerSmtp(){
   $('.loader1').show();
 var value =$("#smtpDtls").serialize() ;
 
 
 $.ajax({
-  
+
  url:'<?php echo base_url();?>Installer/addData',
  type:'post',
  data:value,
@@ -132,11 +132,11 @@ $.ajax({
     $(".msg").html('<p class="success">Error</p>');
   }
   }
- 
+
  });
 
 }*/
-   
+
 </script>
 
 <div class="db-result"></div>
