@@ -17,8 +17,7 @@
 
 <?php if ($posts): ?>
 <?php foreach ($posts as $post): ?>
-
-	<div class="row">    
+	<div class="row">
       <div class="col-sm-10">
         <h3><?php echo $post->title ?></h3>
         <h4>

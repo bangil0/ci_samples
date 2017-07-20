@@ -1,7 +1,7 @@
 <!--Header Section Start-->
 <div class="header">
   <div class="container">
-  	<a href="<?php echo base_url(); ?>" class="left"><img src="<?php echo base_url(); ?>glancePublic/images/logo.png" alt="" /></a>   
+<!--  	<a href="--><?php //echo base_url(); ?><!--" class="left"><img src="--><?php //echo base_url(); ?><!--glancePublic/images/logo.png" alt="" /></a>   -->
     
       <!--nav start-->
       <div class="navigationwrape">
