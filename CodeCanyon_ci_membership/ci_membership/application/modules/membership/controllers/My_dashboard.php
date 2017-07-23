@@ -14,12 +14,17 @@ class My_dashboard extends Private_Controller {
 
     public function index() {
 
-        $data = array();
 
+        // Create the service object.
         $service = $this->ebay->get_service_shopping();
-        $request = $this->ebay->get_type_eBayTimeRequest();
+
+        // Create the request object.
+        $request = $this->ebay->get_request_eBayTimeRequest();
 
         $data['response'] = $service->geteBayTime($request);
+
+//        $response = $service->geteBaDyTime($request);
+//        $check = $this->ebay->get_response($respons);
 
 
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'My dashboard', 'my_dashboard', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);

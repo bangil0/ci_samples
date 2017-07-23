@@ -38,10 +38,10 @@ class Login_model extends CI_Model {
       
           $this->db->where('email', $email);
           $query1= $this->db->get('users');
-  
+
            if($query1->num_rows() ==0)
             {
-               $reg = $this->db->insert('users', $data); 
+               $reg = $this->db->insert('users', $data);
                 return "Success";
 
             }

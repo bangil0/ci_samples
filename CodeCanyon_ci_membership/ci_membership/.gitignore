@@ -7,3 +7,4 @@
 /uploads/*.png
 /application/cache/*
 /application/vendor/*
+/.idea/*

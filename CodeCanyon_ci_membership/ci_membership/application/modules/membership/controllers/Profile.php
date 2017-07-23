@@ -24,7 +24,7 @@ class Profile extends Private_Controller {
             $content_data->ext = $path_parts['extension']; // get the extension of the file
         }
 
-        //var_dump($content_data);
+//       var_dump($content_data);
 
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', $this->lang->line('my_profile'), 'profile', 'header', 'footer', Settings_model::$db_config['active_theme'], $content_data);
     }

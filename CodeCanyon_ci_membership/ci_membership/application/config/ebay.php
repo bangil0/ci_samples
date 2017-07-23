@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['credentials']          =  array (
         'devId' => '1fec4e3f-4bcb-43a7-9124-9ff0a43f3d2f',
-        'appId' => 'Manojkm-sanks-SBX-e8e31710d-25bcc996',
+        'appId' => '!Manojkm-sanks-SBX-e8e31710d-25bcc996',
         'certId' => 'SBX-8e31710dd4e0-edbc-48b7-af17-ae98',
 );
 
