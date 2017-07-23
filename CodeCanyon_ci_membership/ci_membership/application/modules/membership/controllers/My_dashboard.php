@@ -21,10 +21,22 @@ class My_dashboard extends Private_Controller {
         // Create the request object.
         $request = $this->ebay->get_request_eBayTimeRequest();
 
-        $data['response'] = $service->geteBayTime($request);
+//        $data['response'] = $service->geteBayTime($request);
 
-//        $response = $service->geteBaDyTime($request);
-//        $check = $this->ebay->get_response($respons);
+        $response = $service->geteBayTime($request);
+
+        $check = $this->ebay->get_response($response);
+
+        if($check){
+            $data['svcode'] = $check['svcode'];
+            $data['shortmsg'] = $check['shortmsg'];
+            $data['longmsg'] = $check['longmsg'];
+        }
+
+        else{
+            $data['response'] =  $check;
+        }
+
 
 
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'My dashboard', 'my_dashboard', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);

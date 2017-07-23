@@ -57,7 +57,5 @@ Class Ebay extends MY_Controller {
 
         }
 
-         return true;
-
     }
 }
