@@ -27,12 +27,20 @@
 //    printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
 //}
 
+if(isset($check)) {
+//    print_r($check);
 
+    foreach ($check as $key => $value) {
+        echo $key . ': ' . $value . '<br />';
+    }
 
-    echo $svcode . '<br/>';
-    echo $shortmsg . '<br/>';
-    echo $longmsg . '<br/>';
+//    echo $check['svcode'] . '<br/>';
+//    echo $check['shortmsg'] . '<br/>';
+//    echo $check['longmsg'] . '<br/>';
 
+}
 
+if(isset($response)){
+    printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
 
-printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
+}

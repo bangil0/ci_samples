@@ -51,6 +51,7 @@ class Login_model extends CI_Model {
             }
           
         }
+
         else 
         {
          return "UsernameExist";
@@ -121,10 +122,10 @@ class Login_model extends CI_Model {
       $query=$this->db->get();
       $query=$query->result();
      
-          return $query;*/
-                $this->db->where('featured_category',1);
-				$query = $this->db->get('business_categories');
-        
+      return $query;*/
+            $this->db->where('featured_category',1);
+            $query = $this->db->get('business_categories');
+
 			  $result = $query->result();
        
 			    return $result; 				

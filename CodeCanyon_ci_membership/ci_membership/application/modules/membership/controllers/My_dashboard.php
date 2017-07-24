@@ -27,16 +27,13 @@ class My_dashboard extends Private_Controller {
 
         $check = $this->ebay->get_response($response);
 
-        if($check){
-            $data['svcode'] = $check['svcode'];
-            $data['shortmsg'] = $check['shortmsg'];
-            $data['longmsg'] = $check['longmsg'];
+        if(is_array($check)){
+            $data['check'] = $check;
         }
 
-        else{
-            $data['response'] =  $check;
+        else if ($check == 1){
+            $data['response'] = $response;
         }
-
 
 
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'My dashboard', 'my_dashboard', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);

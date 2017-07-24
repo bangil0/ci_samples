@@ -46,16 +46,27 @@ Class Ebay extends MY_Controller {
         if (isset($response->Errors)) {
 
             foreach ($response->Errors as $error) {
+
                 $err = array(
-                    'svcode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
-                    'shortmsg' => $error->ShortMessage,
-                    'longmsg' =>$error->LongMessage
+                    'SeverityCode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
                 );
 
+//                var_dump($err);
                return $err;
+
+
             }
 
         }
+
+        if ($response->Ack !== 'Failure') {
+
+            return true;
+        }
+
+        else return false;
 
     }
 }

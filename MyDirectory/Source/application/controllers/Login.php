@@ -29,15 +29,14 @@ class Login extends CI_Controller {
         $template['page_title'] ="Home"; 
 		$template['page'] ='Login/home';
 		$template['header'] ='home';
-
-
-
 	    $template['collection'] = $this->login->featuredcollection();
-	  
-             $request = file_get_contents("php://input");
-         $data = json_decode($request);	
+
+//	    var_dump($template['collection']);
+
+        $request = file_get_contents("php://input");
+        $data = json_decode($request);
 	  	
-	  	 if($data)
+	  	if($data)
 	     {
 
 		   $result=$this->login->login($data);

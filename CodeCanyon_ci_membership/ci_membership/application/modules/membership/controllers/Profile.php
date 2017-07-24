@@ -14,6 +14,12 @@ class Profile extends Private_Controller {
         $this->load->model('profile_model');
         $content_data = $this->profile_model->get_profile();
 
+//        echo gettype($content_data);
+//        var_dump($content_data);
+//        var_dump($this->session->userdata());
+//        var_dump(get_cookie('unique_token'));
+//        echo CI_VERSION;
+
         $this->template->set_js('widget', base_url() .'assets/js/vendor/jquery.ui.widget.js');
         $this->template->set_js('upload', base_url() .'assets/js/vendor/jquery.fileupload.js');
 

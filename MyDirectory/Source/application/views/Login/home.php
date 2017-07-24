@@ -2,6 +2,8 @@
 $res= $this->session->userdata('searchResult');
 $business=$res['business'];
 $city=$res['city'];
+
+//var_dump($res)
 ?>
 
 

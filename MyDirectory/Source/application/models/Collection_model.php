@@ -12,7 +12,7 @@ class Collection_model extends CI_Model {
 					$this->db->where('id', $id);
 					$query = $this->db->get('business_categories');
 					$result = $query->row();
-					return $result; 		
+					return $result;
 		}
 		
 		public function get_businessdetails($id){
