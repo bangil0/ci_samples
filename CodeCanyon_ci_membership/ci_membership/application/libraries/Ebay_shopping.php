@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-use \DTS\eBaySDK\Shopping\Services;
+use \DTS\eBaySDK\Shopping\Services\ShoppingService;
 use \DTS\eBaySDK\Shopping\Types;
 use \DTS\eBaySDK\Shopping\Enums;
 use \DTS\eBaySDK\Constants;
 
 
-Class Ebay extends MY_Controller {
+Class Ebay_shopping extends MY_Controller {
 
 
     public function __construct()
@@ -21,11 +21,13 @@ Class Ebay extends MY_Controller {
     public function get_service_shopping(){
 
         // Create headers to send with CURL request.
-        $service = new Services\ShoppingService([
+        $service = new ShoppingService([
             'credentials' => $this->config->item('credentials'),
             'siteId'      => Constants\SiteIds::US,
             'sandbox'     => $this->config->item('sandbox'),
             'apiVersion' =>  $this->config->item('shoppingApiVersion'),
+            'debug'      =>  $this->config->item('debug'),
+
         ]);
 
         return $service;
@@ -35,38 +37,23 @@ Class Ebay extends MY_Controller {
        return $request =  new Types\GeteBayTimeRequestType();
     }
 
-    public function get_SeverityCodeType(){
-
-        return $severity = new Enums\SeverityCodeType;
-
-    }
 
     public function get_response($response){
 
         if (isset($response->Errors)) {
-
             foreach ($response->Errors as $error) {
-
                 $err = array(
                     'SeverityCode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
                     'ShortMessage' => $error->ShortMessage,
                     'LongMessage' => $error->LongMessage
                 );
-
 //                var_dump($err);
                return $err;
-
-
             }
-
         }
-
         if ($response->Ack !== 'Failure') {
-
             return true;
         }
-
         else return false;
-
     }
 }

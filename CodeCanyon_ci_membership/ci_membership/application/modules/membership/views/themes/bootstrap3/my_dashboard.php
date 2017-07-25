@@ -41,6 +41,13 @@ if(isset($check)) {
 }
 
 if(isset($response)){
+
+    echo '<b>Convert to an array :</b> ';
+    var_dump($response->toArray());
+
+    echo '<br/>';
     printf("The official eBay time is: %s\n", $response->Timestamp->format('H:i (\G\M\T) \o\n l jS F Y'));
 
 }
+
+echo '<br/><b>SDK Version : </b>'. DTS\eBaySDK\Sdk::VERSION;
