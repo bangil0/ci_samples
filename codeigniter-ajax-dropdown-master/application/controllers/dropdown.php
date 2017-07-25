@@ -7,6 +7,7 @@ Class Dropdown extends CI_Controller{
 
 	function index(){
 		$data['options'] = $this->dropdown_model->getOptions();
+
 		$this->load->view('dropdown/index', $data);
 	}
 

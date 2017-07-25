@@ -19,12 +19,12 @@ class My_dashboard extends Private_Controller {
 //        $data['response'] = $service->geteBayTime($request);
         $response = $service->geteBayTime($request);
 
-        $check = $this->ebay_shopping->get_response($response);
+        $checkError = $this->ebay_shopping->get_response($response);
 
-        if(is_array($check)){
-            $data['check'] = $check;
+        if(is_array($checkError)){
+            $data['check'] = $checkError;
         }
-        else if ($check == 1){
+        else if ($checkError == 1){
             $data['response'] = $response;
         }
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'My dashboard', 'my_dashboard', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);

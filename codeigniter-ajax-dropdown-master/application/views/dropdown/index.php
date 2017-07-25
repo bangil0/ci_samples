@@ -5,7 +5,11 @@
 <tbody>
 	<tr>
 		<td><label>Top Level Option</label></td>
-		<td><?php echo form_dropdown('options', $options, '#', 'id="options"'); ?></td>
+
+		<td><?php
+            var_dump($options);
+
+            echo form_dropdown('options', $options, '#', 'id="options"'); ?></td>
 	</tr>
 	<tr>
 		<td><label>Sub Level Option</label></td>

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Ajax_Post_Controller extends CI_Controller {
+class Ajax_post_controller extends CI_Controller {
 
 // Show view Page
     public function index(){
