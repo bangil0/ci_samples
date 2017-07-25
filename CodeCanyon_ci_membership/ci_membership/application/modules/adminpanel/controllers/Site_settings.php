@@ -20,6 +20,7 @@ class Site_settings extends Admin_Controller {
         $this->template->set_js('js', base_url() .'assets/js/vendor/parsley.min.js');
 
         $content_data['private_pages'] = $this->_load_membership_pages();
+        var_dump($content_data['private_pages']);
 
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', $this->lang->line('site_settings_title'), 'site_settings', 'header', 'footer', '', $content_data);
     }
@@ -37,6 +38,7 @@ class Site_settings extends Admin_Controller {
 
             closedir($handle);
             return $pages;
+
         }
 
         return false;

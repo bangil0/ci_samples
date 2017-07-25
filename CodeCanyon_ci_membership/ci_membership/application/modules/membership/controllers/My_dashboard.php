@@ -9,7 +9,6 @@ class My_dashboard extends Private_Controller {
         $this->load->library('ebay');
         self::$page = "my_dashboard";
 
-
     }
 
     public function index() {
