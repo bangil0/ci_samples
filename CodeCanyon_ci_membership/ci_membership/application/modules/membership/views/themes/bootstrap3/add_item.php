@@ -27,6 +27,7 @@ if (isset($check)) {
     // Ajax post
     $(document).ready(function () {
 
+//        https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
