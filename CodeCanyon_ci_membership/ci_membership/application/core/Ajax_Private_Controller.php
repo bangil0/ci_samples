@@ -12,4 +12,7 @@ class Ajax_Private_Controller extends Private_Controller
 
         header("content-type:application/json");
     }
+
+
+
 }
