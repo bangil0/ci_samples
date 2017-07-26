@@ -11,10 +11,10 @@ class My_dashboard extends Private_Controller {
 
     public function index() {
         // Create the service object.
-        $service = $this->ebay_shopping->get_service_shopping();
+        $service = $this->ebay_shopping->get_ShoppingService();
 
         // Create the request object.
-        $request = $this->ebay_shopping->get_request_eBayTimeRequest();
+        $request = $this->ebay_shopping->get_GeteBayTimeRequestType();
 
 //        $data['response'] = $service->geteBayTime($request);
         $response = $service->geteBayTime($request);

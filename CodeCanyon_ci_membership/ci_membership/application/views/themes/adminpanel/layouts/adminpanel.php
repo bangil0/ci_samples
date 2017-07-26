@@ -79,7 +79,7 @@
 
     </footer>
 </div>
-	
+
 
 
 <!-- Bootstrap core JavaScript
@@ -93,5 +93,12 @@
     <?php print $template['js']; ?>
     <?php $this->load->view('generic/js_system'); ?>
     <script src="<?php print base_url(); ?>assets/js/app.js"></script>
+
+<!-- Custom JavaScript
+================================================== -->
+    <script src="<?php print base_url(); ?>assets/js/custom.js"></script>
+
+
+
 </body>
 </html>

@@ -4,7 +4,7 @@ Class Dropdown_model extends CI_Model{
 	public $option_id = null;
 
 	function __construc(){
-		parent::__construc();
+		parent::__construct();
 	}
 
 
