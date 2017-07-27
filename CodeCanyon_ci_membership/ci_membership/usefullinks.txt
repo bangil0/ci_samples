@@ -6,3 +6,6 @@ http://demos.99points.info/
 
 #30 Top Codeigniter best Tutorials You must want to know.
 http://www.99points.info/2010/04/30-codeigniter-best-tutorials-which-you-may-need/
+
+# Ajax error-403-forbidden-codeigniter
+https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter

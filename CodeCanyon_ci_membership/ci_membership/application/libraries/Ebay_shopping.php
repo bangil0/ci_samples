@@ -30,6 +30,50 @@ Class Ebay_shopping extends MY_Controller
     }
 
 
+    /*
+     * Get all categories
+     * returns array
+     */
+    public function get_category($response)
+    {
+        $category_arr = [];
+        $category_arr['#'] = '-- Please Select Category --';
+        // Format for passing into form_dropdown function
+        //if ($response->CategoryArray->Category->LeafCategory == false) {
+        foreach ($response->CategoryArray->Category as $category) {
+            //var_dump($category);
+            if ($category->LeafCategory == false) {
+                if ($category->CategoryLevel != 0) {
+                    $category_arr[$category->CategoryID] = $category->CategoryName;
+                }
+            }
+        }
+        // }
+
+        return $category_arr;
+    }
+
+    public function get_sub_category($response, $categoryID)
+    {
+
+        $browse='';
+        $sub_category_arr = [];
+        $sub_category_arr['#'] = '-- Please Select Sub Category --';
+
+        foreach ($response->CategoryArray->Category as $category) {
+            if ($category->LeafCategory == false) {
+                if ($category->CategoryID != $categoryID) {
+                    if ($category->CategoryLevel != 0) {
+                        $sub_category_arr[$category->CategoryID] = $category->CategoryName;
+//                        $browse.='<option value="'.$category->CategoryID.'">'.$category->CategoryName.'</option>';
+                    }
+                }
+            }
+        }
+        return form_dropdown('options', $sub_category_arr, '#', 'id="categ_options"');
+    }
+
+
     public function get_GeteBayTimeRequestType()
     {
         return $request = new Types\GeteBayTimeRequestType();
@@ -57,24 +101,5 @@ Class Ebay_shopping extends MY_Controller
         if ($response->Ack !== 'Failure') {
             return true;
         } else return false;
-    }
-
-    /*
-     * Get all categories
-     * returns array
-     */
-    public function get_category($response)
-    {
-        $category_arr = [];
-        $category_arr['#'] = '-- Please Select Category --';
-        // Format for passing into form_dropdown function
-        foreach ($response->CategoryArray->Category as $category) {
-//            var_dump($category);
-            if ($category->CategoryLevel != 0) {
-                $category_arr[$category->CategoryID] = $category->CategoryName;
-            }
-        }
-
-        return $category_arr;
     }
 }

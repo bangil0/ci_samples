@@ -69,9 +69,13 @@ class Add_item extends Private_Controller
             $output->csrfHash = $this->security->get_csrf_hash();
             //            $output->data = $this->input->post('category_id');
             $output->data = array(
+
                 'category' => $subcategory
+
             );
+
             echo json_encode($output);
+
 
         } else {
             echo false;

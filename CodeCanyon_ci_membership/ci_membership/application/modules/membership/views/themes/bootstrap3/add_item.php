@@ -2,6 +2,7 @@
 
 <?php
 if (isset($check)) {
+    echo '<p><b>eBay returned the following error(s):</b></p>';
     foreach ($check as $key => $value) {
         echo $key . ': ' . $value . '<br />';
     }
@@ -9,17 +10,14 @@ if (isset($check)) {
 ?>
 
 
-
 <?php if (!empty($category)) { ?>
     <div class="">
         <?php echo form_dropdown('options', $category, '#', 'id="categ_options"'); ?>
+        <div id="subcat"></div>
     </div>
 <?php } else {
     echo "Please fix the eBay error";
 } ?>
-
-<div id="value"></div>
-
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -32,7 +30,7 @@ if (isset($check)) {
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
         $("#categ_options").click(function (event) {
-            //             alert($('#categ_options').val());
+            // alert($('#categ_options').val());
             event.preventDefault();
             var cat_id = $("#categ_options").val();
             var data = {
@@ -42,26 +40,23 @@ if (isset($check)) {
 
             jQuery.ajax({
                 type: "POST",
-                url: "<?php echo base_url(); ?>" + "membership/add_item/get_sub_category",
+                url: "<?php echo base_url(); ?>" + "membership/add_item/sub_category",
                 dataType: 'json',
                 data: data,
 
                 success: function (result, status) {
-
                     if (result.csrfName) {
                         //assign the new csrfName/Hash
                         csrfName = result.csrfName;
                         csrfHash = result.csrfHash;
                     }
 
-                    $('div#value').html(result.data.category);
+                    $('div#subcat').html(result.data.category);
                 },
 
                 error: function (result, status, error) {
                     alert(error);
                 }
-
-
             });
         });
     });
