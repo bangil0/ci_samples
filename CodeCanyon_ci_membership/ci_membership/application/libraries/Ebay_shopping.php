@@ -71,6 +71,7 @@ Class Ebay_shopping extends MY_Controller
             }
         }
         return form_dropdown('options', $sub_category_arr, '#', 'id="categ_options"');
+//        return $sub_category_arr;
     }
 
 

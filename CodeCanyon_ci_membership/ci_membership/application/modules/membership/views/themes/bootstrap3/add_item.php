@@ -13,6 +13,7 @@ if (isset($check)) {
 <?php if (!empty($category)) { ?>
     <div class="">
         <?php echo form_dropdown('options', $category, '#', 'id="categ_options"'); ?>
+<!--        <select name='type' id='subcategory'></select>-->
         <div id="subcat"></div>
     </div>
 <?php } else {
@@ -50,8 +51,11 @@ if (isset($check)) {
                         csrfName = result.csrfName;
                         csrfHash = result.csrfHash;
                     }
-
+                    /*$.each(result.data.category, function(id, value) {
+                        $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
+                    });*/
                     $('div#subcat').html(result.data.category);
+
                 },
 
                 error: function (result, status, error) {
