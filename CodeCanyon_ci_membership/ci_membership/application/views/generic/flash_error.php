@@ -1,4 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+    <?php
+    if (isset($check)) {
+        echo '<p><b>eBay returned the following error(s):</b></p>';
+        foreach ($check as $key => $value) {
+            echo $key . ': ' . $value . '<br />';
+        }
+    }
+    ?>
+
+
     <?php
     if ($this->session->flashdata('error') != "") {
         ?>

@@ -81,4 +81,7 @@ class Add_item extends Private_Controller
             echo false;
         }
     }
+
+
+    public function add(){}
 }

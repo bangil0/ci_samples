@@ -18,6 +18,10 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="<?php print base_url(); ?>assets/js/vendor/jquery-2.2.1.min.js">\x3C/script>')</script>
+
+
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="<?php print base_url(); ?><?php print base_url(); ?>assets/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="<?php print base_url(); ?>assets/img/favicon/apple-icon-60x60.png">
@@ -84,8 +88,6 @@
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-    <script>window.jQuery || document.write('<script src="<?php print base_url(); ?>assets/js/vendor/jquery-2.2.1.min.js">\x3C/script>')</script>
     <script src="<?php print base_url(); ?>assets/js/vendor/bootstrap.min.js"></script>
     <script src="<?php print base_url(); ?>assets/js/vendor/jquery.navgoco.js"></script>
     <script src="<?php print base_url(); ?>assets/js/vendor/jquery.slimscroll.min.js"></script>

@@ -1,32 +1,39 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<?php $this->load->view('themes/'. Settings_model::$db_config['adminpanel_theme'] .'/partials/content_head.php'); ?>
+
 <?php
-if (isset($check)) {
-    echo '<p><b>eBay returned the following error(s):</b></p>';
-    foreach ($check as $key => $value) {
-        echo $key . ': ' . $value . '<br />';
-    }
-}
+$this->load->view('generic/flash_error');
 ?>
 
+<h2>Add new item</h2>
 
-<?php
-//var_dump($category);
+<?php echo form_open('membership/add_item/add', array('class' => 'email', 'id' => 'myform'));?>
+<div class="row">
+    <div class="col-md-6"><?php
+        //var_dump($category);
 
-if (!empty($category)) { ?>
-    <div id="show_sub_categories">
-        <?php
-        $attributes = array( 'id' => 'parent_category','class' => 'parent');
-        echo form_dropdown('options', $category, '#', $attributes); ?>
-        <!--        <select name='type' id='subcategory'></select>
-        <div id="subcat"></div>
-        -->
+        if (!empty($category)) { ?>
+
+            <div class="form-group"  id="show_sub_categories">
+                <label for="exampleInputEmail1">Primary Category</label>
+                <?php
+                $attributes = array( 'id' => 'parent_category','class' => 'form-control parent');
+                echo form_dropdown('options', $category, '#', $attributes); ?>
+                <!--        <select name='type' id='subcategory'></select>
+                <div id="subcat"></div>
+                -->
+            </div>
+        <?php } else {
+            echo "Please fix the eBay error";
+        } ?>
     </div>
-<?php } else {
-    echo "Please fix the eBay error";
-} ?>
+</div>
+<?php echo form_close() ?>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
 <script type="text/javascript">
 
     // Ajax post

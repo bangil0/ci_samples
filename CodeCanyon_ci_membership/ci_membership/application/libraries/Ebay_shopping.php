@@ -80,7 +80,7 @@ Class Ebay_shopping extends MY_Controller
           //$success = "<label style=\"padding:7px;font-size:12px;\">You have selected a category.</label>";
 
         } else {
-            $attributes = array('id' => 'child_category', 'class' => 'parent');
+            $attributes = array('id' => '', 'class' => 'form-control parent');
             return form_dropdown('options', $sub_category_arr, '#', $attributes);
         }
         // return $browse;
