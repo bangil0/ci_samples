@@ -24,6 +24,8 @@ class Add_item extends Private_Controller
         // Send the request.
         $response = $service->getCategoryInfo($request);
 
+        //var_dump($response) ;
+
         // Check errors
         $checkError = $this->ebay_shopping->get_response($response);
 
@@ -33,6 +35,7 @@ class Add_item extends Private_Controller
             $data['category'] = $this->ebay_shopping->get_category($response);
         }
 
+        $this->template->set_js('js', base_url() .'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
     }
 
@@ -60,6 +63,7 @@ class Add_item extends Private_Controller
             $data['check'] = $checkError;
         } else if ($checkError == 1) {
             $subcategory = $this->ebay_shopping->get_sub_category($response, $categoryID);
+
         }
 
         if ($this->input->is_ajax_request()) {

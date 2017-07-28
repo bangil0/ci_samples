@@ -49,28 +49,41 @@ Class Ebay_shopping extends MY_Controller
             }
         }
         // }
-
+       // var_dump($category_arr);
         return $category_arr;
+
+
     }
 
     public function get_sub_category($response, $categoryID)
     {
-
-        $browse='';
+        $browse = '';
         $sub_category_arr = [];
         $sub_category_arr['#'] = '-- Please Select Sub Category --';
 
         foreach ($response->CategoryArray->Category as $category) {
+
             if ($category->LeafCategory == false) {
                 if ($category->CategoryID != $categoryID) {
                     if ($category->CategoryLevel != 0) {
                         $sub_category_arr[$category->CategoryID] = $category->CategoryName;
-//                        $browse.='<option value="'.$category->CategoryID.'">'.$category->CategoryName.'</option>';
+                        //    $browse ='<option value="'.$category->CategoryID.'">'.$category->CategoryName.'</option>';
                     }
                 }
             }
         }
-        return form_dropdown('options', $sub_category_arr, '#', 'id="categ_options"');
+
+        if (count($sub_category_arr) == 1) {
+
+         $browse ='<label style=\"padding:7px;font-size:12px;\">You have selected a category ID : <option value="'.$categoryID.'">'.$categoryID.'</option></label>';
+          return $browse ;
+          //$success = "<label style=\"padding:7px;font-size:12px;\">You have selected a category.</label>";
+
+        } else {
+            $attributes = array('id' => 'child_category', 'class' => 'parent');
+            return form_dropdown('options', $sub_category_arr, '#', $attributes);
+        }
+        // return $browse;
 //        return $sub_category_arr;
     }
 

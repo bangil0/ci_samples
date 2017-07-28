@@ -10,17 +10,11 @@ if (isset($check)) {
 ?>
 
 
-<?php
-//var_dump($category);
-
-if (!empty($category)) { ?>
-    <div id="show_sub_categories">
-        <?php
-        $attributes = array( 'id' => 'parent_category','class' => 'parent');
-        echo form_dropdown('options', $category, '#', $attributes); ?>
-        <!--        <select name='type' id='subcategory'></select>
+<?php if (!empty($category)) { ?>
+    <div class="">
+        <?php echo form_dropdown('options', $category, '#', 'id="categ_options"'); ?>
+        <!--        <select name='type' id='subcategory'></select>-->
         <div id="subcat"></div>
-        -->
     </div>
 <?php } else {
     echo "Please fix the eBay error";
@@ -36,18 +30,13 @@ if (!empty($category)) { ?>
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
-        $('.parent').livequery('change', function (event) {
+        $("#categ_options").click(function (event) {
 
-            $(this).nextAll('.parent').remove();
-            $(this).nextAll('label').remove();
-
-//            $("div#subcat select").remove(); //first of all clear select items
-            $('#show_sub_categories').append('<span id="loader">loading</span>');
+            $("div#subcat select").remove(); //first of all clear select items
 
             // alert($('#categ_options').val());
             event.preventDefault();
-
-            var cat_id = $(this).val();
+            var cat_id = $("#categ_options").val();
 
             if (cat_id == '#') {
                 return false; // return false after clearing sub options if 'please select was chosen'
@@ -73,10 +62,7 @@ if (!empty($category)) { ?>
                     /*$.each(result.data.category, function(id, value) {
                      $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
                      });*/
-
-//                    $('div#subcat').html(result.data.category);
-
-                    setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
+                    $('div#subcat').html(result.data.category);
 
                 },
 
@@ -86,10 +72,5 @@ if (!empty($category)) { ?>
             });
         });
     });
-
-    function finishAjax(id, response) {
-        $('#loader').remove();
-        $('#' + id).append(unescape(response));
-    }
 
 </script>
