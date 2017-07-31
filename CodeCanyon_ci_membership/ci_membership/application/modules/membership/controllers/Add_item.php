@@ -7,81 +7,92 @@ class Add_item extends Private_Controller
     {
         parent::__construct();
         $this->load->library('ebay_shopping');
+        $this->load->library('ebay_trading');
         self::$page = "add_item";
     }
 
     public function index()
     {
-
-        // Create the service object.
-        $service = $this->ebay_shopping->get_ShoppingService();
-
-        // Create the request object.0
-        $request = $this->ebay_shopping->get_CategoryInfoRequestType();
-        $request->CategoryID = '-1';
-        $request->IncludeSelector = 'ChildCategories';
-
-        // Send the request.
-        $response = $service->getCategoryInfo($request);
-
-        //var_dump($response) ;
-
-        // Check errors
-        $checkError = $this->ebay_shopping->get_response($response);
-
-        if (is_array($checkError)) {
-            $data['check'] = $checkError;
-        } else if ($checkError != 0) {
-            $data['category'] = $this->ebay_shopping->get_category($response);
+        $data['category'] = $this->ebay_shopping->get_parent_category();
+        if (!empty($this->ebay_shopping->get_error())) {
+            $data['error'] = $this->ebay_shopping->get_error();
         }
 
-        $this->template->set_js('js', base_url() .'assets/js/vendor/jquery.livequery.js');
-        $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
-    }
 
+
+
+
+
+
+
+        /*  // Create the service object.
+          $service = $this->ebay_shopping->get_ShoppingService();
+
+          // Create the request object.
+          $request = $this->ebay_shopping->get_CategoryInfoRequestType();
+          $request->CategoryID = '-1';
+          $request->IncludeSelector = 'ChildCategories';
+
+          // Send the request.
+          $response = $service->getCategoryInfo($request);
+
+          //var_dump($response) ;
+
+          // Check errors
+          $checkError = $this->ebay_shopping->get_response($response);
+
+          if (is_array($checkError)) {
+              $data['check'] = $checkError;
+          } else if ($checkError != 0) {
+              $data['category'] = $this->ebay_shopping->get_category($response);
+          }*/
+        $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
+        $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
+
+    }
 
     public function sub_category()
     {
-        $categoryID = $this->input->post('category_id');
-        $subcategory = '';
+        /*    $subcategory = '';
 
-        // Create the service object.
-        $service = $this->ebay_shopping->get_ShoppingService();
+            // Create the service object.
+            $service = $this->ebay_shopping->get_ShoppingService();
 
-        // Create the request object.0
-        $request = $this->ebay_shopping->get_CategoryInfoRequestType();
-        $request->CategoryID = $categoryID;
-        $request->IncludeSelector = 'ChildCategories';
+            // Create the request object.0
+            $request = $this->ebay_shopping->get_CategoryInfoRequestType();
+            $request->CategoryID = $categoryID;
+            $request->IncludeSelector = 'ChildCategories';
 
-        // Send the request.
-        $response = $service->getCategoryInfo($request);
+            // Send the request.
+            $response = $service->getCategoryInfo($request);
 
-        // Check errors
-        $checkError = $this->ebay_shopping->get_response($response);
+            // Check errors
+            $checkError = $this->ebay_shopping->get_response($response);
 
-        if (is_array($checkError)) {
-            $data['check'] = $checkError;
-        } else if ($checkError == 1) {
-            $subcategory = $this->ebay_shopping->get_sub_category($response, $categoryID);
+            if (is_array($checkError)) {
+                $data['check'] = $checkError;
+            } else if ($checkError == 1) {
+                $subcategory = $this->ebay_shopping->get_sub_category($response, $categoryID);
 
-        }
-
+            }*/
         if ($this->input->is_ajax_request()) {
-
+            $categoryID = $this->input->post('category_id');
             $output = new stdClass;
             $output->csrfName = $this->security->get_csrf_token_name();
             $output->csrfHash = $this->security->get_csrf_hash();
 //                    $output->data = $subcategory;
             $output->data = array(
-                'category' => $subcategory
+                'category' => $this->ebay_shopping->get_sub_category($categoryID)
             );
             echo json_encode($output);
 
         } else {
-            echo false;
+            return false;
         }
     }
 
+    public function add()
+    {
 
-    public function add(){}
+    }
 }

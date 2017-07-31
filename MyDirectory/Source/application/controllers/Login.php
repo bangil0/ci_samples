@@ -26,7 +26,7 @@ class Login extends CI_Controller {
       {
         redirect(base_url().'Installer');
       }   
-        $template['page_title'] ="Home"; 
+        $template['page_title'] ="Home";
 		$template['page'] ='Login/home';
 		$template['header'] ='home';
 	    $template['collection'] = $this->login->featuredcollection();

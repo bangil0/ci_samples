@@ -7,6 +7,7 @@ class Add_item extends Private_Controller
     {
         parent::__construct();
         $this->load->library('ebay_shopping');
+        $this->load->library('ebay_trading');
         self::$page = "add_item";
     }
 
@@ -16,13 +17,15 @@ class Add_item extends Private_Controller
         // Create the service object.
         $service = $this->ebay_shopping->get_ShoppingService();
 
-        // Create the request object.0
+        // Create the request object.
         $request = $this->ebay_shopping->get_CategoryInfoRequestType();
         $request->CategoryID = '-1';
         $request->IncludeSelector = 'ChildCategories';
 
         // Send the request.
         $response = $service->getCategoryInfo($request);
+
+        //var_dump($response) ;
 
         // Check errors
         $checkError = $this->ebay_shopping->get_response($response);
@@ -61,6 +64,7 @@ class Add_item extends Private_Controller
             $data['check'] = $checkError;
         } else if ($checkError == 1) {
             $subcategory = $this->ebay_shopping->get_sub_category($response, $categoryID);
+
         }
 
         if ($this->input->is_ajax_request()) {
@@ -77,5 +81,12 @@ class Add_item extends Private_Controller
         } else {
             echo false;
         }
+    }
+
+
+    public function add(){
+
+
+
     }
 }
