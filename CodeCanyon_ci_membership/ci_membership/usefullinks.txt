@@ -25,3 +25,6 @@ https://github.com/chain24/eBaySDK
 
 # Item Specifics Loop sample and few other + David SDK
 https://github.com/Andriah91/examples-using-ebay-SDK/blob/master/item.php
+
+#eBayCommerceCookbook addItem sample.
+https://github.com/cahudson/eBayCommerceCookbook/blob/master/1_3_presenting_products_through_ebay/addItem.php
