@@ -10,12 +10,16 @@ Class Ebay_shopping extends MY_Controller
 {
     protected $error_message = [];
 
+    // Create the service object.
+    private $service;
+
     public function __construct()
     {
         parent::__construct();
 
         // Load custom config
         $this->load->config('ebay');
+        $this->service = $this->get_ShoppingService();
     }
 
     public function get_ShoppingService()
@@ -38,7 +42,6 @@ Class Ebay_shopping extends MY_Controller
     */
     public function get_parent_category()
     {
-        $service = $this->get_ShoppingService();
 
         // Create the request object.
         $request = new Types\GetCategoryInfoRequestType();
@@ -46,7 +49,7 @@ Class Ebay_shopping extends MY_Controller
         $request->IncludeSelector = 'ChildCategories';
 
         // Send the request.
-        $response = $service->getCategoryInfo($request);
+        $response = $this->service->getCategoryInfo($request);
 
         // Check errors
         $checkError = $this->get_response($response);
@@ -92,8 +95,6 @@ Class Ebay_shopping extends MY_Controller
 
     public function get_sub_category($categoryID)
     {
-        // Create the service object.
-        $service = $this->get_ShoppingService();
 
         // Create the request object.
         $request = new Types\GetCategoryInfoRequestType();
@@ -101,7 +102,7 @@ Class Ebay_shopping extends MY_Controller
         $request->IncludeSelector = 'ChildCategories';
 
         // Send the request.
-        $response = $service->getCategoryInfo($request);
+        $response = $this->service->getCategoryInfo($request);
 
         // Check errors
         $checkError = $this->get_response($response);

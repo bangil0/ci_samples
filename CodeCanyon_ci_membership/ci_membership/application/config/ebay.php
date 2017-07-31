@@ -15,5 +15,5 @@ $config['authToken']            = 'AgAAAA**AQAAAA**aAAAAA**PfVgWQ**nY+sHZ2PrBmdj
 $config['oauthUserToken']       = '';
 $config['tradingApiVersion']    = '';
 $config['shoppingApiVersion']   = '903';
-$config['tradingApiVersion']   = '903';
+$config['tradingApiVersion']   = '881';
 

@@ -8,12 +8,21 @@ use \DTS\eBaySDK\Trading\Enums;
 
 Class Ebay_trading extends MY_Controller
 {
+
+    protected $error_message = [];
+
+    // Create the service object.
+    private $service;
+
     public function __construct()
     {
         parent::__construct();
 
         // Load custom config
         $this->load->config('ebay');
+
+        // Create the service object.
+        $this->service = $this->get_TradingService();
     }
 
     public function get_TradingService()
@@ -31,8 +40,6 @@ Class Ebay_trading extends MY_Controller
 
     public function add_item()
     {
-        // Create the service object.
-        $service = $this->get_TradingService();
 
         // Create the request object.
         $request = new Types\AddItemRequestType();
@@ -50,16 +57,6 @@ Class Ebay_trading extends MY_Controller
          */
         $item->ListingType = Enums\ListingTypeCodeType::C_CHINESE;
         $item->Quantity = 1;
-
-        $item->ShippingDetails = new Types\ShippingDetailsType();
-        $item->ShippingDetails->ShippingType = Enums\ShippingTypeCodeType::C_FLAT;
-
-        $item->PrimaryCategory = new Types\CategoryType();
-        $item->PrimaryCategory->CategoryID = '29792';
-
-        $shippingService = new Types\ShippingServiceOptionsType();
-        $shippingService->ShippingServicePriority = 1;
-        $shippingService->ShippingService = 'Other';
 
     }
 
@@ -87,4 +84,84 @@ Class Ebay_trading extends MY_Controller
 
     }
 
+
+    //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
+    public function get_ebay_details($calculated)
+    {
+
+        // Create the request object.
+        $request = new Types\GeteBayDetailsRequestType();
+
+        // An user token is required when using the Trading service.
+        $request->RequesterCredentials = new Types\CustomSecurityHeaderType();
+        $request->RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
+
+        $request->DetailName = array('ShippingServiceDetails');
+
+        // Send the request.
+        $response = $this->service->geteBayDetails($request);
+
+//        return $response;
+
+        // Check errors
+        $checkError = $this->get_response($response);
+
+        if ($checkError != 0) {
+            if (count($response->ShippingServiceDetails)) {
+                $shipping_arr = [];
+                $shipping_arr['#'] = '-- Please Select Shipping Service --';
+                foreach ($response->ShippingServiceDetails as $details) {
+                    if (is_null($calculated)) {
+                    //var_dump($details);
+                        if ($details->ValidForSellingFlow != 0) {
+                            $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
+                        }
+                    }
+                    else{
+                     //var_dump($details->ServiceType);
+                        //var_dump(gettype($details->ServiceType));
+                        if($details->ServiceType[1] === 'Calculated') {
+                            if ($details->ValidForSellingFlow != 0) {
+                                $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
+                            }
+                        }
+                    }
+
+                }
+                return $shipping_arr;
+            }
+        }
+
+
+    }
+
+    public function get_response($response)
+    {
+
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+                $err = array(
+                    'SeverityCode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
+                );
+//                var_dump($err);
+                //return $err;
+                $this->set_error($err);
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return true;
+        } else return false;
+    }
+
+    public function set_error($error)
+    {
+        $this->error_message = $error;
+    }
+
+    public function get_error()
+    {
+        return $this->error_message;
+    }
 }
