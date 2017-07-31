@@ -123,7 +123,7 @@ $this->load->view('generic/flash_error');
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_dropdown('options', '', '#', $data)
+            echo form_dropdown('options', $listing_type, '#', $data)
             ?>
         </div>
     </div>

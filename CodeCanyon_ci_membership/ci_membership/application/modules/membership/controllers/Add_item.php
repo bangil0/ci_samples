@@ -14,16 +14,22 @@ class Add_item extends Private_Controller
     public function index()
     {
         $data['category'] = $this->ebay_shopping->get_parent_category();
+        $data['listing_type'] = $this->ebay_trading->get_listing_type();
+
+
+
+
+
+
+
+
+
+
+
+
         if (!empty($this->ebay_shopping->get_error())) {
             $data['error'] = $this->ebay_shopping->get_error();
         }
-
-
-
-
-
-
-
 
         /*  // Create the service object.
           $service = $this->ebay_shopping->get_ShoppingService();

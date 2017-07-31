@@ -29,7 +29,7 @@ Class Ebay_trading extends MY_Controller
         return $service;
     }
 
-    public function add_auction_item()
+    public function add_item()
     {
         // Create the service object.
         $service = $this->get_TradingService();
@@ -57,9 +57,34 @@ Class Ebay_trading extends MY_Controller
         $item->PrimaryCategory = new Types\CategoryType();
         $item->PrimaryCategory->CategoryID = '29792';
 
-
+        $shippingService = new Types\ShippingServiceOptionsType();
+        $shippingService->ShippingServicePriority = 1;
+        $shippingService->ShippingService = 'Other';
 
     }
 
+    public function get_listing_type()
+    {
+        $reflect = new ReflectionClass(Enums\ListingTypeCodeType::class);
+        $arr = $reflect->getConstants();
+
+        $listing_type_arr = [];
+        $listing_type_arr[array_keys($arr)[2]] = 'Auction';
+        $listing_type_arr[array_keys($arr)[6]] = 'Fixed Price Item';
+        return $listing_type_arr;
+
+//        $sub_category_arr = [];
+//        foreach ($arr as $fieldKey => $setLater) {
+//            $sub_category_arr['Auction'] = $fieldKey[0];
+//            $sub_category_arr['Fixed Item'] = $fieldKey[0];
+//
+//        }
+//
+//        $auction = array_slice($arr,1, true);
+//        $fixeditem = array_slice($arr,6, true);
+//
+//        return $sub_category_arr;
+
+    }
 
 }

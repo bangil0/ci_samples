@@ -9,3 +9,19 @@ http://www.99points.info/2010/04/30-codeigniter-best-tutorials-which-you-may-nee
 
 # Ajax error-403-forbidden-codeigniter
 https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter
+
+
+# Can I get CONST's defined on a PHP class?
+https://stackoverflow.com/questions/956401/can-i-get-consts-defined-on-a-php-class
+
+# How to access N-th element of an array in PHP
+https://stackoverflow.com/questions/24825281/how-to-access-n-th-element-of-an-array-in-php
+
+#XML Ebay Trading API - Shipping element - David Sadler
+https://stackoverflow.com/questions/18410701/xml-ebay-trading-api-shipping-element/18511983#18511983
+
+#Sample App using David SDK
+https://github.com/chain24/eBaySDK
+
+# Item Specifics Loop sample and few other + David SDK
+https://github.com/Andriah91/examples-using-ebay-SDK/blob/master/item.php
