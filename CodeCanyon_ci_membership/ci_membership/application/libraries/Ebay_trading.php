@@ -8,7 +8,6 @@ use \DTS\eBaySDK\Trading\Enums;
 
 Class Ebay_trading extends MY_Controller
 {
-
     protected $error_message = [];
 
     // Create the service object.
@@ -60,6 +59,25 @@ Class Ebay_trading extends MY_Controller
 
     }
 
+    public function get_shipping_type()
+    {
+        $reflect = new ReflectionClass(Enums\ShippingTypeCodeType::class);
+        $const = $reflect->getConstants();
+
+        //var_dump($const);
+        $shipping_type_arr = [];
+
+        $shipping_type_arr[array_keys($const)[6]] = 'Free';
+        // Refer this for free type-> http://developer.ebay.com/devzone/xml/docs/reference/ebay/types/shippingtypecodetype.html
+        $shipping_type_arr[array_keys($const)[4]] = 'Flat';
+        $shipping_type_arr[array_keys($const)[1]] = 'Calculated';
+        $shipping_type_arr[array_keys($const)[5]] = 'Flat Domestic and Calculated International';
+        $shipping_type_arr[array_keys($const)[2]] = 'Calculated Domestic and Flat International';
+        $shipping_type_arr[array_keys($const)[7]] = 'Freight (over 150 lbs)';
+
+        return $shipping_type_arr;
+    }
+
     public function get_listing_type()
     {
         $reflect = new ReflectionClass(Enums\ListingTypeCodeType::class);
@@ -67,9 +85,9 @@ Class Ebay_trading extends MY_Controller
 
         $listing_type_arr = [];
         $listing_type_arr[array_keys($arr)[2]] = 'Auction';
-        $listing_type_arr[array_keys($arr)[6]] = 'Fixed Price Item';
+        $listing_type_arr[array_keys($arr)[7]] = 'Fixed Price Item';
+        $listing_type_arr[array_keys($arr)[7]] = 'Multi Variation (Fixed Price)';
         return $listing_type_arr;
-
 //        $sub_category_arr = [];
 //        foreach ($arr as $fieldKey => $setLater) {
 //            $sub_category_arr['Auction'] = $fieldKey[0];
@@ -81,27 +99,41 @@ Class Ebay_trading extends MY_Controller
 //        $fixeditem = array_slice($arr,6, true);
 //
 //        return $sub_category_arr;
-
     }
 
-
-    //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
-    public function get_shipping_service($type = NULL)
+    public function get_country()
     {
-
-        // Create the request object.
-        $request = new Types\GeteBayDetailsRequestType();
-
-        // An user token is required when using the Trading service.
-        $request->RequesterCredentials = new Types\CustomSecurityHeaderType();
-        $request->RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
-
-        $request->DetailName = array('ShippingServiceDetails');
+        // GeteBayDetails
+        $request = $this->get_eBayDetails('CountryDetails');
 
         // Send the request.
         $response = $this->service->geteBayDetails($request);
+//        var_dump($response);
+        // Check errors
+        $checkError = $this->get_response($response);
 
-//        return $response;
+        if ($checkError != 0) {
+            if (count($response->CountryDetails)) {
+                $country_arr = [];
+                $country_arr['#'] = '-- Please Select Country --';
+                foreach ($response->CountryDetails as $details) {
+//                   var_dump($details);
+                    $country_arr[$details->Country] = $details->Description;
+                }
+                return $country_arr;
+            }
+        }
+
+    }
+
+    //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
+    public function get_shipping_service($flat = NULL, $calculated = NULL)
+    {
+        // GeteBayDetails
+        $request = $this->get_eBayDetails('ShippingServiceDetails');
+
+        // Send the request.
+        $response = $this->service->geteBayDetails($request);
 
         // Check errors
         $checkError = $this->get_response($response);
@@ -111,26 +143,50 @@ Class Ebay_trading extends MY_Controller
                 $shipping_arr = [];
                 $shipping_arr['#'] = '-- Please Select Shipping Service --';
                 foreach ($response->ShippingServiceDetails as $details) {
-                    if ($type == 'flat') {
-                    //var_dump($details);
+                    if ($flat) {
+                        //var_dump($details);
                         if ($details->ValidForSellingFlow != 0) {
                             $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
                         }
                     }
-                    if($type == 'calculated'){
-                     //var_dump($details->ServiceType);
+                    if ($calculated) {
+                        //var_dump($details->ServiceType);
                         //var_dump(gettype($details->ServiceType));
                         // if(in_array('Calculated', $details->ServiceType)) {
-                        if($details->ServiceType[1] === 'Calculated') {
+
+                        foreach ($details->ServiceType as $detail) {
+                            if ($detail == $calculated) {
+                                if ($details->ValidForSellingFlow != 0) {
+                                    //  /(?<! )(?<!^)[A-Z]/
+                                    $shippingService = preg_replace('/(?<! )(?<!^)(?<![A-Z])[A-Z]/', ' $0', $details->ShippingService);
+                                    $shipping_arr[$details->ShippingServiceID] = $shippingService;
+                                }
+                            }
+                        }
+
+                        /*if($details->ServiceType[1] === $calculated) {
                             if ($details->ValidForSellingFlow != 0) {
                                 $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
                             }
-                        }
+                        }*/
                     }
                 }
                 return $shipping_arr;
             }
         }
+    }
+
+    public function get_eBayDetails($Details)
+    {
+        // Create the request object.
+        $request = new Types\GeteBayDetailsRequestType();
+
+        // An user token is required when using the Trading service.
+        $request->RequesterCredentials = new Types\CustomSecurityHeaderType();
+        $request->RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
+        $request->DetailName = array($Details);
+
+        return $request;
     }
 
     public function get_response($response)

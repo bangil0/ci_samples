@@ -127,6 +127,23 @@ $this->load->view('generic/flash_error');
             ?>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="form-group" >
+            <?php
+            echo form_label('Listing Duration', '');
+            $data = array(
+                'name'          => 'listing_duration',
+                'id'            => 'listing_duration',
+                'value'         => '',
+                'class'         => 'form-control',
+                'placeholder'   => '',
+            );
+            echo form_input($data);
+            ?>
+        </div>
+    </div>
+
 </div>
 
 
@@ -210,7 +227,8 @@ $this->load->view('generic/flash_error');
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_dropdown('options', '', '#', $data)
+            echo form_dropdown('options', $country, '#', $data);
+             echo count($country);
             ?>
         </div>
     </div>
@@ -388,7 +406,7 @@ $this->load->view('generic/flash_error');
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_dropdown('options', '', '#', $data)
+            echo form_dropdown('options', $shipping_type, '#', $data)
             ?>
         </div>
     </div>
