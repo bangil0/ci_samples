@@ -86,7 +86,7 @@ Class Ebay_trading extends MY_Controller
 
 
     //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
-    public function get_ebay_details($calculated)
+    public function get_shipping_service($type = NULL)
     {
 
         // Create the request object.
@@ -111,28 +111,26 @@ Class Ebay_trading extends MY_Controller
                 $shipping_arr = [];
                 $shipping_arr['#'] = '-- Please Select Shipping Service --';
                 foreach ($response->ShippingServiceDetails as $details) {
-                    if (is_null($calculated)) {
+                    if ($type == 'flat') {
                     //var_dump($details);
                         if ($details->ValidForSellingFlow != 0) {
                             $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
                         }
                     }
-                    else{
+                    if($type == 'calculated'){
                      //var_dump($details->ServiceType);
                         //var_dump(gettype($details->ServiceType));
+                        // if(in_array('Calculated', $details->ServiceType)) {
                         if($details->ServiceType[1] === 'Calculated') {
                             if ($details->ValidForSellingFlow != 0) {
                                 $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
                             }
                         }
                     }
-
                 }
                 return $shipping_arr;
             }
         }
-
-
     }
 
     public function get_response($response)

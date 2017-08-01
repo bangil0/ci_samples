@@ -30,3 +30,6 @@ https://github.com/cahudson/eBayCommerceCookbook/blob/master/1_3_presenting_prod
 
 #Shipping Guide by david Sadler
 https://stackoverflow.com/questions/18410701/xml-ebay-trading-api-shipping-element
+
+#eBay Shipping Guide Details - Sure Done  - Good one.. Take Print and Learn
+https://www.suredone.com/guides/ebay-shipping-guide-details/

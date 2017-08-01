@@ -440,8 +440,8 @@ $this->load->view('generic/flash_error');
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_dropdown('options', $shipping, '#', $data);
-            echo count($shipping);
+            echo form_dropdown('options', $shipping_service, '#', $data);
+            echo count($shipping_service);
             ?>
         </div>
     </div>

@@ -15,7 +15,7 @@ class Add_item extends Private_Controller
     {
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
-        $data['shipping'] = $this->ebay_trading->get_ebay_details(null);
+        $data['shipping_service'] = $this->ebay_trading->get_shipping_service('calculated');
 
         if (!empty($this->ebay_shopping->get_error())) {
             $data['error'] = $this->ebay_shopping->get_error();
