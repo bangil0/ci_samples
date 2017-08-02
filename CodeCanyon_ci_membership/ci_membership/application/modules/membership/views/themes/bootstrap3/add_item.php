@@ -82,12 +82,10 @@ $this->load->view('generic/flash_error');
     <div class="col-md-6"><p>Coming soon..</p></div>
 </div>
 
-
-
 <h3>Listing Profile</h3>
 
 <h4>General Settings</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
             <div class="form-group" id="show_sub_categories">
                 <?php
@@ -111,7 +109,7 @@ $this->load->view('generic/flash_error');
     </div>
 </div>
 
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -147,7 +145,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -181,7 +179,7 @@ $this->load->view('generic/flash_error');
     </div>
 </div>
 
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -215,7 +213,7 @@ $this->load->view('generic/flash_error');
 
 
 <h4>Item Specifics</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -253,7 +251,7 @@ $this->load->view('generic/flash_error');
 
 <h4>Item Location</h4>
 
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -305,7 +303,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h4>Best Offer</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -324,7 +322,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h3>Pricing & SKU/Custom Label</h3>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -359,7 +357,7 @@ $this->load->view('generic/flash_error');
 
 
 </div>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -378,7 +376,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h3>Return Settings</h3>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -451,7 +449,7 @@ $this->load->view('generic/flash_error');
 
 <h3>Shipping Profile</h3>
 <h4>General shipping details</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -468,7 +466,7 @@ $this->load->view('generic/flash_error');
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -503,7 +501,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h4>Domestic Shipping details</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-3">
         <div class="form-group" >
             <?php
@@ -568,7 +566,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h4>International Shipping details</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -619,7 +617,7 @@ $this->load->view('generic/flash_error');
 
 <h3>Package Details for Calculated Shipping or eBay Managed Returns</h3>
 <h4>Dimensions (inches)</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -667,7 +665,7 @@ $this->load->view('generic/flash_error');
     </div>
 </div>
 <h4>Weight</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -699,7 +697,7 @@ $this->load->view('generic/flash_error');
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" >
             <?php
@@ -719,7 +717,7 @@ $this->load->view('generic/flash_error');
 
 <h3>Payment Profile</h3>
 
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
@@ -738,7 +736,7 @@ $this->load->view('generic/flash_error');
 </div>
 
 <h4>Accepted Payments:</h4>
-<div class="row">
+<div class="row temphide">
     <div class="col-md-6">
         <div class="form-group" >
             <?php
