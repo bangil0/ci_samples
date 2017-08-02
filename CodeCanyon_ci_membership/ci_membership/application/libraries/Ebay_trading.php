@@ -50,6 +50,7 @@ Class Ebay_trading extends MY_Controller
         // Begin creating the auction item.
         $item = new Types\ItemType();
 
+        $item->DispatchTimeMax = 3;
         /**
          * We want a single quantity auction.
          * Otherwise known as a Chinese auction.
@@ -86,7 +87,7 @@ Class Ebay_trading extends MY_Controller
         $listing_type_arr = [];
         $listing_type_arr[array_keys($arr)[2]] = 'Auction';
         $listing_type_arr[array_keys($arr)[7]] = 'Fixed Price Item';
-        $listing_type_arr[array_keys($arr)[7]] = 'Multi Variation (Fixed Price)';
+        $listing_type_arr['multi'] = 'Multi Variation (Fixed Price)'; // This needs to be fix later
         return $listing_type_arr;
 //        $sub_category_arr = [];
 //        foreach ($arr as $fieldKey => $setLater) {

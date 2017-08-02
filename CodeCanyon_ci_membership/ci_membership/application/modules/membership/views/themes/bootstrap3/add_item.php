@@ -213,6 +213,44 @@ $this->load->view('generic/flash_error');
     </div>
 </div>
 
+
+<h4>Item Specifics</h4>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group" >
+            <?php
+            echo form_label('Item Condition:', '');
+            $data = array(
+                'name'          => 'item_condition:',
+                'id'            => 'item_condition',
+                'value'         => '',
+                'class'         => 'form-control',
+                'placeholder'   => '',
+            );
+            echo form_dropdown('options', '', '#', $data);
+            ?>
+        </div>
+
+        <div class="form-group" >
+            <?php
+            echo form_label('Condition Description', '');
+            $data = array(
+                'name'          => 'condition_description',
+                'id'            => 'condition_description',
+                'value'         => '',
+                'class'         => 'form-control',
+                'placeholder'   => '',
+            );
+            echo form_textarea($data);
+            ?>
+        </div>
+
+    </div>
+
+
+</div>
+
+
 <h4>Item Location</h4>
 
 <div class="row">
@@ -261,6 +299,25 @@ $this->load->view('generic/flash_error');
                 'placeholder'   => '',
             );
             echo form_input($data);
+            ?>
+        </div>
+    </div>
+</div>
+
+<h4>Best Offer</h4>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group" >
+            <?php
+            echo form_label('Best Offer', '');
+            $data = array(
+                'name'          => 'best_offer',
+                'id'            => 'best_offer',
+                'value'         => '',
+                'class'         => 'form-control',
+                'placeholder'   => '',
+            );
+            echo form_dropdown('options','', '#', $data);
             ?>
         </div>
     </div>
