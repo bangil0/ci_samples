@@ -33,3 +33,16 @@ https://stackoverflow.com/questions/18410701/xml-ebay-trading-api-shipping-eleme
 
 #eBay Shipping Guide Details - Sure Done  - Good one.. Take Print and Learn
 https://www.suredone.com/guides/ebay-shipping-guide-details/
+
+#add-fixed-price-items.php
+https://github.com/davidtsadler/ebay-sdk-examples/blob/master/large-merchant-services/02-add-fixed-price-items.php
+
+#HTML/PHP Populating Dropdown from ENUM values in Form
+http://www.pcserviceselectronics.co.uk/php-tips/enum.php
+------------------------------------------
+#UPC field is missing - AddfixedPriceitem
+https://groups.google.com/forum/#!searchin/ebay-sdk-php/ProductListingDetails|sort:relevance/ebay-sdk-php/vNp7kGrJSFY/QZUAV1oqBwAJ
+https://groups.google.com/forum/#!searchin/ebay-sdk-php/ProductListingDetails|sort:relevance/ebay-sdk-php/QUruu1jg1eU/OgnEoWmpAgAJ
+#Listing With Product Identifiers
+https://forums.developer.ebay.com/questions/13385/help-urgent-error-the-item-specific-mpna-is-missin.html#answer-13387
+------------------------------------------

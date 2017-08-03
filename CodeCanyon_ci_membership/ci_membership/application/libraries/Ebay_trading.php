@@ -58,6 +58,9 @@ Class Ebay_trading extends MY_Controller
         $item->ListingType = Enums\ListingTypeCodeType::C_CHINESE;
         $item->Quantity = 1;
 
+        $item->ProductListingDetails = new Types\ProductListingDetailsType();
+        $item->ProductListingDetails->UPC = $UPC;
+
     }
 
     public function get_shipping_type()
