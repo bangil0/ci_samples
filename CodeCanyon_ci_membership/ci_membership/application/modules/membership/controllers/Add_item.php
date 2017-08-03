@@ -6,6 +6,8 @@ class Add_item extends Private_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('form');
+        $this->load->library('form_validation');
         $this->load->library('ebay_shopping');
         $this->load->library('ebay_trading');
         self::$page = "add_item";
@@ -18,19 +20,6 @@ class Add_item extends Private_Controller
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
         $data['shipping_service'] = $this->ebay_trading->get_shipping_service('','Calculated');
         $data['country'] = $this->ebay_trading->get_country();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -61,6 +50,7 @@ class Add_item extends Private_Controller
           } else if ($checkError != 0) {
               $data['category'] = $this->ebay_shopping->get_category($response);
           }*/
+
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
 
@@ -108,6 +98,25 @@ class Add_item extends Private_Controller
 
     public function add()
     {
+        //Validate form input
+        $this->form_validation->set_error_delimiters('<p>', '</p>');
+        $this->form_validation->set_rules('product_title', 'Title', 'trim|required|max_length[80]|min_length[2]');
+        $this->form_validation->set_rules('product_subtitle', 'Subtitle', 'trim|max_length[55]|min_length[2]');
+        $this->form_validation->set_rules('description', 'Description', 'trim');
+
+        if (!$this->form_validation->run()) {
+            $this->session->set_flashdata('error', validation_errors());
+            $this->session->set_flashdata($_POST);
+            redirect('/membership/add_item/');
+            exit();
+        }
+
+        //Refer dating home controller
+        $data_array = array(
+            'product_title' => strip_tags($this->input->post('product_title')),
+            'product_subtitle' => strip_tags($this->input->post('product_subtitle')),
+            'description' => $this->input->post('description'),
+        );
 
     }
 }

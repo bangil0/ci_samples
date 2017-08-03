@@ -192,7 +192,6 @@ Class Ebay_trading extends MY_Controller
 
     public function get_response($response)
     {
-
         if (isset($response->Errors)) {
             foreach ($response->Errors as $error) {
                 $err = array(
@@ -200,9 +199,25 @@ Class Ebay_trading extends MY_Controller
                     'ShortMessage' => $error->ShortMessage,
                     'LongMessage' => $error->LongMessage
                 );
-//                var_dump($err);
-                //return $err;
-                $this->set_error($err);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Using custom way to showing error message
+                |--------------------------------------------------------------------------
+                |
+                | Leave the following in this method.
+                | $this->set_error($err);
+                |
+                | Use the following IF statement in controller to set the
+                | error function used in view file : generic/flash_error
+                |
+                | if (!empty($this->ebay_shopping->get_error())) {
+                | $data['error'] = $this->ebay_shopping->get_error();
+                | }
+                |
+                */
+
+                $this->session->set_flashdata('ebay_response_error', $err);
             }
         }
         if ($response->Ack !== 'Failure') {

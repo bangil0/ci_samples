@@ -2,12 +2,10 @@
 
 <?php $this->load->view('themes/' . Settings_model::$db_config['adminpanel_theme'] . '/partials/content_head.php'); ?>
 
-<?php
-$this->load->view('generic/flash_error');
-?>
-
+<?php $this->load->view('generic/flash_error');?>
 
 <?php echo form_open('membership/add_item/add', array('class' => 'email', 'id' => 'myform')); ?>
+
 <h3>General Settings</h3>
 <div class="row">
     <div class="col-md-6">
@@ -15,12 +13,12 @@ $this->load->view('generic/flash_error');
             <?php
             echo form_label('Title', '');
             $data = array(
-                'name'          => 'title',
-                'id'            => 'title',
-                'value'         => '',
+                'name'          => 'product_title',
+                'id'            => 'product_title',
+                'value'         =>  $this->session->flashdata('product_title'),
                 'class'         => 'form-control',
                 'placeholder'   => '',
-
+                'required'      => 'required'
             );
             echo form_input($data);
             ?>
@@ -30,12 +28,11 @@ $this->load->view('generic/flash_error');
             <?php
             echo form_label('Subtitle (optional - additional fees may apply)', '');
             $data = array(
-                'name'          => 'subtitle',
-                'id'            => 'subtitle',
-                'value'         => '',
+                'name'          => 'product_subtitle',
+                'id'            => 'product_subtitle',
+                'value'         => $this->session->flashdata('product_subtitle'),
                 'class'         => 'form-control',
                 'placeholder'   => '',
-
             );
             echo form_input($data);
             ?>
@@ -47,10 +44,9 @@ $this->load->view('generic/flash_error');
             $data = array(
                 'name'          => 'description',
                 'id'            => 'description',
-                'value'         => '',
+                'value'         => $this->session->flashdata('description'),
                 'class'         => 'form-control',
                 'placeholder'   => '',
-
             );
             echo form_textarea($data);
             ?>
@@ -783,6 +779,12 @@ $this->load->view('generic/flash_error');
 
     </div>
 </div>
+
+
+
+<button type="submit" class="btn btn-primary">Add Item</button>
+
+
 
 <?php echo form_close() ?>
 
