@@ -46,3 +46,6 @@ https://groups.google.com/forum/#!searchin/ebay-sdk-php/ProductListingDetails|so
 #Listing With Product Identifiers
 https://forums.developer.ebay.com/questions/13385/help-urgent-error-the-item-specific-mpna-is-missin.html#answer-13387
 ------------------------------------------
+
+#ebay additem example - Amarsth10/Ebay
+https://github.com/Amarsth10/Ebay/blob/master/app/controllers/EbayController.php
