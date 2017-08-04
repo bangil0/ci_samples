@@ -120,21 +120,31 @@ Class Ebay_shopping extends MY_Controller
                             //    $browse ='<option value="'.$category->CategoryID.'">'.$category->CategoryName.'</option>';
                         }
                     }
+                } else if ($category->CategoryID != $categoryID) {
+                    {
+                        $sub_category_arr[$category->CategoryID] = $category->CategoryName;
+                    }
+                } else {
+                    $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a categor <option value="' . $category->CategoryID . '">' . $category->CategoryName . '</option></label>';
+                    return $browse;
                 }
             }
 
-            if (count($sub_category_arr) == 1) {
-                $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category ID : <option value="' . $categoryID . '">' . $categoryID . '</option></label>';
-                return $browse;
-                //$success = "<label style=\"padding:7px;font-size:12px;\">You have selected a category.</label>";
+            /*  if (count($sub_category_arr) == 1) {
+                  $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category ID : <option value="' . $categoryID . '">' . $categoryID . '</option></label>';
+                  return $browse;
+                  //$success = "<label style=\"padding:7px;font-size:12px;\">You have selected a category.</label>";
 
-            } else {
-                $attributes = array('id' => '', 'class' => 'form-control parent');
-                return form_dropdown('options', $sub_category_arr, '#', $attributes);
-            }
+              } else {
+                  $attributes = array('id' => '', 'class' => 'form-control parent');
+                  return form_dropdown('options', $sub_category_arr, '#', $attributes);
+              }*/
+
+            $attributes = array('id' => '', 'class' => 'form-control parent');
+            return form_dropdown('options', $sub_category_arr, '#', $attributes);
 
         }
-         return 'some error';
+        return 'some error';
 //        return $sub_category_arr;
     }
 

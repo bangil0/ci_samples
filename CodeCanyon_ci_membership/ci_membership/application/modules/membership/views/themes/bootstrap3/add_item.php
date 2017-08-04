@@ -56,19 +56,39 @@
         <div class="form-group" >
             <?php
             echo form_label('Product Identifier (optional)', '');
-            $data = array(
-                'name'          => 'product_identifier',
-                'id'            => 'product_identifier',
+            $data_identifier = array(
+                'name'          => 'prd_identifier',
+                'id'            => 'prd_identifier',
                 'value'         => '',
                 'class'         => 'form-control',
                 'placeholder'   => '',
+            );
+            $data_type = array(
+                'id'            => 'prd_identifier_type',
+                'value'         => '',
+                'class'         => 'form-control',
+                'placeholder'   => '',
+                'onChange'      => "brandmpn_pair_Check(this);"
 
             );
-            echo form_input($data);
-            echo form_dropdown('options', '', '#');
+            echo form_input($data_identifier);
+            echo form_dropdown('prd_identifier_type',$prd_identifier_type, 'UPC', $data_type);
             ?>
         </div>
 
+        <div class="form-group"  id="brandmpn_pair" style="display: none;">
+            <?php
+            echo form_label('Product Brand', '');
+            $data = array(
+                'name'          => 'product_brand_mpn',
+                'id'            => 'product_brand_mpn',
+                'value'         => $this->session->flashdata('product_brand_mpn'),
+                'class'         => 'form-control',
+                'placeholder'   => '',
+            );
+            echo form_input($data);
+            ?>
+        </div>
 
     </div>
 </div>
@@ -81,7 +101,7 @@
 <h3>Listing Profile</h3>
 
 <h4>General Settings</h4>
-<div class="row temphide">
+<div class="row ">
     <div class="col-md-6">
             <div class="form-group" id="show_sub_categories">
                 <?php

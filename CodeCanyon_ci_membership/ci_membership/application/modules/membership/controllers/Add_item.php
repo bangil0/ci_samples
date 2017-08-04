@@ -16,11 +16,12 @@ class Add_item extends Private_Controller
     public function index()
     {
         $data['category'] = $this->ebay_shopping->get_parent_category();
+//        var_dump($data['category']);
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
         $data['shipping_service'] = $this->ebay_trading->get_shipping_service('','Calculated');
         $data['country'] = $this->ebay_trading->get_country();
-
+        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand and MPN' );
 
 
 
@@ -63,6 +64,10 @@ class Add_item extends Private_Controller
         $this->form_validation->set_rules('product_title', 'Title', 'trim|required|max_length[80]|min_length[2]');
         $this->form_validation->set_rules('product_subtitle', 'Subtitle', 'trim|max_length[55]|min_length[2]');
         $this->form_validation->set_rules('description', 'Description', 'trim');
+        $this->form_validation->set_rules('prd_identifier', 'Product Identifier', 'trim|max_length[25]|min_length[2]');
+        $this->form_validation->set_rules('prd_identifier_type', 'Product Identifier Type', 'trim');
+        $this->form_validation->set_rules('product_brand_mpn', 'Product Brand', 'trim|max_length[25]|min_length[2]');
+
 
         if (!$this->form_validation->run()) {
             $this->session->set_flashdata('error', validation_errors());
@@ -76,6 +81,9 @@ class Add_item extends Private_Controller
             'product_title' => strip_tags($this->input->post('product_title')),
             'product_subtitle' => strip_tags($this->input->post('product_subtitle')),
             'description' => $this->input->post('description'),
+            'prd_identifier' => $this->input->post('prd_identifier'),
+            'prd_identifier_type' => $this->input->post('prd_identifier_type'),
+            'product_brand_mpn' => $this->input->post('product_brand_mpn'),
         );
 
     }
@@ -116,7 +124,7 @@ class Add_item extends Private_Controller
             echo json_encode($output);
 
         } else {
-            return false;
+            exit('No direct script access allowed');
         }
     }
 }

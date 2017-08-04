@@ -47,6 +47,7 @@ Class Ebay_trading extends MY_Controller
         $request->RequesterCredentials = new Types\CustomSecurityHeaderType();
         $request->RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
 
+
         // Begin creating the auction item.
         $item = new Types\ItemType();
 
@@ -59,7 +60,13 @@ Class Ebay_trading extends MY_Controller
         $item->Quantity = 1;
 
         $item->ProductListingDetails = new Types\ProductListingDetailsType();
+        $item->ProductListingDetails->ISBN = $ISBN;
         $item->ProductListingDetails->UPC = $UPC;
+        $item->ProductListingDetails->EAN = $EAN;
+
+        $item->ProductListingDetails->BrandMPN = new DTS\eBaySDK\Trading\Types\BrandMPNType();
+        $item->ProductListingDetails->BrandMPN->Brand = '';
+        $item->ProductListingDetails->BrandMPN->MPN = '';
 
     }
 
