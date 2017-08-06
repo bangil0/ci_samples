@@ -125,7 +125,7 @@ Class Ebay_shopping extends MY_Controller
                         $sub_category_arr[$category->CategoryID] = $category->CategoryName;
                     }
                 } else {
-                    $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a categor <option value="' . $category->CategoryID . '">' . $category->CategoryName . '</option></label>';
+                    $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category <option value="' . $category->CategoryID . '">' . $category->CategoryName .' '. $category->CategoryID.'</option></label>';
                     return $browse;
                 }
             }
@@ -164,7 +164,7 @@ Class Ebay_shopping extends MY_Controller
         if (isset($response->Errors)) {
             foreach ($response->Errors as $error) {
                 $err = array(
-                    'SeverityCode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
                     'ShortMessage' => $error->ShortMessage,
                     'LongMessage' => $error->LongMessage
                 );

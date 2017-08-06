@@ -49,3 +49,15 @@ https://forums.developer.ebay.com/questions/13385/help-urgent-error-the-item-spe
 
 #ebay additem example - Amarsth10/Ebay
 https://github.com/Amarsth10/Ebay/blob/master/app/controllers/EbayController.php
+
+#Ebay Common Errors Guide - from Neto - Very Useful
+https://www.neto.com.au/docs/ebay/tips-tricks/ebay-common-errors-guide/
+
+#How to identify the required item specifics
+https://ebaydts.com/eBayKBDetails?KBid=1930
+
+#Working with Custom Item Specifics
+http://developer.ebay.com/DevZone/guides/ebayfeatures/Development/ItemSpecifics.html
+
+#Listing with Custom Item Specifics
+http://developer.ebay.com/DevZone/guides/ebayfeatures/Development/ItemSpecifics-Listing.html

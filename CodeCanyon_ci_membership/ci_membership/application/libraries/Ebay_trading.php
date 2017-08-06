@@ -12,6 +12,7 @@ Class Ebay_trading extends MY_Controller
 
     // Create the service object.
     private $service;
+    private $requesterCredentials;
 
     public function __construct()
     {
@@ -22,6 +23,8 @@ Class Ebay_trading extends MY_Controller
 
         // Create the service object.
         $this->service = $this->get_TradingService();
+
+        $this->requesterCredentials = $this->get_RequesterCredentials();
     }
 
     public function get_TradingService()
@@ -35,6 +38,16 @@ Class Ebay_trading extends MY_Controller
             'debug' => $this->config->item('debug'),
         ]);
         return $service;
+    }
+
+    public function get_RequesterCredentials()
+    {
+
+        $RequesterCredentials = new Types\CustomSecurityHeaderType();
+        $RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
+
+        return $RequesterCredentials;
+
     }
 
     public function add_item()
@@ -187,14 +200,114 @@ Class Ebay_trading extends MY_Controller
         }
     }
 
+    public function get_CategoryFeatures($categoryID = NUll)
+    {
+        if ($categoryID) {
+            // Create the request object.
+            $request = new Types\GetCategoryFeaturesRequestType();
+
+            // An user token is required when using the Trading service.
+            $request->RequesterCredentials = $this->requesterCredentials;
+
+            //ask for a single category
+            $request->DetailLevel = ['ReturnAll', 'ReturnSummary'];
+            $request->CategoryID = $categoryID;
+            $request->ViewAllNodes = true;
+            $request->AllFeaturesForCategory = true;
+            /*
+            |--------------------------------------------------------------------------
+            | Refer
+            |--------------------------------------------------------------------------
+            |
+            | https://forums.developer.ebay.com/questions/13385/help-urgent-error-the-item-specific-mpna-is-missin.html#answer-13387
+            | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
+            |
+            */
+            $request->FeatureID = [
+                'BrandMPNIdentifierEnabled',
+                'EANEnabled',
+                'ISBNEnabled',
+                'UPCEnabled',
+                'ItemSpecificsEnabled',
+                'VariationsEnabled'];
+
+            $response = $this->service->getCategoryFeatures($request);
+
+            // Check errors
+            $checkError = $this->get_response($response);
+
+            if ($checkError != 0) {
+                if (count($response->Category)) {
+                    foreach ($response->Category as $details) {
+                        var_dump($details);
+                        /*foreach ($details->ListingDuration as $detailss) {
+                            var_dump($detailss);
+                        }*/
+                    }
+                }
+            }
+
+        } else return false;
+    }
+
+
+    public function get_category_item_specifics(array $categoryID)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Refer Link
+        |--------------------------------------------------------------------------
+        | https://groups.google.com/forum/#!searchin/ebay-sdk-php/GetCategorySpecifics|sort:relevance/ebay-sdk-php/1NkF1rJFzvU/ZXGK-j78tnEJ
+        */
+
+        // Create the request object.
+        $request = new Types\GetCategorySpecificsRequestType();
+
+        // An user token is required when using the Trading service.
+        $request->RequesterCredentials = $this->requesterCredentials;
+
+        if ($categoryID) {
+            $request->CategoryID = $categoryID;
+            $response = $this->service->getCategorySpecifics($request);
+            // Check errors
+            $checkError = $this->get_response($response);
+            if ($checkError != 0) {
+                if (count($response->Recommendations)) {
+                    $name_value_arr = [];
+                    foreach ($response->Recommendations as $Recommendation) {
+                        //var_dump($Recommendation);
+                        foreach ($Recommendation->NameRecommendation as $NameRecommendation) {
+                            $name = $NameRecommendation->Name;
+                            if ($NameRecommendation->ValidationRules->MinValues >= 1) {
+                                /**
+                                 * Required item specifics have * in Name of Specific
+                                 */
+                                $name = $NameRecommendation->Name . '<strong>*</strong>';
+                                echo $name;
+                            }
+
+                            // var_dump($NameRecommendation);
+                            foreach ($NameRecommendation->ValueRecommendation as $ValueRecommendation) {
+                                //var_dump($ValueRecommendation);
+                                $value = $ValueRecommendation->Value;
+                                echo $value;
+                            }
+
+                        }
+                    }
+                    //return $name_value_arr;
+                }
+            }
+        } else return false;
+    }
+
     public function get_eBayDetails($Details)
     {
         // Create the request object.
         $request = new Types\GeteBayDetailsRequestType();
 
         // An user token is required when using the Trading service.
-        $request->RequesterCredentials = new Types\CustomSecurityHeaderType();
-        $request->RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
+        $request->RequesterCredentials = $this->requesterCredentials;
         $request->DetailName = array($Details);
 
         return $request;
@@ -205,7 +318,7 @@ Class Ebay_trading extends MY_Controller
         if (isset($response->Errors)) {
             foreach ($response->Errors as $error) {
                 $err = array(
-                    'SeverityCode' => $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
                     'ShortMessage' => $error->ShortMessage,
                     'LongMessage' => $error->LongMessage
                 );

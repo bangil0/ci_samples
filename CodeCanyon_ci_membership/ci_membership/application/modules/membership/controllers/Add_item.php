@@ -16,14 +16,17 @@ class Add_item extends Private_Controller
     public function index()
     {
         $data['category'] = $this->ebay_shopping->get_parent_category();
-//        var_dump($data['category']);
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
         $data['shipping_service'] = $this->ebay_trading->get_shipping_service('','Calculated');
         $data['country'] = $this->ebay_trading->get_country();
-        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand and MPN' );
+        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN ' );
 
 
+
+        $data['category_features'] = $this->ebay_trading->get_CategoryFeatures('15687');
+        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics( array('15687'));
+//        var_dump( $data['category_item_specifics']);
 
 
         if (!empty($this->ebay_shopping->get_error())) {
@@ -67,7 +70,6 @@ class Add_item extends Private_Controller
         $this->form_validation->set_rules('prd_identifier', 'Product Identifier', 'trim|max_length[25]|min_length[2]');
         $this->form_validation->set_rules('prd_identifier_type', 'Product Identifier Type', 'trim');
         $this->form_validation->set_rules('product_brand_mpn', 'Product Brand', 'trim|max_length[25]|min_length[2]');
-
 
         if (!$this->form_validation->run()) {
             $this->session->set_flashdata('error', validation_errors());
