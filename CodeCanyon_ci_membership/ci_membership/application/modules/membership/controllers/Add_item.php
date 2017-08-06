@@ -26,7 +26,7 @@ class Add_item extends Private_Controller
 
         $data['category_features'] = $this->ebay_trading->get_CategoryFeatures('15687');
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics( array('15687'));
-//        var_dump( $data['category_item_specifics']);
+       var_dump( $data['category_item_specifics']);
 
 
         if (!empty($this->ebay_shopping->get_error())) {

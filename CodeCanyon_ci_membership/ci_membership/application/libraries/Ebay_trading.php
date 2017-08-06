@@ -283,8 +283,8 @@ Class Ebay_trading extends MY_Controller
                                  * Required item specifics have * in Name of Specific
                                  */
                                 $name = $NameRecommendation->Name . '<strong>*</strong>';
-                                echo $name;
                             }
+                            echo $name;
 
                             // var_dump($NameRecommendation);
                             foreach ($NameRecommendation->ValueRecommendation as $ValueRecommendation) {
@@ -292,7 +292,6 @@ Class Ebay_trading extends MY_Controller
                                 $value = $ValueRecommendation->Value;
                                 echo $value;
                             }
-
                         }
                     }
                     //return $name_value_arr;
