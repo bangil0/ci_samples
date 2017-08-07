@@ -61,3 +61,10 @@ http://developer.ebay.com/DevZone/guides/ebayfeatures/Development/ItemSpecifics.
 
 #Listing with Custom Item Specifics
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Development/ItemSpecifics-Listing.html
+
+#Several examples of using the eBay SDK for PHP http://devbay.net
+https://github.com/manojkm/ebay-sdk-examples
+
+#Another add item example
+https://hotexamples.com/site/file?hash=0xd6e1b79fb385d896aef92c1efb59b0c1ade0d0e775b0da0d8ea4d2ec498db385&fullName=frontend/components/EbayListing.php&project=sea129/kbay
+https://github.com/sea129/kbay
