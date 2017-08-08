@@ -273,9 +273,8 @@ Class Ebay_trading extends MY_Controller
             $checkError = $this->get_response($response);
             if ($checkError != 0) {
                 if (count($response->Recommendations)) {
-                    $name_value_arr = [];
+                    $name_value_arr = array();
                     foreach ($response->Recommendations as $Recommendation) {
-                        //var_dump($Recommendation);
                         foreach ($Recommendation->NameRecommendation as $NameRecommendation) {
                             $name = $NameRecommendation->Name;
                             if ($NameRecommendation->ValidationRules->MinValues >= 1) {
@@ -284,19 +283,22 @@ Class Ebay_trading extends MY_Controller
                                  */
                                 $name = $NameRecommendation->Name . '<strong>*</strong>';
                             }
-                            //echo $name;
-                            $value =[];
-                            // var_dump($NameRecommendation);
+
+                            /*
+                           |--------------------------------------------------------------------------
+                           | Finally Helped
+                           |--------------------------------------------------------------------------
+                           |http://prntscr.com/g5zzn5
+                           |https://stackoverflow.com/questions/5421426/php-xml-xpath-node-element-iteration-and-inserting-into-array
+                           */
+                            $values_arr = array();
                             foreach ($NameRecommendation->ValueRecommendation as $ValueRecommendation) {
-                                //var_dump($ValueRecommendation);
-                                $value = $ValueRecommendation->Value;
-                                $all_value=explode(",",$value);
-                                foreach($all_value as $av)
-                                {
-                                    $name_value_arr[$name] = $av;
-                                }
+                                $values = (string)$ValueRecommendation->Value;
+                                array_push($values_arr, $values);
+                                //$converted_values = explode(",",$value);
+                                // echo print_r($converted_values);
                             }
-                           //return $name_value_arr;
+                            $name_value_arr[$name] = $values_arr;
                         }
                     }
                     return $name_value_arr;
