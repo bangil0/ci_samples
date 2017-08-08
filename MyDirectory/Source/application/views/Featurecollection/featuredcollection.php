@@ -51,12 +51,15 @@
 
                     
     <section class="cd-gallery">
+
     	<ul>
 			 <?php
       foreach($data as $user) {
 
-      $businessID=$user->id;	
+      $businessID=$user->id;
+      //var_dump($businessID);
       $all_actegories=explode(",",$user->categories);
+      var_dump($all_actegories);
 			 foreach($all_actegories as $category_image)
 			 {
 			 ?>

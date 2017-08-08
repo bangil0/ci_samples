@@ -22,7 +22,7 @@ else
 
 ?>
 
-	</div>
+	</d iv>
 	<div class="yp-featured-banner">
 		 <img src="<?php  echo $result->image; ?>">
 	</div>

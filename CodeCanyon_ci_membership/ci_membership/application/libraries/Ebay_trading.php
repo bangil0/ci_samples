@@ -284,18 +284,22 @@ Class Ebay_trading extends MY_Controller
                                  */
                                 $name = $NameRecommendation->Name . '<strong>*</strong>';
                             }
-                            echo $name;
+                            //echo $name;
                             $value =[];
                             // var_dump($NameRecommendation);
                             foreach ($NameRecommendation->ValueRecommendation as $ValueRecommendation) {
                                 //var_dump($ValueRecommendation);
                                 $value = $ValueRecommendation->Value;
-                                echo $value;
+                                $all_value=explode(",",$value);
+                                foreach($all_value as $av)
+                                {
+                                    $name_value_arr[$name] = $av;
+                                }
                             }
-                            //return $name_value_arr[$name] =  $value;
+                           //return $name_value_arr;
                         }
                     }
-                   // return $name_value_arr;
+                    return $name_value_arr;
                 }
             }
         } else return false;
