@@ -6,10 +6,8 @@ use \DTS\eBaySDK\Trading\Types;
 use \DTS\eBaySDK\Trading\Enums;
 
 
-Class Ebay_trading extends MY_Controller
+Class Ebay_trading extends Private_Controller
 {
-    protected $error_message = [];
-
     // Create the service object.
     private $service;
     private $requesterCredentials;
@@ -18,37 +16,11 @@ Class Ebay_trading extends MY_Controller
     {
         parent::__construct();
 
-        // Load custom config
-        $this->load->config('ebay');
-
         // Create the service object.
         $this->service = $this->get_TradingService();
-
         $this->requesterCredentials = $this->get_RequesterCredentials();
     }
 
-    public function get_TradingService()
-    {
-        // Create headers to send with CURL request.
-        $service = new Services\TradingService([
-            'credentials' => $this->config->item('credentials'),
-            'siteId' => Constants\SiteIds::US,
-            'sandbox' => $this->config->item('sandbox'),
-            'apiVersion' => $this->config->item('tradingApiVersion'),
-            'debug' => $this->config->item('debug'),
-        ]);
-        return $service;
-    }
-
-    public function get_RequesterCredentials()
-    {
-
-        $RequesterCredentials = new Types\CustomSecurityHeaderType();
-        $RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
-
-        return $RequesterCredentials;
-
-    }
 
     public function add_item()
     {
@@ -241,7 +213,7 @@ Class Ebay_trading extends MY_Controller
             if ($checkError != 0) {
                 if (count($response->Category)) {
                     foreach ($response->Category as $details) {
-                       var_dump($details);
+                        var_dump($details);
                         /*foreach ($details->ListingDuration as $detailss) {
                             var_dump($detailss);
                         }*/
@@ -321,48 +293,5 @@ Class Ebay_trading extends MY_Controller
         return $request;
     }
 
-    public function get_response($response)
-    {
-        if (isset($response->Errors)) {
-            foreach ($response->Errors as $error) {
-                $err = array(
-                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
-                    'ShortMessage' => $error->ShortMessage,
-                    'LongMessage' => $error->LongMessage
-                );
 
-                /*
-                |--------------------------------------------------------------------------
-                | Using custom way to showing error message
-                |--------------------------------------------------------------------------
-                |
-                | Leave the following in this method.
-                | $this->set_error($err);
-                |
-                | Use the following IF statement in controller to set the
-                | error function used in view file : generic/flash_error
-                |
-                | if (!empty($this->ebay_shopping->get_error())) {
-                | $data['error'] = $this->ebay_shopping->get_error();
-                | }
-                |
-                */
-
-                $this->session->set_flashdata('ebay_response_error', $err);
-            }
-        }
-        if ($response->Ack !== 'Failure') {
-            return true;
-        } else return false;
-    }
-
-    public function set_error($error)
-    {
-        $this->error_message = $error;
-    }
-
-    public function get_error()
-    {
-        return $this->error_message;
-    }
 }

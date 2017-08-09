@@ -1,12 +1,29 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+
+use \DTS\eBaySDK\Shopping\Services\ShoppingService;
+use \DTS\eBaySDK\Shopping\Types as S_Types;
+use \DTS\eBaySDK\Shopping\Enums as S_Enums;
+use \DTS\eBaySDK\Constants;
+
+use \DTS\eBaySDK\Trading\Services\TradingService;
+use \DTS\eBaySDK\Trading\Types as T_Types;
+use \DTS\eBaySDK\Trading\Enums as T_Enums;
+
 
 class Private_Controller extends Site_Controller
 {
+
+    protected $error_message = [];
+
 
     public function __construct()
     {
         parent::__construct();
         $this->lang->load('private');
+
+        // Load custom config
+        $this->load->config('ebay');
 
         $this->output->set_header("HTTP/1.0 200 OK");
         $this->output->set_header("HTTP/1.1 200 OK");
@@ -31,11 +48,11 @@ class Private_Controller extends Site_Controller
                 // check banned and active
                 if ($data->banned != 0) {
                     $this->session->set_flashdata('error', '<p>You are banned.</p>');
-                    setcookie("unique_token", null, time() - 60*60*24*3, '/', $cookie_domain, false, false);
+                    setcookie("unique_token", null, time() - 60 * 60 * 24 * 3, '/', $cookie_domain, false, false);
                     redirect("login");
-                }elseif($data->active != 1) {
+                } elseif ($data->active != 1) {
                     $this->session->set_flashdata('error', '<p>Your acount is inactive.</p>');
-                    setcookie("unique_token", null, time() - 60*60*24*3, '/', $cookie_domain, false, false);
+                    setcookie("unique_token", null, time() - 60 * 60 * 24 * 3, '/', $cookie_domain, false, false);
                     redirect("login");
                 }
 
@@ -50,14 +67,14 @@ class Private_Controller extends Site_Controller
                 // get permissions
                 $this->permissions_roles($data->user_id);
 
-                redirect('membership/'. strtolower(Settings_model::$db_config['home_page']));
-            }else{
-                setcookie("unique_token", null, time() - 60*60*24*3, '/', $cookie_domain, false, false);
+                redirect('membership/' . strtolower(Settings_model::$db_config['home_page']));
+            } else {
+                setcookie("unique_token", null, time() - 60 * 60 * 24 * 3, '/', $cookie_domain, false, false);
                 redirect("login");
             }
 
-        }elseif (!$this->session->userdata('logged_in') && !get_cookie('unique_token')) {
-            setcookie("unique_token", null, time() - 60*60*24*3, '/', $cookie_domain, false, false);
+        } elseif (!$this->session->userdata('logged_in') && !get_cookie('unique_token')) {
+            setcookie("unique_token", null, time() - 60 * 60 * 24 * 3, '/', $cookie_domain, false, false);
             redirect("login");
         }
 
@@ -67,6 +84,87 @@ class Private_Controller extends Site_Controller
 
     }
 
+    public function get_ShoppingService()
+    {
+        // Create headers to send with CURL request.
+        $service = new ShoppingService([
+            'credentials' => $this->config->item('credentials'),
+            'siteId' => Constants\SiteIds::US,
+            'sandbox' => $this->config->item('sandbox'),
+            'apiVersion' => $this->config->item('shoppingApiVersion'),
+            'debug' => $this->config->item('debug'),
 
+        ]);
+        return $service;
+    }
+
+
+    public function get_TradingService()
+    {
+        // Create headers to send with CURL request.
+        $service = new TradingService([
+            'credentials' => $this->config->item('credentials'),
+            'siteId' => Constants\SiteIds::US,
+            'sandbox' => $this->config->item('sandbox'),
+            'apiVersion' => $this->config->item('tradingApiVersion'),
+            'debug' => $this->config->item('debug'),
+        ]);
+        return $service;
+    }
+
+    public function get_RequesterCredentials()
+    {
+
+        $RequesterCredentials = new T_Types\CustomSecurityHeaderType();
+        $RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
+
+        return $RequesterCredentials;
+
+    }
+
+    public function get_response($response)
+    {
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+                $err = array(
+                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Using custom way to showing error message
+                |--------------------------------------------------------------------------
+                |
+                | Leave the following in this method.
+                | $this->set_error($err);
+                |
+                | Use the following IF statement in controller to set the
+                | error function used in view file : generic/flash_error
+                |
+                | if (!empty($this->ebay_shopping->get_error())) {
+                | $data['error'] = $this->ebay_shopping->get_error();
+                | }
+                |
+                */
+
+                $this->session->set_flashdata('ebay_response_error', $err);
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return true;
+        } else return false;
+    }
+
+    public function set_error($error)
+    {
+        $this->error_message = $error;
+    }
+
+    public function get_error()
+    {
+        return $this->error_message;
+    }
 
 }
