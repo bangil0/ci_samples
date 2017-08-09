@@ -81,6 +81,7 @@ Class Ebay_trading extends MY_Controller
         $item->ProductListingDetails->BrandMPN->Brand = '';
         $item->ProductListingDetails->BrandMPN->MPN = '';
 
+
     }
 
     public function get_shipping_type()
@@ -229,7 +230,8 @@ Class Ebay_trading extends MY_Controller
                 'ISBNEnabled',
                 'UPCEnabled',
                 'ItemSpecificsEnabled',
-                'VariationsEnabled'];
+                'VariationsEnabled',
+                'ConditionEnabled'];
 
             $response = $this->service->getCategoryFeatures($request);
 
@@ -239,7 +241,7 @@ Class Ebay_trading extends MY_Controller
             if ($checkError != 0) {
                 if (count($response->Category)) {
                     foreach ($response->Category as $details) {
-                        var_dump($details);
+                       var_dump($details);
                         /*foreach ($details->ListingDuration as $detailss) {
                             var_dump($detailss);
                         }*/
