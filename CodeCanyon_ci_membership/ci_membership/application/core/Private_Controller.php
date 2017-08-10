@@ -16,14 +16,36 @@ class Private_Controller extends Site_Controller
 
     protected $error_message = [];
 
+    public $shopping_service;
+    public $trading_service;
+    public $requester_credentials;
 
     public function __construct()
     {
         parent::__construct();
         $this->lang->load('private');
 
+########################################################
         // Load custom config
         $this->load->config('ebay');
+
+
+        // Create the service object.
+        if (!isset($this->shopping_service))
+        {
+            $this->shopping_service = $this->get_ShoppingService();
+        }
+
+        if (!isset($this->trading_service))
+        {
+            $this->trading_service = $this->get_TradingService();
+        }
+
+        if (!isset($this->requester_credentials))
+        {
+            $this->requester_credentials = $this->get_RequesterCredentials();
+        }
+########################################################
 
         $this->output->set_header("HTTP/1.0 200 OK");
         $this->output->set_header("HTTP/1.1 200 OK");

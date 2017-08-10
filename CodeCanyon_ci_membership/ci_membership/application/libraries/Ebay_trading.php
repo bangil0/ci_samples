@@ -8,19 +8,18 @@ use \DTS\eBaySDK\Trading\Enums;
 
 Class Ebay_trading extends Private_Controller
 {
-    // Create the service object.
-    private $service;
-    private $requesterCredentials;
+
+    protected $CI;
 
     public function __construct()
     {
         parent::__construct();
 
-        // Create the service object.
-        $this->service = $this->get_TradingService();
-        $this->requesterCredentials = $this->get_RequesterCredentials();
-    }
+        // https://www.codeigniter.com/user_guide/general/creating_libraries.html
+        // Assign the CodeIgniter super-object
+        $this->CI =& get_instance();
 
+    }
 
     public function add_item()
     {
@@ -104,7 +103,7 @@ Class Ebay_trading extends Private_Controller
         $request = $this->get_eBayDetails('CountryDetails');
 
         // Send the request.
-        $response = $this->service->geteBayDetails($request);
+        $response = $this->trading_service->geteBayDetails($request);
 //        var_dump($response);
         // Check errors
         $checkError = $this->get_response($response);
@@ -130,7 +129,7 @@ Class Ebay_trading extends Private_Controller
         $request = $this->get_eBayDetails('ShippingServiceDetails');
 
         // Send the request.
-        $response = $this->service->geteBayDetails($request);
+        $response = $this->trading_service->geteBayDetails($request);
 
         // Check errors
         $checkError = $this->get_response($response);
@@ -180,7 +179,7 @@ Class Ebay_trading extends Private_Controller
             $request = new Types\GetCategoryFeaturesRequestType();
 
             // An user token is required when using the Trading service.
-            $request->RequesterCredentials = $this->requesterCredentials;
+            $request->RequesterCredentials = $this->requester_credentials;
 
             //ask for a single category
             $request->DetailLevel = ['ReturnAll', 'ReturnSummary'];
@@ -205,7 +204,7 @@ Class Ebay_trading extends Private_Controller
                 'VariationsEnabled',
                 'ConditionEnabled'];
 
-            $response = $this->service->getCategoryFeatures($request);
+            $response = $this->trading_service->getCategoryFeatures($request);
 
             // Check errors
             $checkError = $this->get_response($response);
@@ -238,11 +237,11 @@ Class Ebay_trading extends Private_Controller
         $request = new Types\GetCategorySpecificsRequestType();
 
         // An user token is required when using the Trading service.
-        $request->RequesterCredentials = $this->requesterCredentials;
+        $request->RequesterCredentials = $this->requester_credentials;
 
         if ($categoryID) {
             $request->CategoryID = $categoryID;
-            $response = $this->service->getCategorySpecifics($request);
+            $response = $this->trading_service->getCategorySpecifics($request);
             // Check errors
             $checkError = $this->get_response($response);
             if ($checkError != 0) {
@@ -287,7 +286,7 @@ Class Ebay_trading extends Private_Controller
         $request = new Types\GeteBayDetailsRequestType();
 
         // An user token is required when using the Trading service.
-        $request->RequesterCredentials = $this->requesterCredentials;
+        $request->RequesterCredentials = $this->requester_credentials;
         $request->DetailName = array($Details);
 
         return $request;

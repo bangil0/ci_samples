@@ -9,15 +9,19 @@ use \DTS\eBaySDK\Constants;
 Class Ebay_shopping extends Private_Controller
 {
 
-    // Create the service object.
-    private $service;
+    protected $CI;
+
 
     public function __construct()
     {
         parent::__construct();
-        $this->service = $this->get_ShoppingService();
-    }
 
+        // https://www.codeigniter.com/user_guide/general/creating_libraries.html
+        // Assign the CodeIgniter super-object
+        $this->CI =& get_instance();
+
+
+    }
 
     /*
     * Get all parent categories
@@ -32,7 +36,7 @@ Class Ebay_shopping extends Private_Controller
         $request->IncludeSelector = 'ChildCategories';
 
         // Send the request.
-        $response = $this->service->getCategoryInfo($request);
+        $response = $this->shopping_service->getCategoryInfo($request);
 
         // Check errors
         $checkError = $this->get_response($response);
@@ -85,7 +89,7 @@ Class Ebay_shopping extends Private_Controller
         $request->IncludeSelector = 'ChildCategories';
 
         // Send the request.
-        $response = $this->service->getCategoryInfo($request);
+        $response = $this->shopping_service->getCategoryInfo($request);
 
         // Check errors
         $checkError = $this->get_response($response);

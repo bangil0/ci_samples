@@ -64,7 +64,7 @@ Class Ebay_category_features extends Private_Controller
                 'VariationsEnabled',
                 'ConditionEnabled'];
 
-            $response = $this->service->getCategoryFeatures($request);
+            $response = $this->trading_service->getCategoryFeatures($request);
 
             // Check errors
             $checkError = $this->get_response($response);
@@ -81,7 +81,10 @@ Class Ebay_category_features extends Private_Controller
                 }
             }
 
-        } else return false;
+            return $response->Category;
+
+        }
+        else return false;
     }
 
 
