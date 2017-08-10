@@ -11,7 +11,6 @@ Class Ebay_shopping extends Private_Controller
 
     protected $CI;
 
-
     public function __construct()
     {
         parent::__construct();

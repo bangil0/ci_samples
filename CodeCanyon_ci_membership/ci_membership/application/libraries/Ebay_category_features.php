@@ -15,14 +15,14 @@ use \DTS\eBaySDK\Trading\Enums;
 
 Class Ebay_category_features extends Private_Controller
 {
-    private $categoryID = null;
-    private $BrandMPNIdentifierEnabled = null;
-    private $EANEnabled = null;
-    private $ISBNEnabled = null;
-    private $UPCEnabled = null;
-    private $ItemSpecificsEnabled = null;
-    private $VariationsEnabled = null;
-    private $ConditionEnabled = null;
+    public $categoryID = null;
+    public $BrandMPNIdentifierEnabled = null;
+    public $EANEnabled = null;
+    public $ISBNEnabled = null;
+    public $UPCEnabled = null;
+    public $ItemSpecificsEnabled = null;
+    public $VariationsEnabled = null;
+    public $ConditionEnabled = null;
 
     public function __construct($categoryID)
     {
@@ -39,7 +39,7 @@ Class Ebay_category_features extends Private_Controller
             $request = new Types\GetCategoryFeaturesRequestType();
 
             // An user token is required when using the Trading service.
-            $request->RequesterCredentials = $this->requesterCredentials;
+            $request->RequesterCredentials = $this->requester_credentials;
 
             //ask for a single category
             $request->DetailLevel = ['ReturnAll', 'ReturnSummary'];
@@ -70,7 +70,12 @@ Class Ebay_category_features extends Private_Controller
             $checkError = $this->get_response($response);
 
             if ($checkError != 0) {
+
+                $category_features = [];
+
                 foreach ($response->Category as $details) {
+                    var_dump($details);
+
                     $this->BrandMPNIdentifierEnabled = $details->BrandMPNIdentifierEnabled;
                     $this->EANEnabled = $details->EANEnabled;
                     $this->ISBNEnabled = $details->ISBNEnabled;
@@ -79,10 +84,10 @@ Class Ebay_category_features extends Private_Controller
                     $this->VariationsEnabled = $details->VariationsEnabled;
                     $this->ConditionEnabled = $details->ConditionEnabled;
                 }
+
             }
 
             return $response->Category;
-
         }
         else return false;
     }

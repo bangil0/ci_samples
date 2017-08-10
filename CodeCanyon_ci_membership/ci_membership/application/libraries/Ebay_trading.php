@@ -174,53 +174,14 @@ Class Ebay_trading extends Private_Controller
 
     public function get_CategoryFeatures($categoryID = NUll)
     {
-        if ($categoryID) {
-            // Create the request object.
-            $request = new Types\GetCategoryFeaturesRequestType();
 
-            // An user token is required when using the Trading service.
-            $request->RequesterCredentials = $this->requester_credentials;
+      $this->CI->load->library('ebay_category_features', $categoryID);
 
-            //ask for a single category
-            $request->DetailLevel = ['ReturnAll', 'ReturnSummary'];
-            $request->CategoryID = $categoryID;
-            $request->ViewAllNodes = true;
-            $request->AllFeaturesForCategory = true;
-            /*
-            |--------------------------------------------------------------------------
-            | Refer
-            |--------------------------------------------------------------------------
-            |
-            | https://forums.developer.ebay.com/questions/13385/help-urgent-error-the-item-specific-mpna-is-missin.html#answer-13387
-            | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
-            |
-            */
-            $request->FeatureID = [
-                'BrandMPNIdentifierEnabled',
-                'EANEnabled',
-                'ISBNEnabled',
-                'UPCEnabled',
-                'ItemSpecificsEnabled',
-                'VariationsEnabled',
-                'ConditionEnabled'];
+     // var_dump($this->ebay_category_features->UPCEnabled);
 
-            $response = $this->trading_service->getCategoryFeatures($request);
 
-            // Check errors
-            $checkError = $this->get_response($response);
 
-            if ($checkError != 0) {
-                if (count($response->Category)) {
-                    foreach ($response->Category as $details) {
-                        var_dump($details);
-                        /*foreach ($details->ListingDuration as $detailss) {
-                            var_dump($detailss);
-                        }*/
-                    }
-                }
-            }
 
-        } else return false;
     }
 
 

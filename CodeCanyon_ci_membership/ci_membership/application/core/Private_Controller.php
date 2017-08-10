@@ -106,7 +106,7 @@ class Private_Controller extends Site_Controller
 
     }
 
-    public function get_ShoppingService()
+    protected function get_ShoppingService()
     {
         // Create headers to send with CURL request.
         $service = new ShoppingService([
@@ -121,7 +121,7 @@ class Private_Controller extends Site_Controller
     }
 
 
-    public function get_TradingService()
+    protected function get_TradingService()
     {
         // Create headers to send with CURL request.
         $service = new TradingService([
@@ -134,7 +134,7 @@ class Private_Controller extends Site_Controller
         return $service;
     }
 
-    public function get_RequesterCredentials()
+    protected function get_RequesterCredentials()
     {
 
         $RequesterCredentials = new T_Types\CustomSecurityHeaderType();
