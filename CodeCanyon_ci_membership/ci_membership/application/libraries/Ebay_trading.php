@@ -172,18 +172,26 @@ Class Ebay_trading extends Private_Controller
         }
     }
 
-    public function get_CategoryFeatures($categoryID = NUll)
+    public function get_condition_values($categoryID = NUll)
     {
+        $this->CI->load->library('ebay_category_features', $categoryID);
+        $condition_value = $this->ebay_category_features->get_ConditionValues();
+        return $condition_value;
 
-      $this->CI->load->library('ebay_category_features', $categoryID);
+            /*
+            |--------------------------------------------------------------------------
+            | Check CategoryFeatures
+            |--------------------------------------------------------------------------
+            | To check ebay category features, please enable to below
+            */
 
-     // var_dump($this->ebay_category_features->UPCEnabled);
-
-
-
-
+            /*$get_value = $this->ebay_category_features->get_value('ConditionEnabled');
+            if ($get_value == 'Enabled' || $get_value == 'Required') {
+                echo 'Enabled';
+            } else {
+                return false;
+            }*/
     }
-
 
     public function get_category_item_specifics(array $categoryID)
     {

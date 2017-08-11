@@ -1,3 +1,10 @@
+----------------------------------------
+#Referenced help links
+https://stackoverflow.com/questions/12268482/check-if-a-key-exists-and-get-a-corresponding-value-from-an-array-in-php
+https://stackoverflow.com/questions/4007752/php-check-if-variable-exist-but-also-if-has-a-value-equal-to-something
+https://stackoverflow.com/questions/39933690/flashdata-codeigniter-with-array
+https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-class-that-is-set-by-another-function-codeign
+----------------------------------------
 #N-Level of Dynamic Loading of DropDowns using Ajax and PHP
 http://www.99points.info/2010/12/n-level-dynamic-loading-of-dropdowns-using-ajax-and-php/
 

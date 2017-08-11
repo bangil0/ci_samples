@@ -23,8 +23,8 @@ class Add_item extends Private_Controller
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN ' );
 
 
-
-        $data['category_features'] = $this->ebay_trading->get_CategoryFeatures('15687');
+        $data['condition_values'] = $this->ebay_trading->get_condition_values('15687');
+        //var_dump($data['condition_values']);
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics( array('15687'));
         //var_dump( $data['category_item_specifics']);
 
