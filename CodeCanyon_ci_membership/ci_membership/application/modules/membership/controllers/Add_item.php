@@ -20,11 +20,9 @@ class Add_item extends Private_Controller
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
         $data['shipping_service'] = $this->ebay_trading->get_shipping_service('','Calculated');
         $data['country'] = $this->ebay_trading->get_country();
-        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN ' );
-
-
+        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
         $data['condition_values'] = $this->ebay_trading->get_condition_values('15687');
-        //var_dump($data['condition_values']);
+         var_dump($data['condition_values']);
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics( array('15687'));
         //var_dump( $data['category_item_specifics']);
 

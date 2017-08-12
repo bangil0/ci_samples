@@ -52,8 +52,17 @@ Class Ebay_trading extends Private_Controller
         $item->ProductListingDetails->BrandMPN->Brand = '';
         $item->ProductListingDetails->BrandMPN->MPN = '';
 
+        $item->ListingDuration = Enums\ListingDurationCodeType::C_DAYS_7;
 
     }
+
+    public function getConstants($xxxx)
+    {
+        //http://php.net/manual/en/reflectionclass.getconstants.php
+        $reflectionClass = new ReflectionClass($xxxx);
+        return $reflectionClass->getConstants();
+    }
+
 
     public function get_shipping_type()
     {

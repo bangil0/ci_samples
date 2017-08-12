@@ -24,6 +24,7 @@ Class Ebay_category_features extends Private_Controller
         public $VariationsEnabled = null;
         public $ConditionEnabled = null;*/
     public $category_features = array();
+    public $response_result = array();
 
     public function __construct($categoryID)
     {
@@ -56,7 +57,7 @@ Class Ebay_category_features extends Private_Controller
             | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
             |
             */
-            $request->FeatureID = [
+            /*$request->FeatureID = [
                 'BrandMPNIdentifierEnabled',
                 'EANEnabled',
                 'ISBNEnabled',
@@ -64,8 +65,9 @@ Class Ebay_category_features extends Private_Controller
                 'ItemSpecificsEnabled',
                 'VariationsEnabled',
                 'ConditionEnabled',
-                'ConditionValues'
-            ];
+                'ConditionValues',
+                'ListingDuration'
+            ];*/
 
             $response = $this->trading_service->getCategoryFeatures($request);
 
@@ -76,21 +78,26 @@ Class Ebay_category_features extends Private_Controller
 
                 $category_features = [];
 
-                foreach ($response->Category as $details) {
-                    //var_dump($details);
-                    $category_features['BrandMPNIdentifierEnabled'] = $details->BrandMPNIdentifierEnabled;
-                    $category_features['EANEnabled'] = $details->EANEnabled;
-                    $category_features['UPCEnabled'] = $details->UPCEnabled;
-                    $category_features['ISBNEnabled'] = $details->ISBNEnabled;
-                    $category_features['ItemSpecificsEnabled'] = $details->ItemSpecificsEnabled;
-                    $category_features['VariationsEnabled'] = $details->VariationsEnabled;
-                    $category_features['ConditionEnabled'] = $details->ConditionEnabled;
-                    $category_features['ConditionValues'] = $details->ConditionValues;
+                foreach ($response->Category as $key => $details) {
+                    $category_features[$key] = $details;
+
+                    // var_dump($details);
+                    /*        $category_features['BrandMPNIdentifierEnabled'] = $details->BrandMPNIdentifierEnabled;
+                            $category_features['EANEnabled'] = $details->EANEnabled;
+                            $category_features['UPCEnabled'] = $details->UPCEnabled;
+                            $category_features['ISBNEnabled'] = $details->ISBNEnabled;
+                            $category_features['ItemSpecificsEnabled'] = $details->ItemSpecificsEnabled;
+                            $category_features['VariationsEnabled'] = $details->VariationsEnabled;
+                            $category_features['ConditionEnabled'] = $details->ConditionEnabled;
+                            $category_features['ConditionValues'] = $details->ConditionValues;
+                            $category_features['ListingDuration'] = $details->ListingDuration;*/
                 }
                 $this->category_features = $category_features;
+                //var_dump($category_features);
             }
 
             return $response->Category;
+
         } else return false;
     }
 
@@ -123,7 +130,8 @@ Class Ebay_category_features extends Private_Controller
     {
         $get_value = $this->get_value('ConditionEnabled');
         $response = $this->CategoryFeatures();
-        if ($get_value == 'Enabled' || $get_value == 'Required') {
+        //if ($get_value == 'Enabled' || $get_value == 'Required') {
+        if ($get_value !== 'Disabled') {
             $condition_values = [];
             foreach ($response as $details) {
                 //var_dump($details);
@@ -138,5 +146,14 @@ Class Ebay_category_features extends Private_Controller
         }
     }
 
+    /*  public function get_ListingDuration()
+      {
+          $response = $this->CategoryFeatures();
+          foreach ($response as $details) {
+              foreach ($details->ListingDuration as $ListingDuration) {
+                 var_dump($ListingDuration);
+              }
+          }
+      }*/
 
 }

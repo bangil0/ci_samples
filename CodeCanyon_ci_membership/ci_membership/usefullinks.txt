@@ -5,6 +5,9 @@ https://stackoverflow.com/questions/4007752/php-check-if-variable-exist-but-also
 https://stackoverflow.com/questions/39933690/flashdata-codeigniter-with-array
 https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-class-that-is-set-by-another-function-codeign
 ----------------------------------------
+#Basic Building Blocks - eBay
+http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
+
 #N-Level of Dynamic Loading of DropDowns using Ajax and PHP
 http://www.99points.info/2010/12/n-level-dynamic-loading-of-dropdowns-using-ajax-and-php/
 
