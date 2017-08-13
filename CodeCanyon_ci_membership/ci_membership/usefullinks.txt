@@ -4,6 +4,8 @@ https://stackoverflow.com/questions/12268482/check-if-a-key-exists-and-get-a-cor
 https://stackoverflow.com/questions/4007752/php-check-if-variable-exist-but-also-if-has-a-value-equal-to-something
 https://stackoverflow.com/questions/39933690/flashdata-codeigniter-with-array
 https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-class-that-is-set-by-another-function-codeign
+https://stackoverflow.com/questions/27423235/ebay-trading-api-additem-listingduration-as-gtc
+https://stackoverflow.com/questions/11551460/php-to-change-select-box-option
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
@@ -81,6 +83,10 @@ https://github.com/sea129/kbay
 
 #PrestaShop/ebay
 https://github.com/PrestaShop/ebay, https://github.com/manojkm/ebay
+https://www.prestashop.com/forums/topic/438190-mpn-and-ean-number-on-ebay/
+https://www.prestashop.com/forums/topic/456182-module-fastbay-the-most-fast-module-ebay-of-ever/
+
 
 #Ebay Package to retrieve seller list and ebay listing details of a logged in user.
 https://github.com/cubettech/ebay-api
+

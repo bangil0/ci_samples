@@ -56,7 +56,7 @@ Class Ebay_category_features extends Private_Controller
             | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
             |
             */
-            /*$request->FeatureID = [
+           /*$request->FeatureID = [
                  'BrandMPNIdentifierEnabled',
                  'EANEnabled',
                  'ISBNEnabled',
@@ -123,7 +123,7 @@ Class Ebay_category_features extends Private_Controller
     {
         $response = $this->CategoryFeatures();
         foreach ($response->Category as $details) {
-            //var_dump($details);
+            var_dump($details);
             if ($details->ConditionEnabled !== 'Disabled') {
                 $condition_values = [];
                 $condition_values['#'] = '-- Please Select --';
