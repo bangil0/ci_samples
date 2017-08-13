@@ -72,13 +72,13 @@ Class Ebay_trading extends Private_Controller
         //var_dump($const);
         $shipping_type_arr = [];
 
-        $shipping_type_arr[array_keys($const)[6]] = 'Free';
+        $shipping_type_arr[array_keys($const)[5]] = 'Free';
         // Refer this for free type-> http://developer.ebay.com/devzone/xml/docs/reference/ebay/types/shippingtypecodetype.html
-        $shipping_type_arr[array_keys($const)[4]] = 'Flat';
-        $shipping_type_arr[array_keys($const)[1]] = 'Calculated';
-        $shipping_type_arr[array_keys($const)[5]] = 'Flat Domestic and Calculated International';
-        $shipping_type_arr[array_keys($const)[2]] = 'Calculated Domestic and Flat International';
-        $shipping_type_arr[array_keys($const)[7]] = 'Freight (over 150 lbs)';
+        $shipping_type_arr[array_keys($const)[3]] = 'Flat';
+        $shipping_type_arr[array_keys($const)[0]] = 'Calculated';
+        $shipping_type_arr[array_keys($const)[4]] = 'Flat Domestic and Calculated International';
+        $shipping_type_arr[array_keys($const)[1]] = 'Calculated Domestic and Flat International';
+        $shipping_type_arr[array_keys($const)[6]] = 'Freight (over 150 lbs)';
 
         return $shipping_type_arr;
     }
@@ -184,22 +184,31 @@ Class Ebay_trading extends Private_Controller
     public function get_condition_values($categoryID = NUll)
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
-        $condition_value = $this->ebay_category_features->get_ConditionValues();
-        return $condition_value;
+        $condition_values = $this->ebay_category_features->get_ConditionValues();
+        return $condition_values;
 
-            /*
-            |--------------------------------------------------------------------------
-            | Check CategoryFeatures
-            |--------------------------------------------------------------------------
-            | To check ebay category features, please enable to below
-            */
+        /*
+        |--------------------------------------------------------------------------
+        | Check CategoryFeatures
+        |--------------------------------------------------------------------------
+        | To check ebay category features, please enable to below
+        */
 
-            /*$get_value = $this->ebay_category_features->get_value('ConditionEnabled');
-            if ($get_value == 'Enabled' || $get_value == 'Required') {
-                echo 'Enabled';
-            } else {
-                return false;
-            }*/
+        /*$get_value = $this->ebay_category_features->get_value('ConditionEnabled');
+        if ($get_value == 'Enabled' || $get_value == 'Required') {
+            echo 'Enabled';
+        } else {
+            return false;
+        }*/
+    }
+
+
+    public function get_listing_duration($categoryID = NUll, $Listing_type)
+    {
+        $this->CI->load->library('ebay_category_features', $categoryID);
+        $listing_duration = $this->ebay_category_features->get_ListingDurations($Listing_type);
+        return $listing_duration;
+
     }
 
     public function get_category_item_specifics(array $categoryID)
@@ -268,6 +277,41 @@ Class Ebay_trading extends Private_Controller
         $request->DetailName = array($Details);
 
         return $request;
+    }
+
+    public function get_response($response)
+    {
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+                $err = array(
+                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Using custom way to showing error message
+                |--------------------------------------------------------------------------
+                |
+                | Leave the following in this method.
+                | $this->set_error($err);
+                |
+                | Use the following IF statement in controller to set the
+                | error function used in view file : generic/flash_error
+                |
+                | if (!empty($this->ebay_shopping->get_error())) {
+                | $data['error'] = $this->ebay_shopping->get_error();
+                | }
+                |
+                */
+
+                $this->session->set_flashdata('ebay_response_error', $err);
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return true;
+        } else return false;
     }
 
 

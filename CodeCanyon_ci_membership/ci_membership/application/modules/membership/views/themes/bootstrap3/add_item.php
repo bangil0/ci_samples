@@ -153,7 +153,7 @@
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_input($data);
+            echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
     </div>
@@ -241,7 +241,7 @@
                 'class'         => 'form-control',
                 'placeholder'   => '',
             );
-            echo form_dropdown('options', '', '#', $data);
+            echo form_dropdown('options', $condition_values, '#', $data);
             ?>
         </div>
 

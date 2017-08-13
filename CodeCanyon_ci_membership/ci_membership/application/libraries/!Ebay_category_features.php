@@ -35,6 +35,7 @@ Class Ebay_category_features extends Private_Controller
 
     public function CategoryFeatures()
     {
+
         if ($this->categoryID) {
             // Create the request object.
             $request = new Types\GetCategoryFeaturesRequestType();
@@ -44,7 +45,7 @@ Class Ebay_category_features extends Private_Controller
 
             //ask for a single category
             $request->CategoryID = $this->categoryID;
-            $request->DetailLevel = ['ReturnAll'];
+            $request->DetailLevel = ['ReturnAll', 'ReturnSummary'];
             $request->ViewAllNodes = true;
             $request->AllFeaturesForCategory = true;
             /*
@@ -56,85 +57,102 @@ Class Ebay_category_features extends Private_Controller
             | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
             |
             */
-            /*$request->FeatureID = [
-                 'BrandMPNIdentifierEnabled',
-                 'EANEnabled',
-                 'ISBNEnabled',
-                 'UPCEnabled',
-                 'ItemSpecificsEnabled',
-                 'VariationsEnabled',
-                 'ConditionEnabled',
-                 'ConditionValues',
-                 'ListingDurations'
-             ];*/
+           $request->FeatureID = [
+                'BrandMPNIdentifierEnabled',
+                'EANEnabled',
+                'ISBNEnabled',
+                'UPCEnabled',
+                'ItemSpecificsEnabled',
+                'VariationsEnabled',
+                'ConditionEnabled',
+                'ConditionValues',
+                'ListingDurations'
+            ];
 
             $response = $this->trading_service->getCategoryFeatures($request);
 
             // Check errors
             $checkError = $this->get_response($response);
+
             if ($checkError != 0) {
-                //var_dump($response);
-                return $response;
+
+                $category_features = [];
+
+                foreach ($response->Category as  $details) {
+                   // $category_features[$key] = $details;
+
+                    // var_dump($details);
+                            $category_features['BrandMPNIdentifierEnabled'] = $details->BrandMPNIdentifierEnabled;
+                            $category_features['EANEnabled'] = $details->EANEnabled;
+                            $category_features['UPCEnabled'] = $details->UPCEnabled;
+                            $category_features['ISBNEnabled'] = $details->ISBNEnabled;
+                            $category_features['ItemSpecificsEnabled'] = $details->ItemSpecificsEnabled;
+                            $category_features['VariationsEnabled'] = $details->VariationsEnabled;
+                            $category_features['ConditionEnabled'] = $details->ConditionEnabled;
+                            $category_features['ConditionValues'] = $details->ConditionValues;
+                            $category_features['ListingDurations'] = $details->ListingDuration;
+                }
+                $this->category_features = $category_features;
+               // var_dump($category_features);
             }
+
+            return $response->Category;
 
         } else return false;
     }
 
-    public function get_ListingDurations($Listing_type)
+    public function get_value($FeatureID)
     {
-        $response = $this->CategoryFeatures();
-
-        //var_dump($response->SiteDefaults);
-
-        foreach ($response->SiteDefaults->ListingDuration as $details) {
-            // var_dump($details);
-        }
-
-        $durationSet_arr = [];
-        foreach ($response->FeatureDefinitions->ListingDurations->ListingDuration as $details) {
-            //var_dump($details);
-            $durationSet_arr[$details->durationSetID] = $details->Duration;
-        }
-        //var_dump($durationSet_arr);
-
-        foreach ($response->Category as $details) {
-            //var_dump($details);
-            foreach ($details->ListingDuration as $Duration) {
-                //var_dump($Duration);
-                if ($Duration->type == $Listing_type) {
-                    $duration_value = $Duration->value;
-                    if (array_key_exists($duration_value, $durationSet_arr)) {
-                        $durations = $durationSet_arr[$duration_value];
-                        var_dump($durations);
-                        return $durations;
-                        //https://developer.ebay.com/devzone/xml/docs/reference/ebay/types/ListingDurationCodeType.html
-                    }
-
+        $category_arr = $this->category_features;
+        if (array_key_exists($FeatureID, $category_arr)) {
+            return $category_arr[$FeatureID];
+            /*foreach ($category_arr as $key => $details) {
+                if ($key == $FeatureID) {
+                    return $details;
                 }
+            }*/
+        } else return false;
 
-            }
-        }
-
-
+        /*  $category_arr = $this->category_features;
+          if (!isset($category_arr)) {
+              return false;
+          }
+          else {
+              foreach ($category_arr as $key=>$details) {
+                 if($key == $FeatureID ){
+                     return $details;
+                 }
+              }
+          }*/
     }
-
 
     public function get_ConditionValues()
     {
-        $response = $this->CategoryFeatures();
-        foreach ($response->Category as $details) {
-            //var_dump($details);
-            if ($details->ConditionEnabled !== 'Disabled') {
-                $condition_values = [];
-                $condition_values['#'] = '-- Please Select --';
-                foreach ($details->ConditionValues->Condition as $Condition) {
+        //$get_value = $this->get_value('ConditionEnabled');
+        //$response = $this->CategoryFeatures();
+        //if ($get_value == 'Enabled' || $get_value == 'Required') {
+        if ($this->get_value('ConditionEnabled') !== 'Disabled') {
+            $get_value = $this->get_value('ConditionValues');
+            $condition_values = [];
+            foreach ($get_value->Condition as $Condition) {
+               //var_dump($Condition);
+               /* foreach ($details->ConditionValues->Condition as $Condition) {
                     //var_dump($Condition);
                     $condition_values[$Condition->ID] = $Condition->DisplayName;
-                }
-                return $condition_values;
-            } else {
-                return false;
+                }*/
+                $condition_values[$Condition->ID] = $Condition->DisplayName;
             }
+            return $condition_values;
+        } else {
+            return false;
+        }
+    }
+
+   public function get_ListingDuration()
+    {
+        $get_value = $this->get_value('ListingDurations');
+        foreach ($get_value as $details) {
+            var_dump($details);
         }
     }
 
