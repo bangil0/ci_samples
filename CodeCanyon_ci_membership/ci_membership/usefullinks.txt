@@ -6,6 +6,7 @@ https://stackoverflow.com/questions/39933690/flashdata-codeigniter-with-array
 https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-class-that-is-set-by-another-function-codeign
 https://stackoverflow.com/questions/27423235/ebay-trading-api-additem-listingduration-as-gtc
 https://stackoverflow.com/questions/11551460/php-to-change-select-box-option
+https://stackoverflow.com/questions/33776664/how-to-change-select-values-when-select-an-option-from-other-drop-down-box-in-co
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
