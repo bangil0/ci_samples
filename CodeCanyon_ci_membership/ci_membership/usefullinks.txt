@@ -86,7 +86,11 @@ https://github.com/PrestaShop/ebay, https://github.com/manojkm/ebay
 https://www.prestashop.com/forums/topic/438190-mpn-and-ean-number-on-ebay/
 https://www.prestashop.com/forums/topic/456182-module-fastbay-the-most-fast-module-ebay-of-ever/
 
-
 #Ebay Package to retrieve seller list and ebay listing details of a logged in user.
 https://github.com/cubettech/ebay-api
 
+#Ebay trading API additem call
+https://stackoverflow.com/questions/23402304/ebay-trading-api-additem-call?rq=1
+
+#CategoryFeatureType - Ebay
+https://ebatns.codebase.ebay.com/DevZone/XML/docs/Reference/ebay/types/CategoryFeatureType.html
