@@ -56,7 +56,7 @@ Class Ebay_category_features extends Private_Controller
             | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
             |
             */
-           /*$request->FeatureID = [
+            /*$request->FeatureID = [
                  'BrandMPNIdentifierEnabled',
                  'EANEnabled',
                  'ISBNEnabled',
