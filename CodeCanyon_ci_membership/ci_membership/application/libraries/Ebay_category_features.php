@@ -30,7 +30,7 @@ Class Ebay_category_features extends Private_Controller
     {
         parent::__construct();
         $this->categoryID = $categoryID;
-        $this->CategoryFeatures();
+        // $this->CategoryFeatures();
     }
 
     public function CategoryFeatures()
@@ -56,17 +56,18 @@ Class Ebay_category_features extends Private_Controller
             | http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategoryFeatures.html
             |
             */
-            /*$request->FeatureID = [
-                 'BrandMPNIdentifierEnabled',
-                 'EANEnabled',
-                 'ISBNEnabled',
-                 'UPCEnabled',
-                 'ItemSpecificsEnabled',
-                 'VariationsEnabled',
-                 'ConditionEnabled',
-                 'ConditionValues',
-                 'ListingDurations'
-             ];*/
+
+            $request->FeatureID = [
+                'BrandMPNIdentifierEnabled',
+                'EANEnabled',
+                'ISBNEnabled',
+                'UPCEnabled',
+                'ItemSpecificsEnabled',
+                'VariationsEnabled',
+                'ConditionEnabled',
+                'ConditionValues',
+                'ListingDurations'
+            ];
 
             $response = $this->trading_service->getCategoryFeatures($request);
 
@@ -105,7 +106,7 @@ Class Ebay_category_features extends Private_Controller
                     $duration_value = $Duration->value;
                     if (array_key_exists($duration_value, $durationSet_arr)) {
                         $durations = $durationSet_arr[$duration_value];
-                        var_dump($durations);
+                        //var_dump($durations);
                         return $durations;
                         //https://developer.ebay.com/devzone/xml/docs/reference/ebay/types/ListingDurationCodeType.html
                     }
@@ -114,17 +115,45 @@ Class Ebay_category_features extends Private_Controller
 
             }
         }
-
-
     }
 
+    public function get_ItemSpecificsEnabled()
+    {
+        $response = $this->CategoryFeatures();
+        /**
+         * SiteDefaults variable assigning / Override
+         */
+        foreach ($response->Category as $details) {
+            if ($details->ItemSpecificsEnabled) {
+                $item_specifics_enabled = $details->ConditionEnabled;
+            } else {
+                $item_specifics_enabled = $response->SiteDefaults->ItemSpecificsEnabled;
+            }
+            return $item_specifics_enabled;
+        }
+    }
 
     public function get_ConditionValues()
     {
         $response = $this->CategoryFeatures();
+
+        /**
+         * SiteDefaults variable assigning
+         */
+        $condition_enabled = $response->SiteDefaults->ConditionEnabled;
+
         foreach ($response->Category as $details) {
-            var_dump($details);
-            if ($details->ConditionEnabled !== 'Disabled') {
+           //var_dump($details);
+
+            /**
+             * Override SiteDefaults
+             */
+
+            if ($details->ConditionEnabled) {
+                $condition_enabled = $details->ConditionEnabled;
+            }
+
+            if ($condition_enabled !== 'Disabled') {
                 $condition_values = [];
                 $condition_values['#'] = '-- Please Select --';
                 foreach ($details->ConditionValues->Condition as $Condition) {

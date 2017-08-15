@@ -132,7 +132,7 @@ Class Ebay_trading extends Private_Controller
     }
 
     //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
-    public function get_shipping_service($flat = NULL, $calculated = NULL)
+    public function get_shipping_service($shipping_type)
     {
         // GeteBayDetails
         $request = $this->get_eBayDetails('ShippingServiceDetails');
@@ -148,19 +148,19 @@ Class Ebay_trading extends Private_Controller
                 $shipping_arr = [];
                 $shipping_arr['#'] = '-- Please Select Shipping Service --';
                 foreach ($response->ShippingServiceDetails as $details) {
-                    if ($flat) {
+                    if ($shipping_type == 'Flat') {
                         //var_dump($details);
                         if ($details->ValidForSellingFlow != 0) {
                             $shipping_arr[$details->ShippingServiceID] = $details->ShippingService;
                         }
                     }
-                    if ($calculated) {
+                    if ($shipping_type == 'Calculated') {
                         //var_dump($details->ServiceType);
                         //var_dump(gettype($details->ServiceType));
                         // if(in_array('Calculated', $details->ServiceType)) {
 
                         foreach ($details->ServiceType as $detail) {
-                            if ($detail == $calculated) {
+                            if ($detail == $shipping_type) {
                                 if ($details->ValidForSellingFlow != 0) {
                                     //  /(?<! )(?<!^)[A-Z]/
                                     $shippingService = preg_replace('/(?<! )(?<!^)(?<![A-Z])[A-Z]/', ' $0', $details->ShippingService);
@@ -181,7 +181,7 @@ Class Ebay_trading extends Private_Controller
         }
     }
 
-    public function get_condition_values($categoryID = NUll)
+    public function get_condition_values($categoryID)
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
         $condition_values = $this->ebay_category_features->get_ConditionValues();
@@ -226,7 +226,15 @@ Class Ebay_trading extends Private_Controller
         // An user token is required when using the Trading service.
         $request->RequesterCredentials = $this->requester_credentials;
 
-        if ($categoryID) {
+        /**
+         * Check Item Specifics are Enabled
+         */
+        $this->CI->load->library('ebay_category_features', $categoryID);
+        $item_specifics_enabled = $this->ebay_category_features->get_ItemSpecificsEnabled();
+       // var_dump($item_specifics_enabled);
+
+
+        if ($categoryID && $item_specifics_enabled !== 'Disabled') {
             $request->CategoryID = $categoryID;
             $response = $this->trading_service->getCategorySpecifics($request);
             // Check errors

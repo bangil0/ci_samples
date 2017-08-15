@@ -6,6 +6,7 @@ https://stackoverflow.com/questions/39933690/flashdata-codeigniter-with-array
 https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-class-that-is-set-by-another-function-codeign
 https://stackoverflow.com/questions/27423235/ebay-trading-api-additem-listingduration-as-gtc
 https://stackoverflow.com/questions/11551460/php-to-change-select-box-option
+https://stackoverflow.com/questions/33776664/how-to-change-select-values-when-select-an-option-from-other-drop-down-box-in-co
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
@@ -86,7 +87,11 @@ https://github.com/PrestaShop/ebay, https://github.com/manojkm/ebay
 https://www.prestashop.com/forums/topic/438190-mpn-and-ean-number-on-ebay/
 https://www.prestashop.com/forums/topic/456182-module-fastbay-the-most-fast-module-ebay-of-ever/
 
-
 #Ebay Package to retrieve seller list and ebay listing details of a logged in user.
 https://github.com/cubettech/ebay-api
 
+#Ebay trading API additem call
+https://stackoverflow.com/questions/23402304/ebay-trading-api-additem-call?rq=1
+
+#CategoryFeatureType - Ebay
+https://ebatns.codebase.ebay.com/DevZone/XML/docs/Reference/ebay/types/CategoryFeatureType.html
