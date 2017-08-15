@@ -847,7 +847,7 @@
 <script type="text/javascript">
 
     // Ajax post
-    $(document).ready(function () {
+    $(document).ready(function () { // start of doc ready.
 
 //        https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
@@ -855,16 +855,18 @@
 
         $('.parent').livequery('change', function (event) {
 
+            // alert($('#categ_options').val());
+            event.preventDefault(); // stops the jump when an anchor clicked.
+
             $(this).nextAll('.parent').remove();
             $(this).nextAll('label').remove();
 
 //            $("div#subcat select").remove(); //first of all clear select items
             $('#show_sub_categories').append('<span id="loader">loading</span>');
 
-            // alert($('#categ_options').val());
-            event.preventDefault();
 
-            var cat_id = $(this).val();
+
+            var cat_id = $(this).val(); // Select box do have values not text. If input have text, then $(this).text()  // https://stackoverflow.com/questions/23911438/how-to-get-data-from-database-using-ajax-in-codeigniter
 
             if (cat_id == '#') {
                 return false; // return false after clearing sub options if 'please select was chosen'
@@ -887,6 +889,7 @@
                         csrfName = result.csrfName;
                         csrfHash = result.csrfHash;
                     }
+                    console.log(result);
                     /*$.each(result.data.category, function(id, value) {
                      $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
                      });*/
@@ -907,6 +910,9 @@
     function finishAjax(id, response) {
         $('#loader').remove();
         $('#' + id).append(unescape(response));
+        //The append() method inserts specified content at the end of the selected elements.
+        //Tip: To insert content at the beginning of the selected elements, use the prepend() method.
+
     }
 
 </script>

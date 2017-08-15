@@ -136,15 +136,46 @@ class Private_Controller extends Site_Controller
 
     protected function get_RequesterCredentials()
     {
-
         $RequesterCredentials = new T_Types\CustomSecurityHeaderType();
         $RequesterCredentials->eBayAuthToken = $this->config->item('authToken');
-
         return $RequesterCredentials;
-
     }
 
 
+    public function get_response($response)
+    {
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+                $err = array(
+                    'SeverityCode' => $error->SeverityCode === T_Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Using custom way to showing error message
+                |--------------------------------------------------------------------------
+                |
+                | Leave the following in this method.
+                | $this->set_error($err);
+                |
+                | Use the following IF statement in controller to set the
+                | error function used in view file : generic/flash_error
+                |
+                | if (!empty($this->ebay_shopping->get_error())) {
+                | $data['error'] = $this->ebay_shopping->get_error();
+                | }
+                |
+                */
+
+                $this->session->set_flashdata('ebay_response_error', $err);
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return true;
+        } else return false;
+    }
 
     public function set_error($error)
     {

@@ -100,17 +100,18 @@ Class Ebay_shopping extends Private_Controller
 
             foreach ($response->CategoryArray->Category as $category) {
                 if ($category->LeafCategory == false) {
-                    if ($category->CategoryID != $categoryID) {
-                        if ($category->CategoryLevel != 0) {
+                    if ($category->CategoryID != $categoryID && $category->CategoryLevel != 0) {
+                       // if ($category->CategoryLevel != 0) {
                             $sub_category_arr[$category->CategoryID] = $category->CategoryName;
-                            //    $browse ='<option value="'.$category->CategoryID.'">'.$category->CategoryName.'</option>';
-                        }
+                        //}
                     }
                 } else if ($category->CategoryID != $categoryID) {
                     {
                         $sub_category_arr[$category->CategoryID] = $category->CategoryName;
                     }
                 } else {
+                    //$this->session->set_userdata('category',$category->CategoryID);
+                    $this->session->set_flashdata('category',$category->CategoryID);
                     $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category <option value="' . $category->CategoryID . '">' . $category->CategoryName . ' ' . $category->CategoryID . '</option></label>';
                     return $browse;
                 }
@@ -130,7 +131,7 @@ Class Ebay_shopping extends Private_Controller
             return form_dropdown('options', $sub_category_arr, '#', $attributes);
 
         }
-        return 'some error';
+       else return false;
 //        return $sub_category_arr;
     }
 
@@ -145,39 +146,6 @@ Class Ebay_shopping extends Private_Controller
             return $request = new Types\GetCategoryInfoRequestType();
         }*/
 
-    public function get_response($response)
-    {
-        if (isset($response->Errors)) {
-            foreach ($response->Errors as $error) {
-                $err = array(
-                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
-                    'ShortMessage' => $error->ShortMessage,
-                    'LongMessage' => $error->LongMessage
-                );
 
-                /*
-                |--------------------------------------------------------------------------
-                | Using custom way to showing error message
-                |--------------------------------------------------------------------------
-                |
-                | Leave the following in this method.
-                | $this->set_error($err);
-                |
-                | Use the following IF statement in controller to set the
-                | error function used in view file : generic/flash_error
-                |
-                | if (!empty($this->ebay_shopping->get_error())) {
-                | $data['error'] = $this->ebay_shopping->get_error();
-                | }
-                |
-                */
-
-                $this->session->set_flashdata('ebay_response_error', $err);
-            }
-        }
-        if ($response->Ack !== 'Failure') {
-            return true;
-        } else return false;
-    }
 
 }

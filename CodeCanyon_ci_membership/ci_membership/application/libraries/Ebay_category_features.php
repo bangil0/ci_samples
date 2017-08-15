@@ -24,6 +24,7 @@ Class Ebay_category_features extends Private_Controller
         public $VariationsEnabled = null;
         public $ConditionEnabled = null;*/
     public $category_features = array();
+    public $site_defaults = array();
     public $response_result = array();
 
     public function __construct($categoryID)
@@ -84,9 +85,7 @@ Class Ebay_category_features extends Private_Controller
     public function get_ListingDurations($Listing_type)
     {
         $response = $this->CategoryFeatures();
-
         //var_dump($response->SiteDefaults);
-
         foreach ($response->SiteDefaults->ListingDuration as $details) {
             // var_dump($details);
         }
@@ -105,9 +104,7 @@ Class Ebay_category_features extends Private_Controller
                 if ($Duration->type == $Listing_type) {
                     $duration_value = $Duration->value;
                     if (array_key_exists($duration_value, $durationSet_arr)) {
-                        $durations = $durationSet_arr[$duration_value];
-                        //var_dump($durations);
-                        return $durations;
+                        return $durationSet_arr[$duration_value];
                         //https://developer.ebay.com/devzone/xml/docs/reference/ebay/types/ListingDurationCodeType.html
                     }
 
@@ -121,39 +118,23 @@ Class Ebay_category_features extends Private_Controller
     {
         $response = $this->CategoryFeatures();
         /**
-         * SiteDefaults variable assigning / Override
+         * Mode checking (Enabled, Disabled or Required). If mode not available, then assign site default value.
          */
         foreach ($response->Category as $details) {
-            if ($details->ItemSpecificsEnabled) {
-                $item_specifics_enabled = $details->ConditionEnabled;
-            } else {
-                $item_specifics_enabled = $response->SiteDefaults->ItemSpecificsEnabled;
-            }
-            return $item_specifics_enabled;
+            $mode = ($details->ItemSpecificsEnabled) ? $details->ItemSpecificsEnabled : $response->SiteDefaults->ItemSpecificsEnabled;
+            return $mode;
         }
     }
 
     public function get_ConditionValues()
     {
         $response = $this->CategoryFeatures();
-
-        /**
-         * SiteDefaults variable assigning
-         */
-        $condition_enabled = $response->SiteDefaults->ConditionEnabled;
-
         foreach ($response->Category as $details) {
-           //var_dump($details);
-
             /**
-             * Override SiteDefaults
+             * Mode checking (Enabled, Disabled or Required). If mode not available, then assign site default value.
              */
-
-            if ($details->ConditionEnabled) {
-                $condition_enabled = $details->ConditionEnabled;
-            }
-
-            if ($condition_enabled !== 'Disabled') {
+            $mode = ($details->ConditionEnabled) ? $details->ConditionEnabled : $response->SiteDefaults->ConditionEnabled;
+            if ($mode !== 'Disabled') {
                 $condition_values = [];
                 $condition_values['#'] = '-- Please Select --';
                 foreach ($details->ConditionValues->Condition as $Condition) {
@@ -167,39 +148,6 @@ Class Ebay_category_features extends Private_Controller
         }
     }
 
-    public function get_response($response)
-    {
-        if (isset($response->Errors)) {
-            foreach ($response->Errors as $error) {
-                $err = array(
-                    'SeverityCode' => $error->SeverityCode === Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
-                    'ShortMessage' => $error->ShortMessage,
-                    'LongMessage' => $error->LongMessage
-                );
 
-                /*
-                |--------------------------------------------------------------------------
-                | Using custom way to showing error message
-                |--------------------------------------------------------------------------
-                |
-                | Leave the following in this method.
-                | $this->set_error($err);
-                |
-                | Use the following IF statement in controller to set the
-                | error function used in view file : generic/flash_error
-                |
-                | if (!empty($this->ebay_shopping->get_error())) {
-                | $data['error'] = $this->ebay_shopping->get_error();
-                | }
-                |
-                */
-
-                $this->session->set_flashdata('ebay_response_error', $err);
-            }
-        }
-        if ($response->Ack !== 'Failure') {
-            return true;
-        } else return false;
-    }
 
 }

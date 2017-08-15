@@ -15,10 +15,20 @@ class Add_item extends Private_Controller
 
     public function index()
     {
+       /* $this->session->set_flashdata('Category', '15687');
+        $category = $this->session->flashdata('Category');*/
 
-        $this->session->set_flashdata('Category', '15687');
-        $category = $this->session->flashdata('Category');
 
+        //https://stackoverflow.com/questions/16519694/set-codeigniter-session-using-jquery-ajax
+        /*if($this->session->flashdata('category') == "" ) {
+            $category = '15687';
+        } else {
+            $category = $this->session->flashdata('category');
+        }*/
+
+        $category = ($this->session->flashdata('category') == "" ) ? '15687' : $this->session->flashdata('category');
+
+        var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
@@ -28,40 +38,14 @@ class Add_item extends Private_Controller
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
 
         $data['condition_values'] = $this->ebay_trading->get_condition_values($category);
-        var_dump($data['condition_values']);
+        //var_dump($data['condition_values']);
 
         $data['listing_duration'] = $this->ebay_trading->get_listing_duration($category,'FixedPriceItem');
        // var_dump($data['listing_duration']);
 
-        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics( array($category));
+        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics(array($category));
         //var_dump( $data['category_item_specifics']);
 
-
-        if (!empty($this->ebay_shopping->get_error())) {
-            $data['error'] = $this->ebay_shopping->get_error();
-        }
-
-        /*  // Create the service object.
-          $service = $this->ebay_shopping->get_ShoppingService();
-
-          // Create the request object.
-          $request = $this->ebay_shopping->get_CategoryInfoRequestType();
-          $request->CategoryID = '-1';
-          $request->IncludeSelector = 'ChildCategories';
-
-          // Send the request.
-          $response = $service->getCategoryInfo($request);
-
-          //var_dump($response) ;
-
-          // Check errors
-          $checkError = $this->ebay_shopping->get_response($response);
-
-          if (is_array($checkError)) {
-              $data['check'] = $checkError;
-          } else if ($checkError != 0) {
-              $data['category'] = $this->ebay_shopping->get_category($response);
-          }*/
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
@@ -122,19 +106,25 @@ class Add_item extends Private_Controller
                 $subcategory = $this->ebay_shopping->get_sub_category($response, $categoryID);
 
             }*/
-        if ($this->input->is_ajax_request()) {
-            $categoryID = $this->input->post('category_id');
-            $output = new stdClass;
-            $output->csrfName = $this->security->get_csrf_token_name();
-            $output->csrfHash = $this->security->get_csrf_hash();
+
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+        $categoryID = $this->input->post('category_id');
+        $output = new stdClass;
+        $output->csrfName = $this->security->get_csrf_token_name();
+        $output->csrfHash = $this->security->get_csrf_hash();
 //                    $output->data = $subcategory;
-            $output->data = array(
-                'category' => $this->ebay_shopping->get_sub_category($categoryID)
-            );
-            echo json_encode($output);
+        $output->data = array(
+            'category' => $this->ebay_shopping->get_sub_category($categoryID)
+        );
+        echo json_encode($output);
+
+       /* if ($this->input->is_ajax_request()) {
+
 
         } else {
             exit('No direct script access allowed');
-        }
+        }*/
     }
 }

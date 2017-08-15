@@ -7,6 +7,8 @@ https://stackoverflow.com/questions/6885287/how-to-access-a-variable-in-a-php-cl
 https://stackoverflow.com/questions/27423235/ebay-trading-api-additem-listingduration-as-gtc
 https://stackoverflow.com/questions/11551460/php-to-change-select-box-option
 https://stackoverflow.com/questions/33776664/how-to-change-select-values-when-select-an-option-from-other-drop-down-box-in-co
+https://stackoverflow.com/questions/16519694/set-codeigniter-session-using-jquery-ajax
+https://stackoverflow.com/questions/23626272/get-the-variable-in-controller-and-include-in-ajax-redirect-url-to-another-contr
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
