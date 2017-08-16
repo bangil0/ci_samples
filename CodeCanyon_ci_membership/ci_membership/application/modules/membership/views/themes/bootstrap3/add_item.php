@@ -2,89 +2,89 @@
 
 <?php $this->load->view('themes/' . Settings_model::$db_config['adminpanel_theme'] . '/partials/content_head.php'); ?>
 
-<?php $this->load->view('generic/flash_error');?>
+<?php $this->load->view('generic/flash_error'); ?>
 
 <?php echo form_open('membership/add_item/add', array('class' => 'email', 'id' => 'myform')); ?>
 
 <h3>General Settings</h3>
 <div class="row">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Title', '');
             $data = array(
-                'name'          => 'product_title',
-                'id'            => 'product_title',
-                'value'         =>  $this->session->flashdata('product_title'),
-                'class'         => 'form-control',
-                'placeholder'   => '',
-                'required'      => 'required'
+                'name' => 'product_title',
+                'id' => 'product_title',
+                'value' => $this->session->flashdata('product_title'),
+                'class' => 'form-control',
+                'placeholder' => '',
+                'required' => 'required'
             );
             echo form_input($data);
             ?>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Subtitle (optional - additional fees may apply)', '');
             $data = array(
-                'name'          => 'product_subtitle',
-                'id'            => 'product_subtitle',
-                'value'         => $this->session->flashdata('product_subtitle'),
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'product_subtitle',
+                'id' => 'product_subtitle',
+                'value' => $this->session->flashdata('product_subtitle'),
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Description', '');
             $data = array(
-                'name'          => 'description',
-                'id'            => 'description',
-                'value'         => $this->session->flashdata('description'),
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'description',
+                'id' => 'description',
+                'value' => $this->session->flashdata('description'),
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_textarea($data);
             ?>
         </div>
 
 
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Product Identifier (optional)', '');
             $data_identifier = array(
-                'name'          => 'prd_identifier',
-                'id'            => 'prd_identifier',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'prd_identifier',
+                'id' => 'prd_identifier',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             $data_type = array(
-                'id'            => 'prd_identifier_type',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
-                'onChange'      => "brandmpn_pair_Check(this);"
+                'id' => 'prd_identifier_type',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
+                'onChange' => "brandmpn_pair_Check(this);"
 
             );
             echo form_input($data_identifier);
-            echo form_dropdown('prd_identifier_type',$prd_identifier_type, 'UPC', $data_type);
+            echo form_dropdown('prd_identifier_type', $prd_identifier_type, 'UPC', $data_type);
             ?>
         </div>
 
-        <div class="form-group"  id="brandmpn_pair" style="display: none;">
+        <div class="form-group" id="brandmpn_pair" style="display: none;">
             <?php
             echo form_label('Product Brand', '');
             $data = array(
-                'name'          => 'product_brand_mpn',
-                'id'            => 'product_brand_mpn',
-                'value'         => $this->session->flashdata('product_brand_mpn'),
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'product_brand_mpn',
+                'id' => 'product_brand_mpn',
+                'value' => $this->session->flashdata('product_brand_mpn'),
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -103,39 +103,54 @@
 <h4>General Settings</h4>
 <div class="row ">
     <div class="col-md-6">
-            <div class="form-group" id="show_sub_categories">
-                <?php
-                echo form_label('eBay Category', '');
-                $data = array(
-                    'name'          => 'parent_category',
-                    'id'            => 'parent_category',
-                    'value'         => '',
-                    'class'         => 'form-control parent',
-                    'placeholder'   => '',
-                );
-                echo form_dropdown('options', $category, '#', $data) ?>
-            </div>
+        <div class="form-group" id="show_sub_categories">
+            <?php
+            echo form_label('eBay Category', '');
+            $data1 = array(
+                'name' => 'primary_category',
+                'id' => 'primary_category',
+                'value' => $this->session->flashdata('primary_category'),
+                'class' => 'form-control',
+                'placeholder' => '',
+            );
+            echo form_input($data1);
+            ?>
+            <span id="show_path">Category you have selected:</span>
+            <?php
+
+            $data = array(
+                'name' => 'parent_category',
+                'id' => 'parent_category',
+                'value' => '',
+                'class' => 'form-control parent',
+                'placeholder' => '',
+            );
+            echo form_dropdown('options', $category, '#', $data) ?>
+
+
+
+        </div>
     </div>
     <div class="col-md-6">
         <div class="form-group" id="">
             <?php
             echo form_label('Secondary eBay Category', '');
-           ?>
+            ?>
         </div>
     </div>
 </div>
 
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Listing Format', '');
             $data = array(
-                'name'          => 'listing_format',
-                'id'            => '',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'listing_format',
+                'id' => '',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', $listing_type, '#', $data)
             ?>
@@ -143,15 +158,15 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Listing Duration', '');
             $data = array(
-                'name'          => 'listing_duration',
-                'id'            => 'listing_duration',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'listing_duration',
+                'id' => 'listing_duration',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
@@ -163,15 +178,15 @@
 
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Giving Works Charity ID', '');
             $data = array(
-                'name'          => 'charity',
-                'id'            => '',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'charity',
+                'id' => '',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -179,15 +194,15 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Giving Works Donation Percentage', '');
             $data = array(
-                'name'          => 'charity_percentage',
-                'id'            => '',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'charity_percentage',
+                'id' => '',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -197,29 +212,29 @@
 
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Private Listing', '');
             $data = array(
-                'name'          => 'private_listing',
-                'id'            => 'private_listing',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'private_listing',
+                'id' => 'private_listing',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Lot Size', '');
             $data = array(
-                'name'          => 'lot_size',
-                'id'            => 'lot_size',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'lot_size',
+                'id' => 'lot_size',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -231,29 +246,29 @@
 <h4>Item Specifics</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Item Condition:', '');
             $data = array(
-                'name'          => 'item_condition:',
-                'id'            => 'item_condition',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'item_condition:',
+                'id' => 'item_condition',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', $condition_values, '#', $data);
             ?>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Condition Description', '');
             $data = array(
-                'name'          => 'condition_description',
-                'id'            => 'condition_description',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'condition_description',
+                'id' => 'condition_description',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_textarea($data);
             ?>
@@ -269,32 +284,32 @@
 
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Country', '');
             $data = array(
-                'name'          => 'country',
-                'id'            => 'country',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'country',
+                'id' => 'country',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', $country, '#', $data);
-             echo count($country);
+            echo count($country);
             ?>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Zip/Postal Code', '');
             $data = array(
-                'name'          => 'zip_code',
-                'id'            => 'zip_code',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'zip_code',
+                'id' => 'zip_code',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -302,15 +317,15 @@
     </div>
 
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Location (City, State/Province)', '');
             $data = array(
-                'name'          => 'location',
-                'id'            => 'location',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'location',
+                'id' => 'location',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -321,17 +336,17 @@
 <h4>Best Offer</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Best Offer', '');
             $data = array(
-                'name'          => 'best_offer',
-                'id'            => 'best_offer',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'best_offer',
+                'id' => 'best_offer',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
-            echo form_dropdown('options','', '#', $data);
+            echo form_dropdown('options', '', '#', $data);
             ?>
         </div>
     </div>
@@ -340,15 +355,15 @@
 <h3>Pricing & SKU/Custom Label</h3>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Price', '');
             $data = array(
-                'name'          => 'price',
-                'id'            => 'price',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'price',
+                'id' => 'price',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -356,15 +371,15 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Quantity', '');
             $data = array(
-                'name'          => 'quantity',
-                'id'            => 'quantity',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'quantity',
+                'id' => 'quantity',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -375,15 +390,15 @@
 </div>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('SKU / Custom Label (optional)', '');
             $data = array(
-                'name'          => 'sku',
-                'id'            => 'sku',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'sku',
+                'id' => 'sku',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -394,67 +409,67 @@
 <h3>Return Settings</h3>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Item must be returned within:', '');
             $data = array(
-                'name'          => 'retur_within',
-                'id'            => 'retur_within',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'retur_within',
+                'id' => 'retur_within',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Refund must be given as:', '');
             $data = array(
-                'name'          => 'refund',
-                'id'            => 'refund',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'refund',
+                'id' => 'refund',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Return shipping will be paid by:', '');
             $data = array(
-                'name'          => 'paid_by',
-                'id'            => 'paid_by',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'paid_by',
+                'id' => 'paid_by',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Restocking fee:', '');
             $data = array(
-                'name'          => 'restocking',
-                'id'            => 'restocking',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'restocking',
+                'id' => 'restocking',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Return policy details: (5000 chars max. no HTML)', '');
             $data = array(
-                'name'          => 'return_policy_details',
-                'id'            => 'return_policy_details',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'return_policy_details',
+                'id' => 'return_policy_details',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
 
             );
             echo form_textarea($data);
@@ -467,15 +482,15 @@
 <h4>General shipping details</h4>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Shipping Type', '');
             $data = array(
-                'name'          => 'shipping_type',
-                'id'            => 'shipping_type',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'shipping_type',
+                'id' => 'shipping_type',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', $shipping_type, '#', $data)
             ?>
@@ -484,30 +499,30 @@
 </div>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Handling Time', '');
             $data = array(
-                'name'          => 'handling_time',
-                'id'            => 'handling_time',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'handling_time',
+                'id' => 'handling_time',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('COD Cost', '');
             $data = array(
-                'name'          => 'cod',
-                'id'            => 'cod',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'cod',
+                'id' => 'cod',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
@@ -519,15 +534,15 @@
 <h4>Domestic Shipping details</h4>
 <div class="row temphide">
     <div class="col-md-3">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Shipping Service', '');
             $data = array(
-                'name'          => 'shipping_service',
-                'id'            => 'shipping_service',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'shipping_service',
+                'id' => 'shipping_service',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', $shipping_service, '#', $data);
             echo count($shipping_service);
@@ -535,45 +550,45 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Cost', '');
             $data = array(
-                'name'          => 'shipping_cost',
-                'id'            => 'shipping_cost',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'shipping_cost',
+                'id' => 'shipping_cost',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Each Additional', '');
             $data = array(
-                'name'          => 'shipping_additional',
-                'id'            => 'shipping_additional',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'shipping_additional',
+                'id' => 'shipping_additional',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('AK/HI/PR Surcharge', '');
             $data = array(
-                'name'          => 'shipping_surcharge',
-                'id'            => 'shipping_surcharge',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'shipping_surcharge',
+                'id' => 'shipping_surcharge',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -584,45 +599,45 @@
 <h4>International Shipping details</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Shipping Service', '');
             $data = array(
-                'name'          => 'intl_shipping_service',
-                'id'            => 'intl_shipping_service',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'intl_shipping_service',
+                'id' => 'intl_shipping_service',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
-            echo form_dropdown('options', '' , '#', $data)
+            echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Cost', '');
             $data = array(
-                'name'          => 'intl_shipping_cost',
-                'id'            => 'intl_shipping_cost',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'intl_shipping_cost',
+                'id' => 'intl_shipping_cost',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Each Additional', '');
             $data = array(
-                'name'          => 'intl_shipping_additional',
-                'id'            => 'intl_shipping_additional',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'intl_shipping_additional',
+                'id' => 'intl_shipping_additional',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -635,45 +650,45 @@
 <h4>Dimensions (inches)</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Depth', '');
             $data = array(
-                'name'          => 'depth',
-                'id'            => 'depth',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'depth',
+                'id' => 'depth',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Length', '');
             $data = array(
-                'name'          => 'length',
-                'id'            => 'length',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'length',
+                'id' => 'length',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Width', '');
             $data = array(
-                'name'          => 'width',
-                'id'            => 'width',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'width',
+                'id' => 'width',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -683,30 +698,30 @@
 <h4>Weight</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('lbs', '');
             $data = array(
-                'name'          => 'lbs ',
-                'id'            => 'lbs ',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'lbs ',
+                'id' => 'lbs ',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
         </div>
     </div>
-     <div class="col-md-4">
-        <div class="form-group" >
+    <div class="col-md-4">
+        <div class="form-group">
             <?php
             echo form_label('oz', '');
             $data = array(
-                'name'          => 'oz',
-                'id'            => 'oz',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'oz',
+                'id' => 'oz',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_input($data);
             ?>
@@ -715,15 +730,15 @@
 </div>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Package Type', '');
             $data = array(
-                'name'          => 'package_type ',
-                'id'            => 'package_type ',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'package_type ',
+                'id' => 'package_type ',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
@@ -735,15 +750,15 @@
 
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('PayPal Email:', '');
             $data = array(
-                'name'          => 'paypal_email:   ',
-                'id'            => 'paypal_email ',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'paypal_email:   ',
+                'id' => 'paypal_email ',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
@@ -754,42 +769,42 @@
 <h4>Accepted Payments:</h4>
 <div class="row temphide">
     <div class="col-md-6">
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('PayPal:', '');
             $data = array(
-                'name'          => 'paypal',
-                'id'            => 'paypal',
-                'value'         => 'accept',
-                'checked'       => TRUE,
-                'style'         => 'margin:10px'
+                'name' => 'paypal',
+                'id' => 'paypal',
+                'value' => 'accept',
+                'checked' => TRUE,
+                'style' => 'margin:10px'
             );
 
             echo form_checkbox($data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Taxes:', '');
             $data = array(
-                'name'          => 'taxes',
-                'id'            => 'taxes ',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'taxes',
+                'id' => 'taxes ',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
             );
             echo form_dropdown('options', '', '#', $data)
             ?>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
             <?php
             echo form_label('Payment Instructions', '');
             $data = array(
-                'name'          => 'payment_instructions',
-                'id'            => 'payment_instructions',
-                'value'         => '',
-                'class'         => 'form-control',
-                'placeholder'   => '',
+                'name' => 'payment_instructions',
+                'id' => 'payment_instructions',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
 
             );
             echo form_textarea($data);
@@ -801,46 +816,10 @@
 </div>
 
 
-
 <button type="submit" class="btn btn-primary">Add Item</button>
 
 
-
 <?php echo form_close() ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
@@ -853,18 +832,19 @@
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
+        $('#show_path').hide();
+
         $('.parent').livequery('change', function (event) {
 
             // alert($('#categ_options').val());
             event.preventDefault(); // stops the jump when an anchor clicked.
 
-            $(this).nextAll('.parent').remove();
+            $(this).nextAll('.parent').fadeOut(); // .fadeOut() for fade effect
             $(this).nextAll('label').remove();
+
 
 //            $("div#subcat select").remove(); //first of all clear select items
             $('#show_sub_categories').append('<span id="loader">loading</span>');
-
-
 
             var cat_id = $(this).val(); // Select box do have values not text. If input have text, then $(this).text()  // https://stackoverflow.com/questions/23911438/how-to-get-data-from-database-using-ajax-in-codeigniter
 
@@ -890,14 +870,21 @@
                         csrfHash = result.csrfHash;
                     }
                     console.log(result);
+                    //alert(result.data.category['category']);
+
+                    if (!result.data.category['success']) {
+                        setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
+                    }
+                    else {
+                        setTimeout("finishAjax_input('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
+                    }
+
                     /*$.each(result.data.category, function(id, value) {
                      $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
                      });*/
 
 //                    $('div#subcat').html(result.data.category);
-
-                    setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
-
+                    // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                 },
 
                 error: function (result, status, error) {
@@ -909,10 +896,16 @@
 
     function finishAjax(id, response) {
         $('#loader').remove();
-        $('#' + id).append(unescape(response));
+        $('#'+id).append(unescape(response));
+
         //The append() method inserts specified content at the end of the selected elements.
         //Tip: To insert content at the beginning of the selected elements, use the prepend() method.
+    }
 
+    function finishAjax_input(id, response) {
+        $('#loader').remove();
+        $('#show_path').show();
+        $('#'+id).val(unescape(response));
     }
 
 </script>

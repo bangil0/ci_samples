@@ -112,8 +112,18 @@ Class Ebay_shopping extends Private_Controller
                 } else {
                     //$this->session->set_userdata('category',$category->CategoryID);
                     $this->session->set_flashdata('category',$category->CategoryID);
-                    $browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category <option value="' . $category->CategoryID . '">' . $category->CategoryName . ' ' . $category->CategoryID . '</option></label>';
-                    return $browse;
+
+                    $category_path = str_replace(':', ' > ', $category->CategoryNamePath);
+
+                    $LeafCategory = [];
+                    $LeafCategory['success'] = 'success';
+                    $LeafCategory['category'] = $category->CategoryName;
+                    $LeafCategory['category_id'] = $category->CategoryID;
+                    $LeafCategory['category_path'] = $category_path;
+                    return $LeafCategory;
+
+                    /*$browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category <option value="' . $category->CategoryID . '">' . $category->CategoryName . ' ' . $category->CategoryID . '</option></label>';
+                    return $browse;*/
                 }
             }
 

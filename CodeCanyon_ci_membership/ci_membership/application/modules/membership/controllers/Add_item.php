@@ -18,17 +18,7 @@ class Add_item extends Private_Controller
        /* $this->session->set_flashdata('Category', '15687');
         $category = $this->session->flashdata('Category');*/
 
-
-        //https://stackoverflow.com/questions/16519694/set-codeigniter-session-using-jquery-ajax
-        /*if($this->session->flashdata('category') == "" ) {
-            $category = '15687';
-        } else {
-            $category = $this->session->flashdata('category');
-        }*/
-
         $category = ($this->session->flashdata('category') == "" ) ? '15687' : $this->session->flashdata('category');
-
-        var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
@@ -46,10 +36,8 @@ class Add_item extends Private_Controller
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics(array($category));
         //var_dump( $data['category_item_specifics']);
 
-
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
-
     }
 
     public function add()
