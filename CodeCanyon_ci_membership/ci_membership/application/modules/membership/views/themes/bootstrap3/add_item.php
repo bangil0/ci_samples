@@ -110,7 +110,7 @@
                 'name' => 'primary_category',
                 'id' => 'primary_category',
                 'value' => $this->session->flashdata('primary_category'),
-                'class' => 'form-control',
+                'class' => 'form-control selected_category',
                 'placeholder' => '',
             );
             echo form_input($data1);
@@ -827,12 +827,11 @@
 
     // Ajax post
     $(document).ready(function () { // start of doc ready.
-
 //        https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter
+        $('#show_path').hide();
+
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
-
-        $('#show_path').hide();
 
         $('.parent').livequery('change', function (event) {
 
@@ -841,7 +840,6 @@
 
             $(this).nextAll('.parent').fadeOut(); // .fadeOut() for fade effect
             $(this).nextAll('label').remove();
-
 
 //            $("div#subcat select").remove(); //first of all clear select items
             $('#show_sub_categories').append('<span id="loader">loading</span>');
@@ -852,9 +850,7 @@
                 return false; // return false after clearing sub options if 'please select was chosen'
             }
 
-            var data = {
-                category_id: cat_id
-            };
+            var data = {category_id: cat_id};
             data[csrfName] = csrfHash;
 
             jQuery.ajax({
@@ -872,19 +868,19 @@
                     console.log(result);
                     //alert(result.data.category['category']);
 
-                    if (!result.data.category['success']) {
-                        setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
-                    }
-                    else {
+                    if (result.data.category['success']) {
                         setTimeout("finishAjax_input('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
                     }
+                    else {
+                        setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
+                    }
 
-                    /*$.each(result.data.category, function(id, value) {
-                     $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
-                     });*/
+                        /*$.each(result.data.category, function(id, value) {
+                        $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
+                        });*/
 
-//                    $('div#subcat').html(result.data.category);
-                    // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
+                        //                    $('div#subcat').html(result.data.category);
+                        // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                 },
 
                 error: function (result, status, error) {
@@ -892,7 +888,14 @@
                 }
             });
         });
+
+        $('.selected_category').livequery('keyup', function (event) {
+             alert("aaaaaaaa");
+        });
+
     });
+
+
 
     function finishAjax(id, response) {
         $('#loader').remove();
