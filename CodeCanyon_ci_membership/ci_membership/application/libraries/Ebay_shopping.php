@@ -116,14 +116,12 @@ Class Ebay_shopping extends Private_Controller
                     $category_path = str_replace(':', ' > ', $category->CategoryNamePath);
 
                     $LeafCategory = [];
-                    $LeafCategory['success'] = 'success';
+                    $LeafCategory['valid'] = 'valid';
                     $LeafCategory['category'] = $category->CategoryName;
                     $LeafCategory['category_id'] = $category->CategoryID;
                     $LeafCategory['category_path'] = $category_path;
                     return $LeafCategory;
 
-                    /*$browse = '<label style=\"padding:7px;font-size:12px;\">You have selected a category <option value="' . $category->CategoryID . '">' . $category->CategoryName . ' ' . $category->CategoryID . '</option></label>';
-                    return $browse;*/
                 }
             }
 

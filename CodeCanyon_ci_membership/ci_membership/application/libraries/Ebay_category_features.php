@@ -142,6 +142,7 @@ Class Ebay_category_features extends Private_Controller
                     $condition_values[$Condition->ID] = $Condition->DisplayName;
                 }
                 return $condition_values;
+
             } else {
                 return false;
             }

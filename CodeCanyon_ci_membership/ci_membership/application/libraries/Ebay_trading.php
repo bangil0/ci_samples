@@ -185,7 +185,7 @@ Class Ebay_trading extends Private_Controller
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
         $condition_values = $this->ebay_category_features->get_ConditionValues();
-        return $condition_values;
+        return json_encode($condition_values);
 
         /*
         |--------------------------------------------------------------------------
@@ -203,7 +203,7 @@ Class Ebay_trading extends Private_Controller
     }
 
 
-    public function get_listing_duration($categoryID = NUll, $Listing_type)
+    public function get_listing_duration($categoryID, $Listing_type)
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
         $listing_duration = $this->ebay_category_features->get_ListingDurations($Listing_type);

@@ -27,17 +27,34 @@ class Add_item extends Private_Controller
         $data['country'] = $this->ebay_trading->get_country();
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
 
-        $data['condition_values'] = $this->ebay_trading->get_condition_values($category);
+        $data['condition_values'] = '-- Please Select --';
         //var_dump($data['condition_values']);
 
         $data['listing_duration'] = $this->ebay_trading->get_listing_duration($category,'FixedPriceItem');
-       // var_dump($data['listing_duration']);
+       //var_dump($data['listing_duration']);
 
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics(array($category));
         //var_dump( $data['category_item_specifics']);
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
+    }
+
+
+    public function category_dependencies()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+        $category = ($this->session->flashdata('category') == "" ) ? '15687' : $this->session->flashdata('category');
+        $output = new stdClass;
+        $output->csrfName = $this->security->get_csrf_token_name();
+        $output->csrfHash = $this->security->get_csrf_hash();
+        $output->data = array(
+            'condition_values' => $this->ebay_trading->get_condition_values($category)
+        );
+        echo json_encode($output);
+
     }
 
     public function add()
@@ -108,11 +125,6 @@ class Add_item extends Private_Controller
         );
         echo json_encode($output);
 
-       /* if ($this->input->is_ajax_request()) {
-
-
-        } else {
-            exit('No direct script access allowed');
-        }*/
     }
+
 }

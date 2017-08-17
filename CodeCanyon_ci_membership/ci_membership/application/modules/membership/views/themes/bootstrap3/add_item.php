@@ -128,7 +128,6 @@
             echo form_dropdown('options', $category, '#', $data) ?>
 
 
-
         </div>
     </div>
     <div class="col-md-6">
@@ -858,6 +857,7 @@
                 url: "<?php echo base_url(); ?>" + "membership/add_item/sub_category",
                 dataType: 'json',
                 data: data,
+                cache: false,
 
                 success: function (result, status) {
                     if (result.csrfName) {
@@ -868,19 +868,48 @@
                     console.log(result);
                     //alert(result.data.category['category']);
 
-                    if (result.data.category['success']) {
+                    if (result.data.category['valid']) {
                         setTimeout("finishAjax_input('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
+
+
+                        jQuery.ajax({
+                            url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
+                            dataType: 'json',
+                            cache: false,
+
+                            success: function (result, status) {
+                                if (result.csrfName) {
+                                    csrfName = result.csrfName;
+                                    csrfHash = result.csrfHash;
+                                }
+                                console.log(result);
+
+                                alert(result.data.condition_values);
+
+                               /* $.each(result.data.condition_values, function(id, value) {
+                                 $('#show_sub_categories').append("<option value='" + id + "'>" + value + "</option>");
+                                 });*/
+
+
+                            },
+
+                            error: function (result, status, error) {
+                                alert(error);
+                            }
+                        });
+
+
                     }
                     else {
                         setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                     }
 
-                        /*$.each(result.data.category, function(id, value) {
-                        $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
-                        });*/
+                    /*$.each(result.data.category, function(id, value) {
+                     $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
+                     });*/
 
-                        //                    $('div#subcat').html(result.data.category);
-                        // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
+                    //                    $('div#subcat').html(result.data.category);
+                    // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                 },
 
                 error: function (result, status, error) {
@@ -890,16 +919,15 @@
         });
 
         $('.selected_category').livequery('keyup', function (event) {
-             alert("aaaaaaaa");
+            alert("aaaaaaaa");
         });
 
     });
 
 
-
     function finishAjax(id, response) {
         $('#loader').remove();
-        $('#'+id).append(unescape(response));
+        $('#' + id).append(unescape(response));
 
         //The append() method inserts specified content at the end of the selected elements.
         //Tip: To insert content at the beginning of the selected elements, use the prepend() method.
@@ -908,7 +936,7 @@
     function finishAjax_input(id, response) {
         $('#loader').remove();
         $('#show_path').show();
-        $('#'+id).val(unescape(response));
+        $('#' + id).val(unescape(response));
     }
 
 </script>
