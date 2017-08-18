@@ -9,6 +9,11 @@ https://stackoverflow.com/questions/11551460/php-to-change-select-box-option
 https://stackoverflow.com/questions/33776664/how-to-change-select-values-when-select-an-option-from-other-drop-down-box-in-co
 https://stackoverflow.com/questions/16519694/set-codeigniter-session-using-jquery-ajax
 https://stackoverflow.com/questions/23626272/get-the-variable-in-controller-and-include-in-ajax-redirect-url-to-another-contr
+https://stackoverflow.com/questions/10261775/how-to-access-array-response-of-ajax
+https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
+#manually trigger a change
+https://stackoverflow.com/questions/28059029/select-option-generate-value-from-ajax-on-change
+http://jsfiddle.net/jveldboom/c73MQ/2/
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
@@ -97,3 +102,6 @@ https://stackoverflow.com/questions/23402304/ebay-trading-api-additem-call?rq=1
 
 #CategoryFeatureType - Ebay
 https://ebatns.codebase.ebay.com/DevZone/XML/docs/Reference/ebay/types/CategoryFeatureType.html
+
+#jcleblanc/shopping.php
+https://gist.github.com/jcleblanc/3540279

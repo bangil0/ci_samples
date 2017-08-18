@@ -27,7 +27,7 @@ class Add_item extends Private_Controller
         $data['country'] = $this->ebay_trading->get_country();
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
 
-        $data['condition_values'] = '-- Please Select --';
+        $data['condition_values'] = array('#' => '-- Please Select --' );
         //var_dump($data['condition_values']);
 
         $data['listing_duration'] = $this->ebay_trading->get_listing_duration($category,'FixedPriceItem');

@@ -110,23 +110,21 @@
                 'name' => 'primary_category',
                 'id' => 'primary_category',
                 'value' => $this->session->flashdata('primary_category'),
-                'class' => 'form-control selected_category',
+                'class' => 'form-control',
                 'placeholder' => '',
             );
             echo form_input($data1);
             ?>
-            <span id="show_path">Category you have selected:</span>
+            <span id="show_categ_path"></span>
             <?php
 
             $data = array(
                 'name' => 'parent_category',
                 'id' => 'parent_category',
-                'value' => '',
                 'class' => 'form-control parent',
                 'placeholder' => '',
             );
             echo form_dropdown('options', $category, '#', $data) ?>
-
 
         </div>
     </div>
@@ -821,31 +819,33 @@
 <?php echo form_close() ?>
 
 
-<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
 <script type="text/javascript">
 
     // Ajax post
     $(document).ready(function () { // start of doc ready.
 //        https://stackoverflow.com/questions/40509191/ajax-error-403-forbidden-codeigniter
-        $('#show_path').hide();
+        $('#show_categ_path').hide();
 
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
+
         $('.parent').livequery('change', function (event) {
 
-            // alert($('#categ_options').val());
             event.preventDefault(); // stops the jump when an anchor clicked.
 
+            //first of all clear select items
             $(this).nextAll('.parent').fadeOut(); // .fadeOut() for fade effect
             $(this).nextAll('label').remove();
+            $('#show_categ_path').empty();
 
-//            $("div#subcat select").remove(); //first of all clear select items
-            $('#show_sub_categories').append('<span id="loader">loading</span>');
+            // Inserting loader
+            $('#show_sub_categories').append('<span id="loader"><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
 
             var cat_id = $(this).val(); // Select box do have values not text. If input have text, then $(this).text()  // https://stackoverflow.com/questions/23911438/how-to-get-data-from-database-using-ajax-in-codeigniter
 
             if (cat_id == '#') {
+                $(this).nextAll('#loader').remove();
                 return false; // return false after clearing sub options if 'please select was chosen'
             }
 
@@ -855,7 +855,7 @@
             jQuery.ajax({
                 type: "POST",
                 url: "<?php echo base_url(); ?>" + "membership/add_item/sub_category",
-                dataType: 'json',
+                dataType: 'json', // jQuery will parse the response as JSON
                 data: data,
                 cache: false,
 
@@ -868,13 +868,18 @@
                     console.log(result);
                     //alert(result.data.category['category']);
 
-                    if (result.data.category['valid']) {
+                    if (result.data.category['leaf_category']) {
                         setTimeout("finishAjax_input('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
+                        setTimeout("finishAjax('show_categ_path', '" + escape(result.data.category['category_path']) + "')", 400);
+
+                        //manually trigger a change event for the primary category  so that the change handler will get triggered
+                        //https://stackoverflow.com/questions/28059029/select-option-generate-value-from-ajax-on-change
+                        $('#primary_category').change();
 
 
                         jQuery.ajax({
                             url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
-                            dataType: 'json',
+                            dataType: 'json', // jQuery will parse the response as JSON
                             cache: false,
 
                             success: function (result, status) {
@@ -884,13 +889,18 @@
                                 }
                                 console.log(result);
 
-                                alert(result.data.condition_values);
+                                var condition = $('#item_condition');
+                                // Clear existing values
+                                $(condition).empty();
 
-                               /* $.each(result.data.condition_values, function(id, value) {
-                                 $('#show_sub_categories').append("<option value='" + id + "'>" + value + "</option>");
-                                 });*/
+                                //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
+                                $.each(JSON.parse(result.data.condition_values), function (key, value) {
+                                    $('#item_condition').append("<option value='" + key + "'>" + value + "</option>");
+                                    //alert("element at " + key + ": " + value); // will alert each value
+                                });
 
-
+                                // Set selected value
+                                $(condition).val('#');
                             },
 
                             error: function (result, status, error) {
@@ -898,6 +908,7 @@
                             }
                         });
 
+//                        $('#show_sub_categories').html('refresh',true);
 
                     }
                     else {
@@ -918,12 +929,11 @@
             });
         });
 
-        $('.selected_category').livequery('keyup', function (event) {
-            alert("aaaaaaaa");
+        $('#primary_category').livequery('change', function (event) {
+            alert("Primary category is selected");
         });
 
     });
-
 
     function finishAjax(id, response) {
         $('#loader').remove();
@@ -935,7 +945,7 @@
 
     function finishAjax_input(id, response) {
         $('#loader').remove();
-        $('#show_path').show();
+        $('#show_categ_path').show();
         $('#' + id).val(unescape(response));
     }
 
