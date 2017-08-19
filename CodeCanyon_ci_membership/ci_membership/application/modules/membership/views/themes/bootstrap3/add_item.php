@@ -68,7 +68,7 @@
                 'value' => '',
                 'class' => 'form-control',
                 'placeholder' => '',
-                'onChange' => "brandmpn_pair_Check(this);"
+                'onChange' => "brandmpn_pair_check(this);"
 
             );
             echo form_input($data_identifier);
@@ -76,7 +76,7 @@
             ?>
         </div>
 
-        <div class="form-group" id="brandmpn_pair" style="display: none;">
+        <div class="form-group" id="brandmpn_pair_wrapper" style="display: none;">
             <?php
             echo form_label('Product Brand', '');
             $data = array(
@@ -141,10 +141,10 @@
     <div class="col-md-6">
         <div class="form-group">
             <?php
-            echo form_label('Listing Format', '');
+            echo form_label('Listing Type', '');
             $data = array(
-                'name' => 'listing_format',
-                'id' => '',
+                'name' => 'listing_type',
+                'id' => 'listing_type',
                 'value' => '',
                 'class' => 'form-control',
                 'placeholder' => '',
@@ -243,7 +243,7 @@
 <h4>Item Specifics</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group">
+        <div class="form-group" id="condition_wrapper">
             <?php
             echo form_label('Item Condition:', '');
             $data = array(
@@ -252,12 +252,13 @@
                 'value' => '',
                 'class' => 'form-control',
                 'placeholder' => '',
+                'onChange' => "condition_desc_check(this);"
             );
             echo form_dropdown('options', $condition_values, '#', $data);
             ?>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="condition_description_wrapper" style="display: none;">
             <?php
             echo form_label('Condition Description', '');
             $data = array(
@@ -814,8 +815,6 @@
 
 
 <button type="submit" class="btn btn-primary">Add Item</button>
-
-
 <?php echo form_close() ?>
 
 
@@ -843,13 +842,14 @@
             $('#show_sub_categories').append('<span id="loader"><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
 
             var cat_id = $(this).val(); // Select box do have values not text. If input have text, then $(this).text()  // https://stackoverflow.com/questions/23911438/how-to-get-data-from-database-using-ajax-in-codeigniter
+            var lst_type = $('#listing_type').val();
 
             if (cat_id == '#') {
                 $(this).nextAll('#loader').remove();
                 return false; // return false after clearing sub options if 'please select was chosen'
             }
 
-            var data = {category_id: cat_id};
+            var data = {category_id: cat_id, listing_type:lst_type };
             data[csrfName] = csrfHash;
 
             jQuery.ajax({
@@ -869,13 +869,8 @@
                     //alert(result.data.category['category']);
 
                     if (result.data.category['leaf_category']) {
-                        setTimeout("finishAjax_input('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
+                        setTimeout("finishAjax_prm_cat('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
                         setTimeout("finishAjax('show_categ_path', '" + escape(result.data.category['category_path']) + "')", 400);
-
-                        //manually trigger a change event for the primary category  so that the change handler will get triggered
-                        //https://stackoverflow.com/questions/28059029/select-option-generate-value-from-ajax-on-change
-                        $('#primary_category').change();
-
 
                         jQuery.ajax({
                             url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
@@ -889,15 +884,25 @@
                                 }
                                 console.log(result);
 
+                                var condition_wrapper = $('#condition_wrapper');
                                 var condition = $('#item_condition');
-                                // Clear existing values
-                                $(condition).empty();
 
-                                //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
-                                $.each(JSON.parse(result.data.condition_values), function (key, value) {
-                                    $('#item_condition').append("<option value='" + key + "'>" + value + "</option>");
-                                    //alert("element at " + key + ": " + value); // will alert each value
-                                });
+                                if (result.data.condition_values == 'false') {
+                                    $(condition_wrapper).hide();
+                                    $(condition).empty();
+                                }
+                                else {
+                                    $(condition_wrapper).show();
+
+                                    // Clear existing values
+                                    $(condition).empty();
+
+                                    //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
+                                    $.each(JSON.parse(result.data.condition_values), function (key, value) {
+                                        $('#item_condition').append("<option value='" + key + "'>" + value + "</option>");
+                                        //alert("element at " + key + ": " + value); // will alert each value
+                                    });
+                                }
 
                                 // Set selected value
                                 $(condition).val('#');
@@ -935,18 +940,5 @@
 
     });
 
-    function finishAjax(id, response) {
-        $('#loader').remove();
-        $('#' + id).append(unescape(response));
-
-        //The append() method inserts specified content at the end of the selected elements.
-        //Tip: To insert content at the beginning of the selected elements, use the prepend() method.
-    }
-
-    function finishAjax_input(id, response) {
-        $('#loader').remove();
-        $('#show_categ_path').show();
-        $('#' + id).val(unescape(response));
-    }
 
 </script>

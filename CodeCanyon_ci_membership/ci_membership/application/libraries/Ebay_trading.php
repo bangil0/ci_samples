@@ -89,10 +89,14 @@ Class Ebay_trading extends Private_Controller
         $arr = $reflect->getConstants();
 
         $listing_type_arr = [];
-        $listing_type_arr[array_keys($arr)[2]] = 'Auction';
-        $listing_type_arr[array_keys($arr)[7]] = 'Fixed Price Item';
-        $listing_type_arr['multi'] = 'Multi Variation (Fixed Price)'; // This needs to be fix later
+       /* $listing_type_arr[array_keys($arr)[1]] = 'Auction';
+        $listing_type_arr[array_keys($arr)[6]] = 'Fixed Price Item';*/
+
+        $listing_type_arr['Chinese'] = 'Auction';
+        $listing_type_arr['FixedPriceItem'] = 'Fixed Price Item';
+        $listing_type_arr['multisku'] = 'Multi Variation (Fixed Price)'; // This needs to be fix later
         return $listing_type_arr;
+
 //        $sub_category_arr = [];
 //        foreach ($arr as $fieldKey => $setLater) {
 //            $sub_category_arr['Auction'] = $fieldKey[0];
@@ -104,6 +108,14 @@ Class Ebay_trading extends Private_Controller
 //        $fixeditem = array_slice($arr,6, true);
 //
 //        return $sub_category_arr;
+    }
+
+    public function get_listing_duration($categoryID, $Listing_type)
+    {
+        $this->CI->load->library('ebay_category_features', $categoryID);
+        $listing_duration = $this->ebay_category_features->get_ListingDurations($Listing_type);
+        return $listing_duration;
+
     }
 
     public function get_country()
@@ -130,8 +142,8 @@ Class Ebay_trading extends Private_Controller
         }
 
     }
-
     //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
+
     public function get_shipping_service($shipping_type)
     {
         // GeteBayDetails
@@ -181,6 +193,7 @@ Class Ebay_trading extends Private_Controller
         }
     }
 
+
     public function get_condition_values($categoryID)
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
@@ -200,15 +213,6 @@ Class Ebay_trading extends Private_Controller
         } else {
             return false;
         }*/
-    }
-
-
-    public function get_listing_duration($categoryID, $Listing_type)
-    {
-        $this->CI->load->library('ebay_category_features', $categoryID);
-        $listing_duration = $this->ebay_category_features->get_ListingDurations($Listing_type);
-        return $listing_duration;
-
     }
 
     public function get_category_item_specifics(array $categoryID)

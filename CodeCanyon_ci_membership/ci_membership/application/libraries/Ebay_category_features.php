@@ -100,7 +100,7 @@ Class Ebay_category_features extends Private_Controller
         foreach ($response->Category as $details) {
             //var_dump($details);
             foreach ($details->ListingDuration as $Duration) {
-                //var_dump($Duration);
+                 //var_dump($Duration);
                 if ($Duration->type == $Listing_type) {
                     $duration_value = $Duration->value;
                     if (array_key_exists($duration_value, $durationSet_arr)) {
@@ -134,6 +134,7 @@ Class Ebay_category_features extends Private_Controller
              * Mode checking (Enabled, Disabled or Required). If mode not available, then assign site default value.
              */
             $mode = ($details->ConditionEnabled) ? $details->ConditionEnabled : $response->SiteDefaults->ConditionEnabled;
+
             if ($mode !== 'Disabled') {
                 $condition_values = [];
                 $condition_values['#'] = '-- Please Select --';

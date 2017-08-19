@@ -101,8 +101,8 @@ Class Ebay_shopping extends Private_Controller
             foreach ($response->CategoryArray->Category as $category) {
                 if ($category->LeafCategory == false) {
                     if ($category->CategoryID != $categoryID && $category->CategoryLevel != 0) {
-                       // if ($category->CategoryLevel != 0) {
-                            $sub_category_arr[$category->CategoryID] = $category->CategoryName;
+                        // if ($category->CategoryLevel != 0) {
+                        $sub_category_arr[$category->CategoryID] = $category->CategoryName;
                         //}
                     }
                 } else if ($category->CategoryID != $categoryID) {
@@ -111,7 +111,7 @@ Class Ebay_shopping extends Private_Controller
                     }
                 } else {
                     //$this->session->set_userdata('category',$category->CategoryID);
-                    $this->session->set_flashdata('category',$category->CategoryID);
+                    $this->session->set_flashdata('category', $category->CategoryID);
 
                     $category_path = str_replace(':', ' > ', $category->CategoryNamePath);
 
@@ -119,9 +119,8 @@ Class Ebay_shopping extends Private_Controller
                     $LeafCategory['leaf_category'] = 'valid';
                     $LeafCategory['category'] = $category->CategoryName;
                     $LeafCategory['category_id'] = $category->CategoryID;
-                    $LeafCategory['category_path'] = 'Category you have selected: '.$category_path;
+                    $LeafCategory['category_path'] = 'Category you have selected: ' . $category_path;
                     return $LeafCategory;
-
                 }
             }
 
@@ -138,8 +137,7 @@ Class Ebay_shopping extends Private_Controller
             $attributes = array('id' => '', 'class' => 'form-control parent');
             return form_dropdown('options', $sub_category_arr, '#', $attributes);
 
-        }
-       else return false;
+        } else return false;
 //        return $sub_category_arr;
     }
 
@@ -153,7 +151,6 @@ Class Ebay_shopping extends Private_Controller
         {
             return $request = new Types\GetCategoryInfoRequestType();
         }*/
-
 
 
 }

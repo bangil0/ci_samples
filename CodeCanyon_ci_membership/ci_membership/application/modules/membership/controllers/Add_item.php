@@ -18,7 +18,8 @@ class Add_item extends Private_Controller
        /* $this->session->set_flashdata('Category', '15687');
         $category = $this->session->flashdata('Category');*/
 
-        $category = ($this->session->flashdata('category') == "" ) ? '15687' : $this->session->flashdata('category');
+        $category = ($this->session->flashdata('category') == "" ) ? '37908' : $this->session->flashdata('category');
+        //var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
@@ -27,11 +28,15 @@ class Add_item extends Private_Controller
         $data['country'] = $this->ebay_trading->get_country();
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
 
+        /**
+         * Category dependent calls
+         */
+
         $data['condition_values'] = array('#' => '-- Please Select --' );
         //var_dump($data['condition_values']);
 
         $data['listing_duration'] = $this->ebay_trading->get_listing_duration($category,'FixedPriceItem');
-       //var_dump($data['listing_duration']);
+       var_dump($data['listing_duration']);
 
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics(array($category));
         //var_dump( $data['category_item_specifics']);
@@ -46,7 +51,7 @@ class Add_item extends Private_Controller
         if (!$this->input->is_ajax_request()) {
             exit('No direct script access allowed');
         }
-        $category = ($this->session->flashdata('category') == "" ) ? '15687' : $this->session->flashdata('category');
+        $category = $this->session->flashdata('category');
         $output = new stdClass;
         $output->csrfName = $this->security->get_csrf_token_name();
         $output->csrfHash = $this->security->get_csrf_hash();
@@ -54,36 +59,6 @@ class Add_item extends Private_Controller
             'condition_values' => $this->ebay_trading->get_condition_values($category)
         );
         echo json_encode($output);
-
-    }
-
-    public function add()
-    {
-        //Validate form input
-        $this->form_validation->set_error_delimiters('<p>', '</p>');
-        $this->form_validation->set_rules('product_title', 'Title', 'trim|required|max_length[80]|min_length[2]');
-        $this->form_validation->set_rules('product_subtitle', 'Subtitle', 'trim|max_length[55]|min_length[2]');
-        $this->form_validation->set_rules('description', 'Description', 'trim');
-        $this->form_validation->set_rules('prd_identifier', 'Product Identifier', 'trim|max_length[25]|min_length[2]');
-        $this->form_validation->set_rules('prd_identifier_type', 'Product Identifier Type', 'trim');
-        $this->form_validation->set_rules('product_brand_mpn', 'Product Brand', 'trim|max_length[25]|min_length[2]');
-
-        if (!$this->form_validation->run()) {
-            $this->session->set_flashdata('error', validation_errors());
-            $this->session->set_flashdata($_POST);
-            redirect('/membership/add_item/');
-            exit();
-        }
-
-        //Refer dating home controller
-        $data_array = array(
-            'product_title' => strip_tags($this->input->post('product_title')),
-            'product_subtitle' => strip_tags($this->input->post('product_subtitle')),
-            'description' => $this->input->post('description'),
-            'prd_identifier' => $this->input->post('prd_identifier'),
-            'prd_identifier_type' => $this->input->post('prd_identifier_type'),
-            'product_brand_mpn' => $this->input->post('product_brand_mpn'),
-        );
 
     }
 
@@ -116,6 +91,7 @@ class Add_item extends Private_Controller
             exit('No direct script access allowed');
         }
         $categoryID = $this->input->post('category_id');
+        $listing_type = $this->input->post('listing_type');
         $output = new stdClass;
         $output->csrfName = $this->security->get_csrf_token_name();
         $output->csrfHash = $this->security->get_csrf_hash();
@@ -124,6 +100,36 @@ class Add_item extends Private_Controller
             'category' => $this->ebay_shopping->get_sub_category($categoryID)
         );
         echo json_encode($output);
+
+    }
+
+    public function add()
+    {
+        //Validate form input
+        $this->form_validation->set_error_delimiters('<p>', '</p>');
+        $this->form_validation->set_rules('product_title', 'Title', 'trim|required|max_length[80]|min_length[2]');
+        $this->form_validation->set_rules('product_subtitle', 'Subtitle', 'trim|max_length[55]|min_length[2]');
+        $this->form_validation->set_rules('description', 'Description', 'trim');
+        $this->form_validation->set_rules('prd_identifier', 'Product Identifier', 'trim|max_length[25]|min_length[2]');
+        $this->form_validation->set_rules('prd_identifier_type', 'Product Identifier Type', 'trim');
+        $this->form_validation->set_rules('product_brand_mpn', 'Product Brand', 'trim|max_length[25]|min_length[2]');
+
+        if (!$this->form_validation->run()) {
+            $this->session->set_flashdata('error', validation_errors());
+            $this->session->set_flashdata($_POST);
+            redirect('/membership/add_item/');
+            exit();
+        }
+
+        //Refer dating home controller
+        $data_array = array(
+            'product_title' => strip_tags($this->input->post('product_title')),
+            'product_subtitle' => strip_tags($this->input->post('product_subtitle')),
+            'description' => $this->input->post('description'),
+            'prd_identifier' => $this->input->post('prd_identifier'),
+            'prd_identifier_type' => $this->input->post('prd_identifier_type'),
+            'product_brand_mpn' => $this->input->post('product_brand_mpn'),
+        );
 
     }
 
