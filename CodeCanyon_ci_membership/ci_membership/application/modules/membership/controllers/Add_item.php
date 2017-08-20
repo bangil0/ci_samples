@@ -15,10 +15,10 @@ class Add_item extends Private_Controller
 
     public function index()
     {
-       /* $this->session->set_flashdata('Category', '15687');
-        $category = $this->session->flashdata('Category');*/
+        /* $this->session->set_flashdata('Category', '15687');
+         $category = $this->session->flashdata('Category');*/
 
-        $category = ($this->session->flashdata('category') == "" ) ? '37908' : $this->session->flashdata('category');
+        $category = ($this->session->flashdata('category') == "") ? '37908' : $this->session->flashdata('category');
         //var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
@@ -26,19 +26,19 @@ class Add_item extends Private_Controller
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
         $data['shipping_service'] = $this->ebay_trading->get_shipping_service('Flat');
         $data['country'] = $this->ebay_trading->get_country();
-        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC'=>'UPC', 'EAN'=>'EAN', 'MPN'=> 'Brand+MPN' );
+        $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC' => 'UPC', 'EAN' => 'EAN', 'MPN' => 'Brand+MPN');
 
         /**
          * Category dependent calls
          */
 
-        $data['condition_values'] = array('#' => '-- Please Select --' );
+        $data['condition_values'] = array('#' => '-- Please Select --');
         //var_dump($data['condition_values']);
 
-        $data['listing_duration'] = $this->ebay_trading->get_listing_duration($category,'FixedPriceItem');
-       var_dump($data['listing_duration']);
+        $data['listing_duration'] = array('#' => '-- Please Select --');
+        // var_dump($data['listing_duration']);
 
-        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics(array($category));
+        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics($category);
         //var_dump( $data['category_item_specifics']);
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
@@ -51,15 +51,24 @@ class Add_item extends Private_Controller
         if (!$this->input->is_ajax_request()) {
             exit('No direct script access allowed');
         }
-        $category = $this->session->flashdata('category');
+        $category = ($this->session->flashdata('category') == "") ? $this->input->post('category') : $this->session->flashdata('category');
         $output = new stdClass;
         $output->csrfName = $this->security->get_csrf_token_name();
         $output->csrfHash = $this->security->get_csrf_hash();
-        $output->data = array(
-            'condition_values' => $this->ebay_trading->get_condition_values($category)
-        );
-        echo json_encode($output);
 
+        if ($this->input->post('required') == 'condition_values') {
+            $output->data = array(
+                'condition_values' => $this->ebay_trading->get_condition_values($category),
+            );
+        }
+        if ($this->input->post('required') == 'listing_duration') {
+            $listing_type = $this->input->post('listing_type');
+            $output->data = array(
+                'listing_duration' => $this->ebay_trading->get_listing_duration($category, $listing_type),
+            );
+        }
+
+        echo json_encode($output);
     }
 
     public function sub_category()
@@ -90,14 +99,14 @@ class Add_item extends Private_Controller
         if (!$this->input->is_ajax_request()) {
             exit('No direct script access allowed');
         }
-        $categoryID = $this->input->post('category_id');
-        $listing_type = $this->input->post('listing_type');
+        $category = $this->input->post('category');
         $output = new stdClass;
         $output->csrfName = $this->security->get_csrf_token_name();
         $output->csrfHash = $this->security->get_csrf_hash();
 //                    $output->data = $subcategory;
         $output->data = array(
-            'category' => $this->ebay_shopping->get_sub_category($categoryID)
+            'category' => $this->ebay_shopping->get_sub_category($category)
+
         );
         echo json_encode($output);
 

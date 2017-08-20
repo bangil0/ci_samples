@@ -89,8 +89,8 @@ Class Ebay_trading extends Private_Controller
         $arr = $reflect->getConstants();
 
         $listing_type_arr = [];
-       /* $listing_type_arr[array_keys($arr)[1]] = 'Auction';
-        $listing_type_arr[array_keys($arr)[6]] = 'Fixed Price Item';*/
+        /* $listing_type_arr[array_keys($arr)[1]] = 'Auction';
+         $listing_type_arr[array_keys($arr)[6]] = 'Fixed Price Item';*/
 
         $listing_type_arr['Chinese'] = 'Auction';
         $listing_type_arr['FixedPriceItem'] = 'Fixed Price Item';
@@ -112,9 +112,35 @@ Class Ebay_trading extends Private_Controller
 
     public function get_listing_duration($categoryID, $Listing_type)
     {
+//        Helped link https://stackoverflow.com/questions/8668826/search-and-replace-value-in-php-array
         $this->CI->load->library('ebay_category_features', $categoryID);
-        $listing_duration = $this->ebay_category_features->get_ListingDurations($Listing_type);
-        return $listing_duration;
+        $obj = $this->ebay_category_features->get_ListingDurations($Listing_type);
+
+        $replacements = array
+        (
+            'Days_1' => '1 Day',
+            'Days_10' => '10 Days',
+            'Days_120' => '120 Days',
+            'Days_14' => '14 Days',
+            'Days_21' => '21 Days',
+            'Days_3' => '3 Days',
+            'Days_30' => '30 Days',
+            'Days_5' => '5 Days',
+            'Days_60' => '60 Days',
+            'Days_7' => '7 Days',
+            'Days_90' => '90 Days',
+            'GTC' => 'Good Til Cancelled'
+        );
+
+        $listing_duration = [];
+        $listing_duration['#'] = '-- Please Select --';
+        foreach ($obj as $key => $value) {
+            if (isset($replacements[$value])) {
+                $listing_duration[$value] = $replacements[$value];
+            }
+        }
+
+        return json_encode($listing_duration);
 
     }
 
@@ -142,6 +168,7 @@ Class Ebay_trading extends Private_Controller
         }
 
     }
+
     //https://gist.github.com/davidtsadler/ed6aefd59f4ac882cdcd
 
     public function get_shipping_service($shipping_type)
@@ -215,7 +242,7 @@ Class Ebay_trading extends Private_Controller
         }*/
     }
 
-    public function get_category_item_specifics(array $categoryID)
+    public function get_category_item_specifics($categoryID)
     {
         /*
         |--------------------------------------------------------------------------
@@ -239,7 +266,7 @@ Class Ebay_trading extends Private_Controller
 
 
         if ($categoryID && $mode !== 'Disabled') {
-            $request->CategoryID = $categoryID;
+            $request->CategoryID = [$categoryID];
             $response = $this->trading_service->getCategorySpecifics($request);
             // Check errors
             $checkError = $this->get_response($response);

@@ -155,7 +155,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group">
+        <div class="form-group" id="duration_wrapper" style="display: none">
             <?php
             echo form_label('Listing Duration', '');
             $data = array(
@@ -165,7 +165,7 @@
                 'class' => 'form-control',
                 'placeholder' => '',
             );
-            echo form_dropdown('options', '', '#', $data)
+            echo form_dropdown('options', $listing_duration, '#', $data)
             ?>
         </div>
     </div>
@@ -243,7 +243,7 @@
 <h4>Item Specifics</h4>
 <div class="row temphide">
     <div class="col-md-4">
-        <div class="form-group" id="condition_wrapper">
+        <div class="form-group" id="condition_wrapper" style="display: none">
             <?php
             echo form_label('Item Condition:', '');
             $data = array(
@@ -828,7 +828,6 @@
         var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
         var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
 
-
         $('.parent').livequery('change', function (event) {
 
             event.preventDefault(); // stops the jump when an anchor clicked.
@@ -842,15 +841,13 @@
             $('#show_sub_categories').append('<span id="loader"><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
 
             var cat_id = $(this).val(); // Select box do have values not text. If input have text, then $(this).text()  // https://stackoverflow.com/questions/23911438/how-to-get-data-from-database-using-ajax-in-codeigniter
-            var lst_type = $('#listing_type').val();
+            var data = {category: cat_id};
+            data[csrfName] = csrfHash;
 
-            if (cat_id == '#') {
+            if (cat_id === '#') {
                 $(this).nextAll('#loader').remove();
                 return false; // return false after clearing sub options if 'please select was chosen'
             }
-
-            var data = {category_id: cat_id, listing_type:lst_type };
-            data[csrfName] = csrfHash;
 
             jQuery.ajax({
                 type: "POST",
@@ -872,60 +869,17 @@
                         setTimeout("finishAjax_prm_cat('primary_category', '" + escape(result.data.category['category_id']) + "')", 400);
                         setTimeout("finishAjax('show_categ_path', '" + escape(result.data.category['category_path']) + "')", 400);
 
-                        jQuery.ajax({
-                            url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
-                            dataType: 'json', // jQuery will parse the response as JSON
-                            cache: false,
-
-                            success: function (result, status) {
-                                if (result.csrfName) {
-                                    csrfName = result.csrfName;
-                                    csrfHash = result.csrfHash;
-                                }
-                                console.log(result);
-
-                                var condition_wrapper = $('#condition_wrapper');
-                                var condition = $('#item_condition');
-
-                                if (result.data.condition_values == 'false') {
-                                    $(condition_wrapper).hide();
-                                    $(condition).empty();
-                                }
-                                else {
-                                    $(condition_wrapper).show();
-
-                                    // Clear existing values
-                                    $(condition).empty();
-
-                                    //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
-                                    $.each(JSON.parse(result.data.condition_values), function (key, value) {
-                                        $('#item_condition').append("<option value='" + key + "'>" + value + "</option>");
-                                        //alert("element at " + key + ": " + value); // will alert each value
-                                    });
-                                }
-
-                                // Set selected value
-                                $(condition).val('#');
-                            },
-
-                            error: function (result, status, error) {
-                                alert(error);
-                            }
-                        });
-
-//                        $('#show_sub_categories').html('refresh',true);
+                        /**
+                         * manually trigger a change event for the primary category  so that the change handler will get triggered
+                         * https://stackoverflow.com/questions/28059029/select-option-generate-value-from-ajax-on-change
+                         */
+                        $('#primary_category').change();
 
                     }
                     else {
                         setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                     }
 
-                    /*$.each(result.data.category, function(id, value) {
-                     $('select#subcategory').append("<option value='" + id + "'>" + value + "</option>");
-                     });*/
-
-                    //                    $('div#subcat').html(result.data.category);
-                    // setTimeout("finishAjax('show_sub_categories', '" + escape(result.data.category) + "')", 400);
                 },
 
                 error: function (result, status, error) {
@@ -935,7 +889,125 @@
         });
 
         $('#primary_category').livequery('change', function (event) {
-            alert("Primary category is selected");
+            // alert("primary_category change detected");
+            event.preventDefault(); // stops the jump when an anchor clicked.
+
+            var wrapper = $('#condition_wrapper');
+            var target = $('#item_condition');
+            var catID = $(this).val();
+            var data = {required: "condition_values", category: catID};
+            data[csrfName] = csrfHash;
+
+            if (catID === null) {
+                return false;
+            }
+
+            $(wrapper).show();
+            $(wrapper).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
+            $(target).hide();
+
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
+                dataType: 'json', // jQuery will parse the response as JSON
+                data: data,
+                cache: false,
+
+                success: function (result, status) {
+                    if (result.csrfName) {
+                        csrfName = result.csrfName;
+                        csrfHash = result.csrfHash;
+                    }
+                    console.log(result);
+
+                    if (result.data.condition_values == 'false') {
+                        $(wrapper).hide();
+                        $(wrapper).children('#loader').remove();
+                        $(target).empty();
+                    }
+                    else {
+
+                        $(target).empty();// Clear existing values
+
+                        //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
+                        $.each(JSON.parse(result.data.condition_values), function (key, value) {
+                            $(target).append("<option value='" + key + "'>" + value + "</option>");
+                            //alert("element at " + key + ": " + value); // will alert each value
+                        });
+
+                        $(wrapper).children('#loader').remove();
+                        $(target).show();
+                        $(target).val('#');// Set selected value
+
+                    }
+
+                    $('#listing_type').change();
+
+                },
+
+                error: function (result, status, error) {
+                    alert(error);
+                }
+            });
+
+
+        });
+
+        $('#listing_type').livequery('change', function (event) {
+            //alert("listing_type change detected");
+            event.preventDefault(); // stops the jump when an anchor clicked.
+
+            var listing_type = $(this).val();
+            var wrapper = $('#duration_wrapper');
+            var target = $('#listing_duration');
+            var catID = $('#primary_category').val();
+            var data = {required: "listing_duration", listing_type: listing_type, category: catID};
+            data[csrfName] = csrfHash;
+
+            if (catID === "") {
+                return false;
+            }
+            if (listing_type === '#') {
+                return false;
+            }
+
+            $(wrapper).show();
+            $(wrapper).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
+            $(target).hide();
+
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "membership/add_item/category_dependencies",
+                dataType: 'json', // jQuery will parse the response as JSON
+                data: data,
+                cache: false,
+
+                success: function (result, status) {
+                    if (result.csrfName) {
+                        csrfName = result.csrfName;
+                        csrfHash = result.csrfHash;
+                    }
+                    console.log(result);
+
+                    $(target).empty(); // Clear existing values
+
+                    $.each(JSON.parse(result.data.listing_duration), function (key, value) {
+                        $(target).append("<option value='" + key + "'>" + value + "</option>");
+                        //alert("element at " + key + ": " + value); // will alert each value
+                    });
+
+                    $(wrapper).children('#loader').remove();
+                    $(target).show();
+                    $(target).val('#');// Set selected value
+
+                },
+
+                error: function (result, status, error) {
+                    alert(error);
+                }
+            });
+
+
         });
 
     });

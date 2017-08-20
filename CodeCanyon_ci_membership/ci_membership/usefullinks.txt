@@ -14,6 +14,7 @@ https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-op
 #manually trigger a change
 https://stackoverflow.com/questions/28059029/select-option-generate-value-from-ajax-on-change
 http://jsfiddle.net/jveldboom/c73MQ/2/
+https://stackoverflow.com/questions/8668826/search-and-replace-value-in-php-array
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
