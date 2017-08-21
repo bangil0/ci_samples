@@ -121,7 +121,8 @@ Class Ebay_category_features extends Private_Controller
          * Mode checking (Enabled, Disabled or Required). If mode not available, then assign site default value.
          */
         foreach ($response->Category as $details) {
-            $mode = ($details->ItemSpecificsEnabled) ? $details->ItemSpecificsEnabled : $response->SiteDefaults->ItemSpecificsEnabled;
+            //var_dump($details);
+            $mode = (isset($details->ItemSpecificsEnabled)) ? $details->ItemSpecificsEnabled : $response->SiteDefaults->ItemSpecificsEnabled;
             return $mode;
         }
     }

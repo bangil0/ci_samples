@@ -275,6 +275,7 @@ Class Ebay_trading extends Private_Controller
                     $name_value_arr = array();
                     foreach ($response->Recommendations as $Recommendation) {
                         foreach ($Recommendation->NameRecommendation as $NameRecommendation) {
+                            var_dump($NameRecommendation->ValidationRules);
                             $name = $NameRecommendation->Name;
                             if ($NameRecommendation->ValidationRules->MinValues >= 1) {
                                 /**

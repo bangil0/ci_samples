@@ -106,3 +106,6 @@ https://ebatns.codebase.ebay.com/DevZone/XML/docs/Reference/ebay/types/CategoryF
 
 #jcleblanc/shopping.php
 https://gist.github.com/jcleblanc/3540279
+
+#Listing with Required Item Specifics - SelectionOnly
+https://developer.ebay.com/Devzone/guides/ebayfeatures/Development/ItemSpecifics-Advanced.html#ListingwithRecommendedItemSpecificNamesa

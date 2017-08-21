@@ -902,9 +902,10 @@
                 return false;
             }
 
+            $(target).hide();
             $(wrapper).show();
             $(wrapper).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
-            $(target).hide();
+
 
             jQuery.ajax({
                 type: "POST",
@@ -938,7 +939,6 @@
                         $(wrapper).children('#loader').remove();
                         $(target).show();
                         $(target).val('#');// Set selected value
-
                     }
 
                     $('#listing_type').change();

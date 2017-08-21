@@ -18,8 +18,8 @@ class Add_item extends Private_Controller
         /* $this->session->set_flashdata('Category', '15687');
          $category = $this->session->flashdata('Category');*/
 
-        $category = ($this->session->flashdata('category') == "") ? '37908' : $this->session->flashdata('category');
-        //var_dump($category);
+        $category = ($this->session->flashdata('category') == "") ? '15687' : $this->session->flashdata('category');
+        var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
