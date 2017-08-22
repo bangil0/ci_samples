@@ -245,9 +245,9 @@
     <div class="col-md-4">
         <div class="form-group" id="condition_wrapper" style="display: none">
             <?php
-            echo form_label('Item Condition:', '');
+            echo form_label('Item Condition', '');
             $data = array(
-                'name' => 'item_condition:',
+                'name' => 'item_condition',
                 'id' => 'item_condition',
                 'value' => '',
                 'class' => 'form-control',
@@ -272,9 +272,24 @@
             ?>
         </div>
 
+        <div class="form-group" id="name_value_recommendations">
+
+
+            <?php
+                    //https://stackoverflow.com/questions/6661530/php-multidimensional-array-search-by-value
+                    /*$results = searcharray('SelectionOnly', 'custom', $value);
+                    function searcharray($value, $key, $array) {
+                        foreach ($array as $k => $val) {
+                            if ($val[$key] == $value) {
+                                return $k;
+                            }
+                        }
+                        return null;
+                    }*/
+            ?>
+
+        </div>
     </div>
-
-
 </div>
 
 
@@ -921,6 +936,8 @@
                     }
                     console.log(result);
 
+                  // alert(result.data.category_item_specifics);
+
                     if (result.data.condition_values == 'false') {
                         $(wrapper).hide();
                         $(wrapper).children('#loader').remove();
@@ -935,6 +952,12 @@
                             $(target).append("<option value='" + key + "'>" + value + "</option>");
                             //alert("element at " + key + ": " + value); // will alert each value
                         });
+/*
+                        $.each(JSON.parse(result.data.category_item_specifics), function (key, value) {
+                            $('#name_value_recommendations').append("<label>" + key + "</label>");
+                        })*/
+
+                        setTimeout("finishAjax('name_value_recommendations', '" + escape(result.data.category_item_specifics) + "')", 1000);
 
                         $(wrapper).children('#loader').remove();
                         $(target).show();

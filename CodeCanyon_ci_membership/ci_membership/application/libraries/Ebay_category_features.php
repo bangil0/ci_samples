@@ -114,7 +114,7 @@ Class Ebay_category_features extends Private_Controller
         }
     }
 
-    public function get_ItemSpecificsEnabled()
+    public function get_ItemSpecificsMode()
     {
         $response = $this->CategoryFeatures();
         /**

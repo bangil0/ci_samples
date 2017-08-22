@@ -261,7 +261,7 @@ Class Ebay_trading extends Private_Controller
          * Check Item Specifics are Enabled
          */
         $this->CI->load->library('ebay_category_features', $categoryID);
-        $mode = $this->ebay_category_features->get_ItemSpecificsEnabled();
+        $mode = $this->ebay_category_features->get_ItemSpecificsMode();
         //var_dump($$mode);
 
 
@@ -275,13 +275,17 @@ Class Ebay_trading extends Private_Controller
                     $name_value_arr = array();
                     foreach ($response->Recommendations as $Recommendation) {
                         foreach ($Recommendation->NameRecommendation as $NameRecommendation) {
-                            var_dump($NameRecommendation->ValidationRules);
-                            $name = $NameRecommendation->Name;
+                            $values_arr = array();
+                            if ($NameRecommendation->ValidationRules->SelectionMode == 'SelectionOnly') {
+                                $values_arr['custom']['SelectionOnly'] = true;
+                            }
+
                             if ($NameRecommendation->ValidationRules->MinValues >= 1) {
                                 /**
                                  * Required item specifics have * in Name of Specific
                                  */
-                                $name = $NameRecommendation->Name . '<strong>*</strong>';
+                                //$name = $NameRecommendation->Name . '<strong>*</strong>';
+                                $values_arr['custom']['MinValues'] = true;
                             }
 
                             /*
@@ -291,7 +295,9 @@ Class Ebay_trading extends Private_Controller
                            |http://prntscr.com/g5zzn5
                            |https://stackoverflow.com/questions/5421426/php-xml-xpath-node-element-iteration-and-inserting-into-array
                            */
-                            $values_arr = array();
+
+                            $name = $NameRecommendation->Name;
+
                             foreach ($NameRecommendation->ValueRecommendation as $ValueRecommendation) {
                                 $values = (string)$ValueRecommendation->Value;
                                 array_push($values_arr, $values);
@@ -301,7 +307,38 @@ Class Ebay_trading extends Private_Controller
                             $name_value_arr[$name] = $values_arr;
                         }
                     }
-                    return $name_value_arr;
+
+                    $browse = [];
+
+                    function findKey($array, $keySearch)
+                    {
+                        foreach ($array as $key => $item) {
+                            if (is_array($item)) {
+                                foreach ($item as $k => $v) {
+                                    if($k == $keySearch){
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+
+                    foreach ($name_value_arr as $key => $value) {
+
+                       $selection_only = findKey($value, 'SelectionOnly');
+                       $min_values = findKey($value, 'MinValues');
+
+                       var_dump($selection_only);
+                       var_dump($value);
+
+
+                        $attributes = array('id' => '', 'class' => 'form-control');
+                        $browse[] = form_label($key, '') . form_dropdown('options', $value, '#', $attributes);
+                    }
+                    return $browse;
+
                 }
             }
         } else return false;

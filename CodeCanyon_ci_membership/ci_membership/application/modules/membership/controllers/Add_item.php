@@ -39,7 +39,8 @@ class Add_item extends Private_Controller
         // var_dump($data['listing_duration']);
 
         $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics($category);
-        //var_dump( $data['category_item_specifics']);
+        //$data['category_item_specifics'] = array('#' => '-- Please Select --');
+      // var_dump( $data['category_item_specifics']);
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Add Item', 'add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
@@ -59,6 +60,8 @@ class Add_item extends Private_Controller
         if ($this->input->post('required') == 'condition_values') {
             $output->data = array(
                 'condition_values' => $this->ebay_trading->get_condition_values($category),
+                'category_item_specifics' => "",
+               //'category_item_specifics' => $this->ebay_trading->get_category_item_specifics($category),
             );
         }
         if ($this->input->post('required') == 'listing_duration') {
