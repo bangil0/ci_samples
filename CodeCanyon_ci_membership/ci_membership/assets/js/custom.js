@@ -40,3 +40,7 @@ function finishAjax_prm_cat(id, response) {
     $('#' + id).val(unescape(response));
 
 }
+
+function finishAjax_name_value(id, response) {
+    $('#' + id).append(unescape(response));
+}

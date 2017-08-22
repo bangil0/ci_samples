@@ -244,8 +244,9 @@
 <div class="row temphide">
     <div class="col-md-4">
         <div class="form-group" id="condition_wrapper" style="display: none">
+            <div id="item_condition" style="display: none;"></div>
             <?php
-            echo form_label('Item Condition', '');
+/*            echo form_label('Item Condition', '');
             $data = array(
                 'name' => 'item_condition',
                 'id' => 'item_condition',
@@ -255,7 +256,7 @@
                 'onChange' => "condition_desc_check(this);"
             );
             echo form_dropdown('options', $condition_values, '#', $data);
-            ?>
+            */?>
         </div>
 
         <div class="form-group" id="condition_description_wrapper" style="display: none;">
@@ -272,23 +273,8 @@
             ?>
         </div>
 
-        <div class="form-group" id="name_value_recommendations">
+        <div class="form-group" id="name_value_wrapper" style="display: none;"></div>
 
-
-            <?php
-                    //https://stackoverflow.com/questions/6661530/php-multidimensional-array-search-by-value
-                    /*$results = searcharray('SelectionOnly', 'custom', $value);
-                    function searcharray($value, $key, $array) {
-                        foreach ($array as $k => $val) {
-                            if ($val[$key] == $value) {
-                                return $k;
-                            }
-                        }
-                        return null;
-                    }*/
-            ?>
-
-        </div>
     </div>
 </div>
 
@@ -907,20 +893,24 @@
             // alert("primary_category change detected");
             event.preventDefault(); // stops the jump when an anchor clicked.
 
-            var wrapper = $('#condition_wrapper');
-            var target = $('#item_condition');
+            var wrapper_c = $('#condition_wrapper');
+            var wrapper_nv = $('#name_value_wrapper');
+            var target_c = $('#item_condition');
             var catID = $(this).val();
-            var data = {required: "condition_values", category: catID};
+            var data = {required: "item_specifics", category: catID};
             data[csrfName] = csrfHash;
 
             if (catID === null) {
                 return false;
             }
 
-            $(target).hide();
-            $(wrapper).show();
-            $(wrapper).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
+            $(target_c).hide();
+            $(wrapper_c).show();
+            $(wrapper_c).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
 
+            $(wrapper_nv).empty();// Clear existing values
+            $(wrapper_nv).show();
+            $(wrapper_nv).append('<span id="loader"><br/><img src="<?php echo base_url(); ?>/assets/img/loader.gif"> loading...</span>');
 
             jQuery.ajax({
                 type: "POST",
@@ -938,34 +928,31 @@
 
                   // alert(result.data.category_item_specifics);
 
-                    if (result.data.condition_values == 'false') {
-                        $(wrapper).hide();
-                        $(wrapper).children('#loader').remove();
-                        $(target).empty();
+                    if (result.data.condition_values == false) {
+                        $( wrapper_c).hide();
+                        $( wrapper_c).children('#loader').remove();
+                        $(target_c).empty();
                     }
                     else {
 
-                        $(target).empty();// Clear existing values
+                        $(target_c).empty();// Clear existing values
 
-                        //https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
+                        /*//https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
                         $.each(JSON.parse(result.data.condition_values), function (key, value) {
-                            $(target).append("<option value='" + key + "'>" + value + "</option>");
+                            $(target_c).append("<option value='" + key + "'>" + value + "</option>");
                             //alert("element at " + key + ": " + value); // will alert each value
-                        });
-/*
-                        $.each(JSON.parse(result.data.category_item_specifics), function (key, value) {
-                            $('#name_value_recommendations').append("<label>" + key + "</label>");
-                        })*/
+                        });*/
 
-                        setTimeout("finishAjax('name_value_recommendations', '" + escape(result.data.category_item_specifics) + "')", 1000);
-
-                        $(wrapper).children('#loader').remove();
-                        $(target).show();
-                        $(target).val('#');// Set selected value
+                        setTimeout("finishAjax_name_value('item_condition', '" + escape(result.data.condition_values) + "')", 1000);
+                        $(wrapper_c).children('#loader').remove();
+                        $(target_c).show();
+                        $(target_c).val('#');// Set selected value
                     }
 
-                    $('#listing_type').change();
+                    setTimeout("finishAjax_name_value('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
+                    $(wrapper_nv).children('#loader').remove();
 
+                    $('#listing_type').change();
                 },
 
                 error: function (result, status, error) {

@@ -38,8 +38,8 @@ class Add_item extends Private_Controller
         $data['listing_duration'] = array('#' => '-- Please Select --');
         // var_dump($data['listing_duration']);
 
-        $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics($category);
-        //$data['category_item_specifics'] = array('#' => '-- Please Select --');
+       // $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics($category);
+         $data['category_item_specifics'] = array('#' => '-- Please Select --');
       // var_dump( $data['category_item_specifics']);
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
@@ -57,11 +57,11 @@ class Add_item extends Private_Controller
         $output->csrfName = $this->security->get_csrf_token_name();
         $output->csrfHash = $this->security->get_csrf_hash();
 
-        if ($this->input->post('required') == 'condition_values') {
+        if ($this->input->post('required') == 'item_specifics') {
             $output->data = array(
                 'condition_values' => $this->ebay_trading->get_condition_values($category),
-                'category_item_specifics' => "",
-               //'category_item_specifics' => $this->ebay_trading->get_category_item_specifics($category),
+                //'category_item_specifics' => "",
+               'category_item_specifics' => $this->ebay_trading->get_category_item_specifics($category),
             );
         }
         if ($this->input->post('required') == 'listing_duration') {

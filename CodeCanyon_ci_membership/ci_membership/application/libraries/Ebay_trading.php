@@ -225,7 +225,25 @@ Class Ebay_trading extends Private_Controller
     {
         $this->CI->load->library('ebay_category_features', $categoryID);
         $condition_values = $this->ebay_category_features->get_ConditionValues();
-        return json_encode($condition_values);
+
+        if($condition_values){
+            $browse=[];
+            $attributes = array(
+                'name' => 'item_condition',
+                'id' => 'item_condition',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
+                'onChange' => "condition_desc_check(this);"
+            );
+            $browse[] =  form_label('Item Condition', '') .form_dropdown('options', $condition_values, '#', $attributes);
+
+            return $browse;
+        }
+        else return '';
+
+
+        //return json_encode($condition_values);
 
         /*
         |--------------------------------------------------------------------------
@@ -310,22 +328,6 @@ Class Ebay_trading extends Private_Controller
 
                     $browse = [];
 
-                    /*function findKey($array, $keySearch)
-                    {
-                        foreach ($array as $key => $item) {
-                            if (is_array($item)) {
-                                foreach ($item as $k => $v) {
-                                    if($k == $keySearch){
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-
-                        return false;
-                    }*/
-
-
                     // Helped link : https://stackoverflow.com/questions/19420715/check-if-specific-array-key-exists-in-multidimensional-array-php
                     function findKey($array, $keySearch)
                     {
@@ -340,22 +342,19 @@ Class Ebay_trading extends Private_Controller
                             // return true if it's found
                             if (findKey($val, $keySearch)) return true;
                         }
-
                         return false;
                     }
-
 
                     foreach ($name_value_arr as $key => $value) {
 
                         $selection_only = findKey($value, 'SelectionOnly');
                         $min_values = findKey($value, 'MinValues');
 
-                        var_dump($min_values);
-                        var_dump($value);
-
+                        /*   var_dump($min_values);
+                           var_dump($value);*/
 
                         $attributes = array('id' => '', 'class' => 'form-control');
-                        $browse[] = form_label($key, '') . form_dropdown('options', $value, '#', $attributes);
+                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, '') . form_dropdown('options', $value, '#', $attributes);
                     }
                     return $browse;
 
