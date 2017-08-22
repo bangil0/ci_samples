@@ -310,7 +310,7 @@ Class Ebay_trading extends Private_Controller
 
                     $browse = [];
 
-                    function findKey($array, $keySearch)
+                    /*function findKey($array, $keySearch)
                     {
                         foreach ($array as $key => $item) {
                             if (is_array($item)) {
@@ -323,15 +323,35 @@ Class Ebay_trading extends Private_Controller
                         }
 
                         return false;
+                    }*/
+
+
+                    // Helped link : https://stackoverflow.com/questions/19420715/check-if-specific-array-key-exists-in-multidimensional-array-php
+                    function findKey($array, $keySearch)
+                    {
+                        // check if it's even an array
+                        if (!is_array($array)) return false;
+
+                        // key exists
+                        if (array_key_exists($keySearch, $array)) return true;
+
+                        // key isn't in this array, go deeper
+                        foreach ($array as $key => $val) {
+                            // return true if it's found
+                            if (findKey($val, $keySearch)) return true;
+                        }
+
+                        return false;
                     }
+
 
                     foreach ($name_value_arr as $key => $value) {
 
-                       $selection_only = findKey($value, 'SelectionOnly');
-                       $min_values = findKey($value, 'MinValues');
+                        $selection_only = findKey($value, 'SelectionOnly');
+                        $min_values = findKey($value, 'MinValues');
 
-                       var_dump($selection_only);
-                       var_dump($value);
+                        var_dump($min_values);
+                        var_dump($value);
 
 
                         $attributes = array('id' => '', 'class' => 'form-control');
