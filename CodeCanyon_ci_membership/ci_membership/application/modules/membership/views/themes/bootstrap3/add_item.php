@@ -242,6 +242,7 @@
 
 <h4>Item Specifics</h4>
 <div class="row temphide">
+
     <div class="col-md-4">
         <div class="form-group" id="condition_wrapper" style="display: none">
             <div id="item_condition" style="display: none;"></div>
@@ -948,6 +949,8 @@
                         $(target_c).show();
                         $(target_c).val('#');// Set selected value
                     }
+
+                    //$(wrapper_nv).append("<option value='" + JSON.parse(result.data.category_item_specifics) + "'>" + value + "</option>");
 
                     setTimeout("finishAjax_name_value('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
                     $(wrapper_nv).children('#loader').remove();

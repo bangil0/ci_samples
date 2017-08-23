@@ -72,6 +72,7 @@ class Add_item extends Private_Controller
         }
 
         echo json_encode($output);
+
     }
 
     public function sub_category()

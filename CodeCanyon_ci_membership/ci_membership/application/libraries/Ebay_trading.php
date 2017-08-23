@@ -353,8 +353,10 @@ Class Ebay_trading extends Private_Controller
                         /*   var_dump($min_values);
                            var_dump($value);*/
 
-                        $attributes = array('id' => '', 'class' => 'form-control');
-                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, '') . form_dropdown('options', $value, '#', $attributes);
+                        $attributes = array('name' => $key, 'list'=> '', 'value' => '', 'id' => '', 'class' => 'form-control');
+                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, ''). form_input($attributes) ;
+
+//                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, '') . form_dropdown('options', $value, '#', $attributes);
                     }
                     return $browse;
 
