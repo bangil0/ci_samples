@@ -362,7 +362,8 @@ Class Ebay_trading extends Private_Controller
                     }
 
                    //var_dump($browse);
-                    return json_encode($browse);
+                 return json_encode($browse);
+                   //  return $browse;
 
                 }
             }

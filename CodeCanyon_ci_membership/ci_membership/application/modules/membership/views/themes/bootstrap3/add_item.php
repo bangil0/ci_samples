@@ -247,17 +247,17 @@
         <div class="form-group" id="condition_wrapper" style="display: none">
             <div id="item_condition" style="display: none;"></div>
             <?php
-/*            echo form_label('Item Condition', '');
-            $data = array(
-                'name' => 'item_condition',
-                'id' => 'item_condition',
-                'value' => '',
-                'class' => 'form-control',
-                'placeholder' => '',
-                'onChange' => "condition_desc_check(this);"
-            );
-            echo form_dropdown('options', $condition_values, '#', $data);
-            */?>
+            /*            echo form_label('Item Condition', '');
+                        $data = array(
+                            'name' => 'item_condition',
+                            'id' => 'item_condition',
+                            'value' => '',
+                            'class' => 'form-control',
+                            'placeholder' => '',
+                            'onChange' => "condition_desc_check(this);"
+                        );
+                        echo form_dropdown('options', $condition_values, '#', $data);
+                        */ ?>
         </div>
 
         <div class="form-group" id="condition_description_wrapper" style="display: none;">
@@ -927,11 +927,11 @@
                     }
                     console.log(result);
 
-                  // alert(result.data.category_item_specifics);
+                    // alert(result.data.category_item_specifics);
 
                     if (result.data.condition_values == false) {
-                        $( wrapper_c).hide();
-                        $( wrapper_c).children('#loader').remove();
+                        $(wrapper_c).hide();
+                        $(wrapper_c).children('#loader').remove();
                         $(target_c).empty();
                     }
                     else {
@@ -939,10 +939,10 @@
                         $(target_c).empty();// Clear existing values
 
                         /*//https://stackoverflow.com/questions/30269461/uncaught-typeerror-cannot-use-in-operator-to-search-for-length-in
-                        $.each(JSON.parse(result.data.condition_values), function (key, value) {
-                            $(target_c).append("<option value='" + key + "'>" + value + "</option>");
-                            //alert("element at " + key + ": " + value); // will alert each value
-                        });*/
+                         $.each(JSON.parse(result.data.condition_values), function (key, value) {
+                         $(target_c).append("<option value='" + key + "'>" + value + "</option>");
+                         //alert("element at " + key + ": " + value); // will alert each value
+                         });*/
 
                         setTimeout("finishAjax_name_value('item_condition', '" + escape(result.data.condition_values) + "')", 1000);
                         $(wrapper_c).children('#loader').remove();
@@ -952,9 +952,28 @@
 
                     //$(wrapper_nv).append("<option value='" + JSON.parse(result.data.category_item_specifics) + "'>" + value + "</option>");
 
-                    setTimeout("finishAjax_name_value('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
-                    $(wrapper_nv).children('#loader').remove();
+                    // setTimeout("finishAjax_name_value('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
 
+                    /**
+                     * Method 1
+                     */
+                    $.each(JSON.parse(result.data.category_item_specifics), function (key, value) {
+
+                        var outString = key.replace(/\s+/g, '-').toLowerCase();
+
+                        $(wrapper_nv).append("<label>" + key + "</label><input type='text' name='city' list='" + outString + "cityname'><datalist class='test' id='" + outString + "cityname'></datalist>");
+                        $.each(value, function (key, value) {
+                            $(".test").append("<option value='" + value + "'></option>");
+                        });
+                    });
+
+                    /**
+                     * Method 2 - If enabling the below method, the remove 'json_encode' for library return
+                     * $.each(result.data.category_item_specifics, function (key, value) {
+                        $(wrapper_nv).append("<option value='" + key + "'>" + value + "</option>");
+                        });
+                     */
+                    $(wrapper_nv).children('#loader').remove();
                     $('#listing_type').change();
                 },
 
