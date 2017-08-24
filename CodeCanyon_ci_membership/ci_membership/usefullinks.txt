@@ -16,6 +16,9 @@ https://stackoverflow.com/questions/28059029/select-option-generate-value-from-a
 http://jsfiddle.net/jveldboom/c73MQ/2/
 https://stackoverflow.com/questions/8668826/search-and-replace-value-in-php-array
 https://stackoverflow.com/questions/18504075/how-to-use-multiple-jquery-object-variables-as-selectors
+
+Understanding JSON Object & Array
+https://stackoverflow.com/questions/2487841/jquery-parse-json-multidimensional-array
 ----------------------------------------
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes

@@ -326,6 +326,8 @@ Class Ebay_trading extends Private_Controller
                         }
                     }
 
+                   //var_dump($name_value_arr);
+
                     $browse = [];
 
                     // Helped link : https://stackoverflow.com/questions/19420715/check-if-specific-array-key-exists-in-multidimensional-array-php
@@ -347,18 +349,20 @@ Class Ebay_trading extends Private_Controller
 
                     foreach ($name_value_arr as $key => $value) {
 
+                        $custom = findKey($value, 'custom');
                         $selection_only = findKey($value, 'SelectionOnly');
                         $min_values = findKey($value, 'MinValues');
 
-                        /*   var_dump($min_values);
-                           var_dump($value);*/
+                          // var_dump($custom);
+                          // var_dump($value);
 
-                        $attributes = array('name' => $key, 'list'=> '', 'value' => '', 'id' => '', 'class' => 'form-control');
-                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, ''). form_input($attributes) ;
-
-//                        $browse[] = form_label(($min_values) ? $key . '<strong>*</strong>' : $key, '') . form_dropdown('options', $value, '#', $attributes);
+                        $key = ($min_values) ? $key . '<strong>*</strong>' : $key;
+                        unset($value['custom']);
+                        $browse[$key] = $value;
                     }
-                    return $browse;
+
+                   //var_dump($browse);
+                    return json_encode($browse);
 
                 }
             }
