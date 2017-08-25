@@ -435,7 +435,7 @@
     <h4>Featured Profiles</h4>
     <?php if($all_members_result): ?>
     <ul class="featuredListing row">
-      <?php foreach($all_members_result as $-val):
+      <?php foreach($all_members_result as $val):
 	  	$is_already_friend = $this->friend_model->friendship_validations($val->id);
 		
 	  if($val->photo)

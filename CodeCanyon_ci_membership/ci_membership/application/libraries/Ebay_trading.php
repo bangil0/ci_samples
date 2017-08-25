@@ -226,8 +226,8 @@ Class Ebay_trading extends Private_Controller
         $this->CI->load->library('ebay_category_features', $categoryID);
         $condition_values = $this->ebay_category_features->get_ConditionValues();
 
-        if($condition_values){
-            $browse=[];
+        if ($condition_values) {
+            $browse = [];
             $attributes = array(
                 'name' => 'item_condition',
                 'id' => 'item_condition',
@@ -236,11 +236,10 @@ Class Ebay_trading extends Private_Controller
                 'placeholder' => '',
                 'onChange' => "condition_desc_check(this);"
             );
-            $browse[] =  form_label('Item Condition', '') .form_dropdown('options', $condition_values, '#', $attributes);
+            $browse[] = form_label('Item Condition', '') . form_dropdown('options', $condition_values, '#', $attributes);
 
             return $browse;
-        }
-        else return '';
+        } else return '';
 
 
         //return json_encode($condition_values);
@@ -326,49 +325,50 @@ Class Ebay_trading extends Private_Controller
                         }
                     }
 
-                   //var_dump($name_value_arr);
+                    //var_dump($name_value_arr);
 
                     $browse = [];
 
-                    // Helped link : https://stackoverflow.com/questions/19420715/check-if-specific-array-key-exists-in-multidimensional-array-php
-                    function findKey($array, $keySearch)
-                    {
-                        // check if it's even an array
-                        if (!is_array($array)) return false;
-
-                        // key exists
-                        if (array_key_exists($keySearch, $array)) return true;
-
-                        // key isn't in this array, go deeper
-                        foreach ($array as $key => $val) {
-                            // return true if it's found
-                            if (findKey($val, $keySearch)) return true;
-                        }
-                        return false;
-                    }
-
                     foreach ($name_value_arr as $key => $value) {
+                        $custom = $this->findKey($value, 'custom');
+                        $selection_only = $this->findKey($value, 'SelectionOnly');
+                        $min_values = $this->findKey($value, 'MinValues');
 
-                        $custom = findKey($value, 'custom');
-                        $selection_only = findKey($value, 'SelectionOnly');
-                        $min_values = findKey($value, 'MinValues');
-
-                          // var_dump($custom);
-                          // var_dump($value);
+                        // var_dump($custom);
+                        // var_dump($value);
 
                         $key = ($min_values) ? $key . '<strong>*</strong>' : $key;
                         unset($value['custom']);
                         $browse[$key] = $value;
                     }
 
-                   //var_dump($browse);
-                 return json_encode($browse);
-                   //  return $browse;
+                    //var_dump($browse);
+                    return json_encode($browse);
+                    //  return $browse;
 
                 }
             }
         } else return false;
     }
+
+
+    // Helped link : https://stackoverflow.com/questions/19420715/check-if-specific-array-key-exists-in-multidimensional-array-php
+    private function findKey($array, $keySearch)
+    {
+        // check if it's even an array
+        if (!is_array($array)) return false;
+
+        // key exists
+        if (array_key_exists($keySearch, $array)) return true;
+
+        // key isn't in this array, go deeper
+        foreach ($array as $key => $val) {
+            // return true if it's found
+            if ($this->findKey($val, $keySearch)) return true;
+        }
+        return false;
+    }
+
 
     public function get_eBayDetails($Details)
     {

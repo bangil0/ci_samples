@@ -41,6 +41,6 @@ function finishAjax_prm_cat(id, response) {
 
 }
 
-function finishAjax_name_value(id, response) {
+function finishAjax_item_condition(id, response) {
     $('#' + id).append(unescape(response));
 }

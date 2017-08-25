@@ -18,13 +18,18 @@ class Add_item extends Private_Controller
         /* $this->session->set_flashdata('Category', '15687');
          $category = $this->session->flashdata('Category');*/
 
+        $defaults = array(
+            '#' => '-- Please Select --',
+            'shipping_service'=> 'Flat'
+        );
+
         $category = ($this->session->flashdata('category') == "") ? '15687' : $this->session->flashdata('category');
         var_dump($category);
 
         $data['category'] = $this->ebay_shopping->get_parent_category();
         $data['listing_type'] = $this->ebay_trading->get_listing_type();
         $data['shipping_type'] = $this->ebay_trading->get_shipping_type();
-        $data['shipping_service'] = $this->ebay_trading->get_shipping_service('Flat');
+        $data['shipping_service'] = $this->ebay_trading->get_shipping_service($defaults['shipping_service']);
         $data['country'] = $this->ebay_trading->get_country();
         $data['prd_identifier_type'] = array('ISBN' => 'ISBN', 'UPC' => 'UPC', 'EAN' => 'EAN', 'MPN' => 'Brand+MPN');
 
@@ -32,14 +37,14 @@ class Add_item extends Private_Controller
          * Category dependent calls
          */
 
-        $data['condition_values'] = array('#' => '-- Please Select --');
+        $data['condition_values'] = $defaults['#'];
         //var_dump($data['condition_values']);
 
-        $data['listing_duration'] = array('#' => '-- Please Select --');
+        $data['listing_duration'] = $defaults['#'];
         // var_dump($data['listing_duration']);
 
        // $data['category_item_specifics'] = $this->ebay_trading->get_category_item_specifics($category);
-         $data['category_item_specifics'] = array('#' => '-- Please Select --');
+         $data['category_item_specifics'] = $defaults['#'];
       // var_dump( $data['category_item_specifics']);
 
         $this->template->set_js('js', base_url() . 'assets/js/vendor/jquery.livequery.js');
@@ -59,7 +64,7 @@ class Add_item extends Private_Controller
 
         if ($this->input->post('required') == 'item_specifics') {
             $output->data = array(
-                'condition_values' => $this->ebay_trading->get_condition_values($category),
+               'condition_values' => $this->ebay_trading->get_condition_values($category),
                 //'category_item_specifics' => "",
                'category_item_specifics' => $this->ebay_trading->get_category_item_specifics($category),
             );

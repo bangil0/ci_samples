@@ -895,8 +895,8 @@
             event.preventDefault(); // stops the jump when an anchor clicked.
 
             var wrapper_c = $('#condition_wrapper');
-            var wrapper_nv = $('#name_value_wrapper');
             var target_c = $('#item_condition');
+            var wrapper_nv = $('#name_value_wrapper');
             var catID = $(this).val();
             var data = {required: "item_specifics", category: catID};
             data[csrfName] = csrfHash;
@@ -944,7 +944,7 @@
                          //alert("element at " + key + ": " + value); // will alert each value
                          });*/
 
-                        setTimeout("finishAjax_name_value('item_condition', '" + escape(result.data.condition_values) + "')", 1000);
+                        setTimeout("finishAjax_item_condition('item_condition', '" + escape(result.data.condition_values) + "')", 1000);
                         $(wrapper_c).children('#loader').remove();
                         $(target_c).show();
                         $(target_c).val('#');// Set selected value
@@ -952,16 +952,20 @@
 
                     //$(wrapper_nv).append("<option value='" + JSON.parse(result.data.category_item_specifics) + "'>" + value + "</option>");
 
-                    // setTimeout("finishAjax_name_value('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
+                    // setTimeout("finishAjax_item_condition('name_value_wrapper', '" + escape(result.data.category_item_specifics) + "')", 1000);
 
                     /**
                      * Method 1
                      */
                     $.each(JSON.parse(result.data.category_item_specifics), function (key, value) {
-
                         var outString = key.replace(/\s+/g, '-').toLowerCase();
 
-                        $(wrapper_nv).append("<label>" + key + "</label><input type='text' name='city' list='" + outString + "cityname'><datalist class='test' id='" + outString + "cityname'></datalist>");
+                        $(wrapper_nv).append(
+                            "<label>" + key + "</label>" +
+                            "<input type='text' name='city' class='form-control' list='" + outString + "cityname'>" +
+                            "<datalist class='test' id='" + outString + "cityname'></datalist>"
+                        );
+
                         $.each(value, function (key, value) {
                             $(".test").append("<option value='" + value + "'></option>");
                         });

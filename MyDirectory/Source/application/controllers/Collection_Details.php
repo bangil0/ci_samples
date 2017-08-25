@@ -22,7 +22,7 @@ class Collection_Details extends CI_Controller {
 	 }
 	 
 	 
-	 
-	
+
+
 }
 ?>
