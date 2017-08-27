@@ -63,6 +63,12 @@ Class Ebay_trading extends Private_Controller
         return $reflectionClass->getConstants();
     }
 
+    public function get_payment_methods($categoryID)
+    {
+        $this->CI->load->library('ebay_category_features', $categoryID);
+        $payment_methods = $this->ebay_category_features->get_PaymentMethods();
+
+    }
 
     public function get_shipping_type()
     {

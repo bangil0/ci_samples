@@ -67,7 +67,10 @@ Class Ebay_category_features extends Private_Controller
                 'VariationsEnabled',
                 'ConditionEnabled',
                 'ConditionValues',
-                'ListingDurations'
+                'ListingDurations',
+                'PaymentMethods',
+                'SafePaymentRequired'
+
             ];
 
             $response = $this->trading_service->getCategoryFeatures($request);
@@ -80,6 +83,32 @@ Class Ebay_category_features extends Private_Controller
             }
 
         } else return false;
+    }
+
+    public function get_PaymentMethods()
+    {
+        $response = $this->CategoryFeatures();
+        //var_dump($response);
+
+        /**
+         * Mode checking (Enabled, Disabled or Required). If mode not available, then assign site default value.
+         */
+        $mode = "";
+        foreach ($response->Category as $details) {
+            //var_dump($details->SafePaymentRequired);
+            $mode = (isset($details->SafePaymentRequired)) ? $details->SafePaymentRequired : $response->SiteDefaults->SafePaymentRequired;
+        }
+
+        //var_dump($mode);
+       // var_dump($response->SiteDefaults->PaymentMethod);
+        foreach ($response->SiteDefaults->PaymentMethod as $details) {
+            //var_dump($details);
+        }
+
+        foreach ($response->Category as $details) {
+            var_dump($details->PaymentMethod);
+        }
+
     }
 
     public function get_ListingDurations($Listing_type)

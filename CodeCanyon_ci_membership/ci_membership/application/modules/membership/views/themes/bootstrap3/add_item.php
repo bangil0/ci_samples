@@ -148,8 +148,9 @@
                 'value' => '',
                 'class' => 'form-control',
                 'placeholder' => '',
+                'onChange' => "listing_type_check(this);"
             );
-            echo form_dropdown('options', $listing_type, '#', $data)
+            echo form_dropdown('options', $listing_type, 'Chinese', $data)
             ?>
         </div>
     </div>
@@ -353,7 +354,7 @@
 </div>
 
 <h3>Pricing & SKU/Custom Label</h3>
-<div class="row temphide">
+<div class="row temphide" id="price_group_fixed" style="display: none">
     <div class="col-md-6">
         <div class="form-group">
             <?php
@@ -385,9 +386,60 @@
             ?>
         </div>
     </div>
+</div>
+
+<div class="row temphide" id="price_group_auction">
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php
+            echo form_label('Start Price', '');
+            $data = array(
+                'name' => 'start_price',
+                'id' => 'start_price',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
+            );
+            echo form_input($data);
+            ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php
+            echo form_label('Buy It Now Price (optional)', '');
+            $data = array(
+                'name' => 'bin_price',
+                'id' => 'bin_price',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
+            );
+            echo form_input($data);
+            ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php
+            echo form_label('Reserve Price (optional)', '');
+            $data = array(
+                'name' => 'reserve_price',
+                'id' => 'reserve_price',
+                'value' => '',
+                'class' => 'form-control',
+                'placeholder' => '',
+            );
+            echo form_input($data);
+            ?>
+        </div>
+    </div>
 
 
 </div>
+
 <div class="row temphide">
     <div class="col-md-6">
         <div class="form-group">
@@ -963,16 +1015,16 @@
                         $(wrapper_nv).append(
                             "<label>" + key + "</label>" +
                             "<input type='text' name='city' class='form-control' list='" + outString + "cityname'>" +
-                            "<datalist class='test' id='" + outString + "cityname'></datalist>"
+                            "<datalist class='datadrop' id='" + outString + "cityname'></datalist>"
                         );
 
                         $.each(value, function (key, value) {
-                            $(".test").append("<option value='" + value + "'></option>");
+                            $(".datadrop").append("<option value='" + value + "'></option>");
                         });
                     });
 
                     /**
-                     * Method 2 - If enabling the below method, the remove 'json_encode' for library return
+                     * Method 2 - If enabling the below method, the remove 'json_encode' from library return
                      * $.each(result.data.category_item_specifics, function (key, value) {
                         $(wrapper_nv).append("<option value='" + key + "'>" + value + "</option>");
                         });

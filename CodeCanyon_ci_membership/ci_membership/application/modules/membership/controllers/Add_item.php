@@ -37,6 +37,8 @@ class Add_item extends Private_Controller
          * Category dependent calls
          */
 
+        $data['payment_methods'] = $this->ebay_trading->get_payment_methods($category);
+
         $data['condition_values'] = $defaults['#'];
         //var_dump($data['condition_values']);
 

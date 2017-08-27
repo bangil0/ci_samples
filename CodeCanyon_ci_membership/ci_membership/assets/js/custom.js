@@ -26,6 +26,23 @@ function condition_desc_check(that) {
     }
 }
 
+function listing_type_check(that) {
+    var wrapper_pf = $('#price_group_fixed');
+    var wrapper_pa = $('#price_group_auction');
+    var target = that.value;
+    if (target == "Chinese") {
+        //alert("Chinese!!!");
+        $(wrapper_pf).hide();
+        $(wrapper_pa).show();
+    }
+
+    if (target == "FixedPriceItem") {
+       // alert("FixedPriceItem!!!");
+        $(wrapper_pa).hide();
+        $(wrapper_pf).show();
+    }
+
+}
 
 function finishAjax(id, response) {
     $('#loader').remove();
