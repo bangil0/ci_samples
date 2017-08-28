@@ -823,7 +823,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <?php
-            echo form_label('PayPal:', '');
+/*            echo form_label('PayPal:', '');
             $data = array(
                 'name' => 'paypal',
                 'id' => 'paypal',
@@ -833,7 +833,27 @@
             );
 
             echo form_checkbox($data)
+            */?>
+
+            <?php
+            foreach($payment_methods as $payment => $val){
+
+                $data = array(
+                    'name' => 'payment[]',
+                    'id' => '',
+                    'value' => $payment,
+                    'style' => 'margin:10px'
+                );
+                echo form_checkbox($data);
+                echo form_label($val, '');
+            }
+
             ?>
+
+
+
+
+
         </div>
         <div class="form-group">
             <?php

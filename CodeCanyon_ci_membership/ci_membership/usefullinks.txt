@@ -20,6 +20,12 @@ https://stackoverflow.com/questions/18504075/how-to-use-multiple-jquery-object-v
 Understanding JSON Object & Array
 https://stackoverflow.com/questions/2487841/jquery-parse-json-multidimensional-array
 ----------------------------------------
+#CS CART
+https://github.com/Rockburner/cscart/tree/7f76cf0a8d8b68eb0b59b46da31e39fe830aba35/app/addons/ebay
+https://github.com/vaig2010/cscart_ru/tree/3099562e6e24dc5a4ec389488c34d8673fae679f/app/addons/ebay
+https://github.com/AlanIsrael0/market/blob/master/app/addons/ebay/Ebay/Ebay.php
+--------------------
+
 #Basic Building Blocks - eBay
 http://developer.ebay.com/DevZone/guides/ebayfeatures/Basics/eBay-BuildingBlocks.html#ListingTypes
 

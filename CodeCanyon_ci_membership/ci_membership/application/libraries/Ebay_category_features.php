@@ -98,16 +98,24 @@ Class Ebay_category_features extends Private_Controller
             //var_dump($details->SafePaymentRequired);
             $mode = (isset($details->SafePaymentRequired)) ? $details->SafePaymentRequired : $response->SiteDefaults->SafePaymentRequired;
         }
-
         //var_dump($mode);
-       // var_dump($response->SiteDefaults->PaymentMethod);
-        foreach ($response->SiteDefaults->PaymentMethod as $details) {
-            //var_dump($details);
-        }
 
-        foreach ($response->Category as $details) {
-            var_dump($details->PaymentMethod);
-        }
+        $payment_methods = $response->SiteDefaults->PaymentMethod;
+        return $payment_methods;
+
+        //var_dump($response->SiteDefaults->PaymentMethod);
+
+         /*$payment_method_arr=[];
+        foreach ($response->SiteDefaults->PaymentMethod as $details) {
+           //var_dump($details);
+            $payment_method_arr[$details] = $details;
+
+        }*/
+       // var_dump($payment_method_arr);
+
+        /*foreach ($response->Category as $details) {
+           //var_dump($details->PaymentMethod);
+        }*/
 
     }
 

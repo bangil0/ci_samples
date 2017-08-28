@@ -68,6 +68,11 @@ Class Ebay_trading extends Private_Controller
         $this->CI->load->library('ebay_category_features', $categoryID);
         $payment_methods = $this->ebay_category_features->get_PaymentMethods();
 
+        $payment_methods_arr = [];
+        foreach ($payment_methods as $details) {
+            $payment_methods_arr[$details] = $details;
+        }
+        return $payment_methods_arr;
     }
 
     public function get_shipping_type()

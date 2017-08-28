@@ -6,6 +6,7 @@
 
 <?php print form_open('adminpanel/list_members/index/username/asc/post/0') ."\r\n"; ?>
 
+
 <button id="js-search" type="button" class="btn btn-default" data-toggle="collapse" data-target="#search_wrapper">
     <span id="js-search-text"><i class="fa fa-expand pd-r-5"></i> <?php print $this->lang->line('list_members_search_expand'); ?></span> <?php print $this->lang->line('list_members_search'); ?> <i class="fa fa-search pd-l-5"></i>
 </button>
