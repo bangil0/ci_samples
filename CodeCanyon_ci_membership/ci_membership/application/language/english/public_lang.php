@@ -7,6 +7,7 @@ $lang['menu_private'] = "Private";
 $lang['menu_profile'] = "Profile";
 $lang['menu_my_dashboard'] = "My dashboard";
 $lang['menu_add_item'] = "Add Item";
+$lang['menu_ebay_add_item'] = "Ebay Add Item";
 $lang['menu_layout_options'] = "Layout options";
 $lang['menu_page_layouts'] = "Page Layouts";
 $lang['menu_left_menu_fluid'] = "Left menu fluid";

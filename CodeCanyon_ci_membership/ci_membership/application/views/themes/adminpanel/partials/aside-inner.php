@@ -29,6 +29,7 @@
     </li>
     <li<?php print ((Site_Controller::$page == "my_dashboard") ? ' class="open"' : ""); ?>><a href="<?php print base_url(); ?>membership/my_dashboard"><span class="menu-link-icon fa fa-th-list"></span> <span class="menu-link-title"><?php print $this->lang->line('menu_my_dashboard'); ?></span></a></li>
     <li<?php print ((Site_Controller::$page == "add_item") ? ' class="open"' : ""); ?>><a href="<?php print base_url(); ?>membership/add_item"><span class="menu-link-icon fa fa-th-list"></span> <span class="menu-link-title"><?php print $this->lang->line('menu_add_item'); ?></span></a></li>
+    <li<?php print ((Site_Controller::$page == "ebay_add_item") ? ' class="open"' : ""); ?>><a href="<?php print base_url(); ?>membership/ebay_add_item"><span class="menu-link-icon fa fa-th-list"></span> <span class="menu-link-title"><?php print $this->lang->line('menu_ebay_add_item'); ?></span></a></li>
     <li<?php print ((Site_Controller::$page == "profile") ? ' class="open"' : ""); ?>><a href="<?php print base_url(); ?>membership/profile"><span class="menu-link-icon fa fa-user"></span> <span class="menu-link-title"><?php print $this->lang->line('menu_profile'); ?></span></a></li>
 
     <li class="hidden-folded">
