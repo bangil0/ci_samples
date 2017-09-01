@@ -9,8 +9,7 @@ class Ebay_add_item extends Private_Controller {
         self::$page = "ebay_add_item";
     }
 
-    public function index($site_id = NULL) {
-
+    public function index($site_id = null) {
 
         $data['site'] = $this->ebay->get_site($site_id);
         $this->quick_page_setup(Settings_model::$db_config['adminpanel_theme'], 'adminpanel', 'Ebay Add_Item', 'ebay_add_item', 'header', 'footer', Settings_model::$db_config['active_theme'], $data);
