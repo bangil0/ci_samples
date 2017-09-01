@@ -25,6 +25,15 @@ Class Client extends Private_Controller
     }
 
 
+
+    /**
+     * Initialization api
+     *
+     * Object cached by internal cache
+     * @param Template|null $template
+     * @param Http|null $http_client
+     * @return Client
+     */
     public static function service($service, $site_id)
     {
         if ($service == 'trading') {
@@ -56,6 +65,14 @@ Class Client extends Private_Controller
 
     }
 
+    /**
+     * Set site id
+     * @param int $site_id
+     */
+    public function setSiteId($site_id)
+    {
+        $this->site_id = $site_id;
+    }
 
 
 }

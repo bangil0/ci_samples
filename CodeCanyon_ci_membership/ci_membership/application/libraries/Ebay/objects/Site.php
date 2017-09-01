@@ -24,7 +24,8 @@ Class Site extends Private_Controller{
        // $payment_methods = $this->client->service('trading');
 
          $client = Client::service('trading',$site_id);
-         return $client;
+
+         return $client->setSiteId();
 
 
     }
