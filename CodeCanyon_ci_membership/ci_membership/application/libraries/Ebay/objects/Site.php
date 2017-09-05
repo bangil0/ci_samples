@@ -10,23 +10,17 @@ Class Site extends Private_Controller{
 
         // Assign the CodeIgniter super-object
         $this->CI =& get_instance();
-        $this->CI->load->library('ebay/client','','client');
 
     }
 
-    /**
-     * Update sites from ebay
-     * @throws \Exception
-     */
+
     public function synchronization($site_id)
     {
 
-       // $payment_methods = $this->client->service('trading');
+         $params = array('service' => 'trading', 'id' => $site_id);
+         $this->CI->load->library('Ebay/client',$params,'Client');
 
-         $client = Client::service('trading',$site_id);
-
-         return $client->setSiteId();
-
+         $result = $this->Client->get_ebay_details('SiteDetails');
 
     }
 

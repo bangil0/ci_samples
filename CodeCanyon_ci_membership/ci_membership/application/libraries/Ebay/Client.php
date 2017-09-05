@@ -13,66 +13,105 @@ Class Client extends Private_Controller
 {
 
     protected $CI;
+    private $site_id;
+    private $service;
 
 
-    public function __construct()
+    public function __construct($params)
     {
+        //var_dump($params);
         parent::__construct();
-        // Load custom config
 
         $this->CI =& get_instance();
-        $this->CI->load->config('ebay');
+        $this->site_id = $params['id'];
+        $this->service = $this->set_service($params['service']);
+
     }
 
+    private function set_service($service)
+    {
+        if ($service == 'trading') {
+            return $this->service_trading();
+        }
+        if ($service == 'shopping') {
+            return $this->service_shopping();
+        }
 
+    }
 
     /**
      * Initialization api
-     *
-     * Object cached by internal cache
-     * @param Template|null $template
-     * @param Http|null $http_client
-     * @return Client
      */
-    public static function service($service, $site_id)
+    private function service_trading()
     {
-        if ($service == 'trading') {
-            // Create headers to send with CURL request.
-            $trading = new TradingService([
-                'credentials' => $this->config->item('credentials'),
-                'siteId' => $site_id,
-                'sandbox' => $this->config->item('sandbox'),
-                'apiVersion' => $this->config->item('tradingApiVersion'),
-                'debug' => $this->config->item('debug'),
-            ]);
-            return $trading;
-        }
+        $trading = new TradingService([
+            'credentials' => $this->config->item('credentials'),
+            'siteId' => $this->site_id,
+            'sandbox' => $this->config->item('sandbox'),
+            'apiVersion' => $this->config->item('tradingApiVersion'),
+            'debug' => $this->config->item('debug'),
+        ]);
 
-        if ($service == 'shopping') {
+        return $trading;
+    }
 
-            // Create headers to send with CURL request.
-            $shopping = new ShoppingService([
-                'credentials' => $this->config->item('credentials'),
-                'siteId' => $site_id,
-                'sandbox' => $this->config->item('sandbox'),
-                'apiVersion' => $this->config->item('shoppingApiVersion'),
-                'debug' => $this->config->item('debug'),
+    private function service_shopping()
+    {
+        $shopping = new ShoppingService([
+            'credentials' => $this->config->item('credentials'),
+            'siteId' => $this->site_id,
+            'sandbox' => $this->config->item('sandbox'),
+            'apiVersion' => $this->config->item('shoppingApiVersion'),
+            'debug' => $this->config->item('debug'),
 
-            ]);
-            return $shopping;
-
-        }
+        ]);
+        return $shopping;
 
     }
+
 
     /**
      * Set site id
      * @param int $site_id
      */
-    public function setSiteId($site_id)
+    public function set_site_id($site_id)
     {
         $this->site_id = $site_id;
     }
 
+
+    /**
+     * Get meta-data for the specified eBay site
+     *
+     * @param string|array $details
+     * @see http://developer.ebay.com/Devzone/XML/docs/Reference/ebay/GeteBayDetails.html
+     */
+
+    public function get_ebay_details($details)
+    {
+        $this->CI->load->library('Ebay/request/GeteBayDetailsRequest', $details, 'GeteBayDetailsRequest');
+        $this->CI->load->library('Ebay/response/GeteBayDetailsResponse','','GeteBayDetailsResponse');
+
+        $request = $this->GeteBayDetailsRequest->request();
+        $response_class = GeteBayDetailsResponse::className();
+
+      /*  $response = $this->service->geteBayDetails($request);
+         var_dump($response);*/
+
+        return $this->make_request($request, $response_class);
+
+    }
+
+    private function make_request($request, $response_class)
+    {
+        // Send the request.
+         $response = $this->service->geteBayDetails($request);
+        //var_dump($response);
+
+        $ss = new $response_class($response);
+        var_dump($ss->getSiteDetails());
+
+
+    }
 
 }

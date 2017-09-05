@@ -5,7 +5,7 @@ class Ebay_add_item extends Private_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('ebay');
+        $this->load->library('Ebay/ebay','','ebay');
         self::$page = "ebay_add_item";
     }
 
