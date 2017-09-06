@@ -10,7 +10,6 @@ use \DTS\eBaySDK\Trading\Types as T_Types;
 use \DTS\eBaySDK\Trading\Enums as T_Enums;
 
 
-
 Class GeteBayDetailsResponse extends Private_Controller
 {
 
@@ -36,22 +35,42 @@ Class GeteBayDetailsResponse extends Private_Controller
 
     /**
      * Get sites
+     * @return SiteDetails[]
      */
     public function getSiteDetails()
     {
         $result = array();
-        var_dump($this->response->SiteDetails);
 
         if (!empty($this->response->SiteDetails)) {
             foreach ($this->response->SiteDetails as $item) {
-                $result[] = "asds";
+                //var_dump($item);
+                $result[] = new SiteDetails($item);
             }
         }
 
         return $result;
     }
 
+}
+
+/**
+ * Class SiteDetails
+ * @package Ebay\responses
+ */
+class SiteDetails
+{
+    public $detail_version;
+    public $site;
+    public $site_id;
+    public $update_time;
+
+    public function __construct($response)
+    {
+        $this->detail_version = $response->DetailVersion;
+        $this->update_time = $response->UpdateTime;
+        $this->site = $response->Site;
+        $this->site_id = $response->SiteID;
+    }
 
 
 }
-

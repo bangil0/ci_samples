@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-Class Site extends Private_Controller{
+Class Site extends Private_Controller
+{
 
     protected $CI;
 
@@ -16,12 +17,12 @@ Class Site extends Private_Controller{
 
     public function synchronization($site_id)
     {
+        $params = array('service' => 'trading', 'id' => $site_id);
+        $this->CI->load->library('Ebay/client', $params, 'Client');
 
-         $params = array('service' => 'trading', 'id' => $site_id);
-         $this->CI->load->library('Ebay/client',$params,'Client');
-
-         $result = $this->Client->get_ebay_details('SiteDetails');
-
+        $result = $this->Client->get_ebay_details('SiteDetails');
+        $sites = $result->getSiteDetails();
+        var_dump($sites);
     }
 
 }

@@ -90,13 +90,10 @@ Class Client extends Private_Controller
     public function get_ebay_details($details)
     {
         $this->CI->load->library('Ebay/request/GeteBayDetailsRequest', $details, 'GeteBayDetailsRequest');
-        $this->CI->load->library('Ebay/response/GeteBayDetailsResponse','','GeteBayDetailsResponse');
+        $this->CI->load->library('Ebay/response/GeteBayDetailsResponse', '', 'GeteBayDetailsResponse');
 
         $request = $this->GeteBayDetailsRequest->request();
         $response_class = GeteBayDetailsResponse::className();
-
-      /*  $response = $this->service->geteBayDetails($request);
-         var_dump($response);*/
 
         return $this->make_request($request, $response_class);
 
@@ -105,12 +102,22 @@ Class Client extends Private_Controller
     private function make_request($request, $response_class)
     {
         // Send the request.
-         $response = $this->service->geteBayDetails($request);
-        //var_dump($response);
+        $response = $this->service->geteBayDetails($request);
 
-        $ss = new $response_class($response);
-        var_dump($ss->getSiteDetails());
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+                $err = array(
+                    'SeverityCode' => $error->SeverityCode === T_Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    'ShortMessage' => $error->ShortMessage,
+                    'LongMessage' => $error->LongMessage
+                );
 
+                $this->session->set_flashdata('ebay_response_error', $err);
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return new $response_class($response);
+        }
 
     }
 
