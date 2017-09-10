@@ -50,7 +50,7 @@ Class GetCategoriesResponse extends Private_Controller
         $result = array();
         if (!empty($this->response->CategoryArray->Category)) {
             foreach ($this->response->CategoryArray->Category as $category) {
-                var_dump($category);
+                //var_dump($category);
                 if ($category->LeafCategory == false && $category->CategoryLevel != 0) {
                     $result[] = new EbayCategory($category);
                 }
@@ -67,12 +67,21 @@ Class GetCategoriesResponse extends Private_Controller
 class EbayCategory
 {
     public $category_id;
+    public $category_level;
     public $category_name;
+    public $category_name_path;
+    public $category_id_path;
+    public $leaf_category;
 
     public function __construct($response)
     {
         $this->category_id = $response->CategoryID;
+        $this->category_level = $response->CategoryLevel;
         $this->category_name = $response->CategoryName;
+        $this->category_parent_id = $response->CategoryParentID;
+        $this->category_name_path = $response->CategoryNamePath;
+        $this->category_id_path = $response->CategoryIDPath;
+        $this->leaf_category = $response->LeafCategory;
 
     }
 

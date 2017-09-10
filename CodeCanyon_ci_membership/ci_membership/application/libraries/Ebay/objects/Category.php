@@ -31,7 +31,9 @@ Class Category extends Private_Controller
         $data = array();
         $data['#'] = '-- Select --';
         if (!empty($categories)) {
+            var_dump($categories);
             foreach ($categories as $value) {
+
                 $data[$value->category_id] = $value->category_name;
             }
         }
