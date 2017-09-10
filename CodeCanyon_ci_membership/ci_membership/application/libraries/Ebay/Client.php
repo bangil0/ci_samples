@@ -99,6 +99,50 @@ Class Client extends Private_Controller
 
     }
 
+    public function get_categories($category_id)
+    {
+        $this->CI->load->library('Ebay/request/GetCategoriesRequest', $category_id, 'GetCategoriesRequest');
+        $this->CI->load->library('Ebay/response/GetCategoriesResponse', '', 'GetCategoriesResponse');
+
+        $request = $this->GetCategoriesRequest->request();
+        $response_class = GetCategoriesResponse::className();
+
+        return $this->make_request_category($request, $response_class);
+
+    }
+
+    private function make_request_category($request, $response_class)
+    {
+        // Send the request.
+        $response = $this->service->getCategoryInfo($request);
+//        var_dump($response);
+
+        if (isset($response->Errors)) {
+            foreach ($response->Errors as $error) {
+
+                printf(
+                    "%s: %s\n%s\n\n",
+                    $error->SeverityCode === DTS\eBaySDK\Shopping\Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                    $error->ShortMessage,
+                    $error->LongMessage
+                );
+
+
+                /*  $err = array(
+                      'SeverityCode' => $error->SeverityCode === T_Enums\SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
+                      'ShortMessage' => $error->ShortMessage,
+                      'LongMessage' => $error->LongMessage
+                  );
+
+                  $this->session->set_flashdata('ebay_response_error', $err);*/
+            }
+        }
+        if ($response->Ack !== 'Failure') {
+            return new $response_class($response);
+        }
+
+    }
+
     private function make_request($request, $response_class)
     {
         // Send the request.
@@ -120,5 +164,6 @@ Class Client extends Private_Controller
         }
 
     }
+
 
 }
